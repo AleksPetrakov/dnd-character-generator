@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Character Sheet SotDL — Shadow of the Demon Lord</title>
+    <link rel="stylesheet" href="generic_sheet.css">
+    <script src="generic_sheet.js" defer></script>
+    <style>
+        /* ---------- Global variables & reset ---------- */
+        :root {
+            --bg-primary: #0a0c10;
+            --bg-secondary: #14181f;
+            --bg-card: rgba(20, 25, 32, 0.85);
+            --border-glow: #8b3c3c;
+            --accent-primary: #9e3c3c;
+            --accent-secondary: #c97e2a;
+            --text-light: #e6e9f0;
+            --text-muted: #9aa5b5;
+            --input-bg: #1e2530;
+            --input-border: #2e3a48;
+            --hover-glow: 0 0 8px rgba(158, 60, 60, 0.6);
+            --transition-default: all 0.2s ease-in-out;
+        }
+
+        * {
+            transition: var(--transition-default);
+        }
+
+        body {
+            background: radial-gradient(circle at 20% 30%, #0f1219, #050608);
+            font-family: 'Segoe UI', 'Cinema', 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+            color: var(--text-light);
+            padding: 2rem 1rem;
+            margin: 0;
+            animation: fadeIn 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        @keyframes fadeIn {
+            0% { opacity: 0; transform: translateY(20px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Glass‑effect containers */
+        .container {
+            background: var(--bg-card);
+            backdrop-filter: blur(3px);
+            border: 1px solid rgba(158, 60, 60, 0.3);
+            border-radius: 24px;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+            padding: 1.2rem 1.5rem;
+            margin-bottom: 1.8rem;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .container:hover {
+            box-shadow: 0 20px 30px -12px black, 0 0 0 1px var(--accent-primary) inset;
+            transform: translateY(-2px);
+        }
+
+        h1, h2, h3 {
+            font-weight: 600;
+            letter-spacing: 1px;
+            border-left: 4px solid var(--accent-primary);
+            padding-left: 12px;
+            margin-top: 0;
+            text-shadow: 0 2px 3px black;
+        }
+
+        h1 { font-size: 1.6rem; color: #f0dbb2; }
+        h2 { font-size: 1.3rem; color: #e2c28b; }
+        h3 { font-size: 1.2rem; border-left-color: var(--accent-secondary); }
+
+        /* Inputs, buttons, text */
+        .field-title {
+            font-weight: 600;
+            color: var(--accent-secondary);
+            min-width: 100px;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            letter-spacing: 1px;
+        }
+
+        input, select, textarea, button {
+            background: var(--input-bg);
+            border: 1px solid var(--input-border);
+            border-radius: 14px;
+            padding: 8px 14px;
+            color: var(--text-light);
+            font-size: 0.9rem;
+            font-family: inherit;
+            transition: var(--transition-default);
+        }
+
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: var(--accent-primary);
+            box-shadow: var(--hover-glow);
+            background: #1f2a36;
+        }
+
+        textarea {
+            resize: vertical;
+            line-height: 1.4;
+        }
+
+        button {
+            background: linear-gradient(135deg, #2b1e1a, #1a1315);
+            cursor: pointer;
+            font-weight: bold;
+            border: 1px solid #7a3b2e;
+            transition: all 0.25s;
+            backdrop-filter: blur(4px);
+        }
+
+        button:hover {
+            background: linear-gradient(135deg, #5e2e2e, #3b1f1f);
+            box-shadow: 0 0 12px rgba(158, 60, 60, 0.7);
+            border-color: #c9703a;
+            transform: scale(1.02);
+        }
+
+        button:active {
+            transform: scale(0.98);
+        }
+
+        .field-data, .field-data-short {
+            background: var(--input-bg);
+            border-radius: 14px;
+        }
+
+        .field-data-short {
+            width: 70px;
+            text-align: center;
+        }
+
+        /* Path blocks (Novice, Expert, Master) */
+        .path-block {
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 20px;
+            padding: 0 1.2rem 1.2rem 1.2rem;
+            margin-bottom: 1.5rem;
+            transition: all 0.2s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .path-block::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(180deg, var(--accent-primary), var(--accent-secondary));
+        }
+
+        .path-block:hover {
+            background: rgba(25, 30, 38, 0.8);
+        }
+
+        /* Reset button */
+        #clear-storage {
+            background: #2f1c1c;
+            border-color: #ac4a3a;
+            font-size: 1rem;
+            padding: 12px 28px;
+            margin-top: 1.5rem;
+            letter-spacing: 1px;
+        }
+
+        #clear-storage:hover {
+            background: #631f1f;
+            box-shadow: 0 0 12px #b3472e;
+        }
+
+        /* Magic details (collapsible) */
+        details {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 20px;
+            padding: 0.5rem 1rem;
+            margin-top: 1rem;
+        }
+
+        summary {
+            font-weight: bold;
+            color: #dba959;
+        }
+
+        /* field hints */
+        .field-desc {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-left: 8px;
+            font-style: italic;
+        }
+
+        /* Columns layout */
+        .columns-2 {
+            display: flex;
+            gap: 1.8rem;
+            flex-wrap: wrap;
+        }
+        .columns-2 > .container {
+            flex: 1;
+            min-width: 240px;
+        }
+
+        /* Row animation */
+        .content-row {
+            animation: slideIn 0.3s ease-out;
+            animation-fill-mode: backwards;
+        }
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(-8px);}
+            to { opacity: 1; transform: translateX(0);}
+        }
+
+        /* Checkbox customization */
+        input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            accent-color: #9e3c3c;
+            transform: scale(1.1);
+            margin-right: 8px;
+        }
+
+        /* Mobile */
+        @media (max-width: 760px) {
+            .container {
+                padding: 1rem;
+            }
+            .columns-2 {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            .field-title {
+                min-width: 70px;
+            }
+        }
+
+        /* Decorative rune icons */
+        .rune-icon {
+            font-size: 1.3rem;
+            margin-right: 6px;
+            filter: drop-shadow(0 0 3px #b55a2a);
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Main Info -->
+    <div class="container">
+        <div class="content-row"><span class="rune-icon">⚔️</span><label class="field-title">Name</label><input id="character-name" type="text" class="field-data"><p class="field-desc"></p></div>
+        <div class="content-row"><span class="rune-icon">🧬</span><label class="field-title">Ancestry</label><input id="ancestry" type="text" class="field-data"><p class="field-desc">Race / Background</p></div>
+        <div class="content-row"><span class="rune-icon">📈</span><label class="field-title">Level</label><input id="level" type="number" class="field-data"><p class="field-desc"></p></div>
+        <div class="content-row"><span class="rune-icon">📐</span><label class="field-title">Size</label><input id="size" type="text" class="field-data-short" value="1"><p class="field-desc">Size</p></div>
+        <div class="content-row"><span class="rune-icon">🏃</span><label class="field-title">Speed</label><input id="speed" type="number" class="field-data-short" value="10"><p class="field-desc">Speed</p></div>
+    </div>
+
+    <!-- Attributes & Health -->
+    <div class="columns-2">
+        <div class="container">
+            <h1><span class="rune-icon">🗡️</span> Attributes</h1>
+            <div class="content-row"><label class="field-title" data-dice-type="1d20" data-modifier="strength-mod" data-label="Strength">Strength (STR)</label><input id="strength" type="number" class="field-data-short"><input type="number" class="field-data-short" id="strength-mod" placeholder="Mod" style="width: 60px;"></div>
+            <div class="content-row"><label class="field-title" data-dice-type="1d20" data-modifier="agility-mod" data-label="Agility">Agility (AGI)</label><input id="agility" type="number" class="field-data-short"><input type="number" class="field-data-short" id="agility-mod" placeholder="Mod" style="width: 60px;"></div>
+            <div class="content-row"><label class="field-title" data-dice-type="1d20" data-modifier="intellect-mod" data-label="Intellect">Intellect (INT)</label><input id="intellect" type="number" class="field-data-short"><input type="number" class="field-data-short" id="intellect-mod" placeholder="Mod" style="width: 60px;"></div>
+            <div class="content-row"><label class="field-title" data-dice-type="1d20" data-modifier="will-mod" data-label="Will">Will (WIL)</label><input id="will" type="number" class="field-data-short"><input type="number" class="field-data-short" id="will-mod" placeholder="Mod" style="width: 60px;"></div>
+            <div class="content-row"><label class="field-title">Perception (PER)</label><input id="perception" type="number" class="field-data-short"></div>
+            <div class="content-row"><label class="field-title">Defense (DEF)</label><input id="defense" type="number" class="field-data-short"></div>
+        </div>
+        
+        <div class="container">
+            <h1><span class="rune-icon">❤️</span> Health & Resources</h1>
+            <div class="content-row"><label class="field-title">Health (HP)</label><input id="health" type="number" class="field-data-short"><p class="field-desc">Current / Max</p></div>
+            <div class="content-row"><label class="field-title">Healing Rate</label><input id="healing-rate" type="number" class="field-data-short"></div>
+            <div class="content-row"><label class="field-title">Power (POW)</label><input id="power" type="number" class="field-data-short"></div>
+            <div class="content-row"><label class="field-title">Insanity (INS)</label><input id="insanity" type="number" class="field-data-short"></div>
+            <div class="content-row"><label class="field-title">Corruption (COR)</label><input id="corruption" type="number" class="field-data-short"></div>
+            <div class="content-row"><label class="field-title">Fortune</label><input id="fortune" type="number" class="field-data-short"></div>
+        </div>
+    </div>
+
+    <!-- PATHS -->
+    <div class="container">
+        <h1><span class="rune-icon">👑</span> Paths & Talents</h1>
+        
+        <div class="path-block">
+            <h3>🟢 Novice Path</h3>
+            <div class="content-row"><label class="field-title">Path Name</label><input id="novice-path" type="text" class="field-data" placeholder="e.g., Warrior, Magician, Priest, Rogue"></div>
+            <div class="content-row"><label class="field-title">Novice Talents</label><textarea id="novice-talents" class="field-data" rows="3" placeholder="List of talents gained from this path"></textarea></div>
+        </div>
+
+        <div class="path-block">
+            <h3>🔵 Expert Path</h3>
+            <div class="content-row"><label class="field-title">Path Name</label><input id="expert-path" type="text" class="field-data" placeholder="e.g., Paladin, Assassin, Sorcerer"></div>
+            <div class="content-row"><label class="field-title">Expert Talents</label><textarea id="expert-talents" class="field-data" rows="3" placeholder="Talents gained at expert level"></textarea></div>
+        </div>
+
+        <div class="path-block">
+            <h3>🔴 Master Path</h3>
+            <div class="content-row"><label class="field-title">Path Name</label><input id="master-path" type="text" class="field-data" placeholder="e.g., Archmage, Dread Knight"></div>
+            <div class="content-row"><label class="field-title">Master Talents</label><textarea id="master-talents" class="field-data" rows="3" placeholder="Talents gained at master level"></textarea></div>
+        </div>
+    </div>
+
+    <!-- COMBAT & EQUIPMENT -->
+    <div class="columns-2">
+        <div class="container">
+            <h2>⚔️ Attacks & Weapons</h2>
+            <div class="content-row"><button id="att-melee" class="field-data" data-modifier="strength-mod" data-dice-type="d20" data-label="Attack melee"><i class="ts-icon-d20"></i> Melee Attack</button></div>
+            <div class="content-row"><button id="att-range" class="field-data" data-modifier="agility-mod" data-dice-type="d20" data-label="Attack ranged"><i class="ts-icon-d20"></i> Ranged Attack</button></div>
+            <div class="content-row"><label class="field-title">Weapons & Damage</label><textarea id="weapons" class="field-data" rows="3" placeholder="Sword 1d6+2, Crossbow 1d6..."></textarea></div>
+            <div class="content-row"><label class="field-title">Armor</label><input id="armor" type="text" class="field-data" placeholder="Leather, chainmail..."></div>
+        </div>
+        <div class="container">
+            <h2>🎒 Gear & Wealth</h2>
+            <div class="content-row"><label class="field-title">Inventory</label><textarea id="gear" class="field-data" rows="4" placeholder="Backpack, rope, torches..."></textarea></div>
+            <div class="content-row"><label class="field-title">Wealth</label><input id="wealth" type="text" class="field-data" placeholder="ss/cp/gold"></div>
+        </div>
+    </div>
+
+    <!-- ADVANCED MAGIC -->
+    <div class="container">
+        <h1><span class="rune-icon">🔮</span> Magic</h1>
+        <div class="content-row"><label class="field-title">Known Traditions</label><input id="traditions" type="text" class="field-data" placeholder="e.g., Battle, Shadow, Fire, Death"></div>
+        <div class="content-row"><label class="field-title">Max Spell Rank</label><input id="max-spell-rank" type="number" class="field-data-short" value="0"><p class="field-desc">Depends on level and path</p></div>
+        <div class="content-row"><label class="field-title">Castings</label><input id="castings" type="text" class="field-data-short" placeholder="3/3"></div>
+        <h2>📜 Spell List</h2>
+        <div class="content-row"><label class="field-title">Spells & Description</label><textarea id="spells-list" class="field-data" rows="6" placeholder="Example:&#10;1) Fireball (Rank 1, Fire) – 2d6 damage, blast 1 yard&#10;2) Mask (Rank 0, Shadow) – +2 to Stealth"></textarea></div>
+        <details>
+            <summary>📘 Detailed spell notes (line by line)</summary>
+            <p class="field-desc">Use the main field above for free‑form entries. This is just a hint.</p>
+        </details>
+        <div class="content-row"><label class="field-title">Focus / Power Symbol</label><input id="spell-focus" type="text" class="field-data" placeholder="Spellbook, rod, amulet"></div>
+    </div>
+
+    <!-- Languages & Professions -->
+    <div class="container">
+        <h1><span class="rune-icon">📖</span> Languages & Professions</h1>
+        <div class="content-row"><label class="field-title">Professions</label><textarea id="professions" class="field-data" rows="2" placeholder="Thief, soldier, scholar, craftsman..."></textarea></div>
+        <div class="content-row"><label class="field-title">Languages</label><textarea id="languages" class="field-data" rows="2" placeholder="Common, Ancient, Elvish..."></textarea></div>
+    </div>
+
+    <div class="container">
+        <h1><span class="rune-icon">📜</span> Notes, Background, Traits</h1>
+        <div class="content-row"><textarea id="notes" class="field-data" rows="5" placeholder="Appearance, quirks, fears, allies, enemies, religion..."></textarea></div>
+    </div>
+
+    <!-- Reset button -->
+    <div class="content-row" style="margin-bottom: 0; justify-content: flex-end;">
+        <button id="clear-storage" style="margin: 0.5em 0 2em;" onclick="if(confirm('Reset all character data?')) clearSheet()">🗑️ Reset Sheet</button>
+    </div>
+</body>
+</html>
