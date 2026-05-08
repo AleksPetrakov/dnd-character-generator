@@ -547,6 +547,70 @@
             }
         }
 
+
+        .confirm-backdrop {
+            position: fixed;
+            inset: 0;
+            z-index: 10000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+            background: rgba(0, 0, 0, 0.68);
+            backdrop-filter: blur(0.25rem);
+        }
+
+        .confirm-backdrop.is-open {
+            display: flex;
+        }
+
+        .confirm-dialog {
+            width: min(26rem, 100%);
+            border: 0.0625rem solid rgba(158, 60, 60, 0.58);
+            border-radius: 1.25rem;
+            background: linear-gradient(135deg, var(--bg-panel), var(--bg-card));
+            box-shadow: var(--shadow-demon);
+            color: var(--text);
+            padding: 1.25rem;
+        }
+
+        .confirm-dialog__title {
+            margin: 0 0 0.5rem;
+            color: var(--gold);
+            font-size: 1.2rem;
+            font-weight: 900;
+        }
+
+        .confirm-dialog__message {
+            margin: 0;
+            color: var(--muted);
+            line-height: 1.45;
+        }
+
+        .confirm-dialog__actions {
+            display: flex;
+            gap: 0.75rem;
+            margin-top: 1.25rem;
+        }
+
+        .confirm-dialog__actions button {
+            flex: 1 1 0;
+        }
+
+        .confirm-dialog__cancel {
+            background: var(--bg-input);
+        }
+
+        .confirm-dialog__accept {
+            border-color: var(--amber);
+        }
+
+        @media (max-width: 420px) {
+            .confirm-dialog__actions {
+                flex-direction: column;
+            }
+        }
+
     </style>
 <script type="application/ld+json">
     {
@@ -562,7 +626,7 @@
       "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
     }
     </script>
-    <!-- build: restored-style-with-share-autosave-v1 -->
+    <!-- build: sotdl-custom-reset-modal-base-v2-reset-success-snackbar -->
 </head>
 
 <body class="min-h-screen bg-[radial-gradient(circle_at_20%_18%,#121823,#050608_62%)] text-demon-text font-sans">
@@ -724,6 +788,18 @@
         </div>
     </main>
 
+
+    <div id="confirm-backdrop" class="confirm-backdrop" role="dialog" aria-modal="true" aria-labelledby="confirm-title" aria-describedby="confirm-message">
+        <div class="confirm-dialog">
+            <h2 id="confirm-title" class="confirm-dialog__title"></h2>
+            <p id="confirm-message" class="confirm-dialog__message"></p>
+            <div class="confirm-dialog__actions">
+                <button id="confirm-cancel" type="button" class="primary-button confirm-dialog__cancel"></button>
+                <button id="confirm-accept" type="button" class="primary-button confirm-dialog__accept"></button>
+            </div>
+        </div>
+    </div>
+
     <div id="snackbar-root" aria-live="polite" aria-atomic="true"></div>
 <script>
 
@@ -759,7 +835,7 @@
                 languagesProfessions: 'Languages & Professions', professions: 'Professions', languages: 'Languages', notesTitle: 'Notes, Background, Traits', notes: 'Notes',
                 downloadPdf: '📄 Download PDF', copyLink: '🔗 Copy Link', copyLinkCreating: '⏳ Creating Link...', linkCopied: 'Link copied', linkCopiedMessage: 'The link to the current page state has been copied to the clipboard. If you change fields later, copy a new link.', linkCopyError: 'Could not copy link', linkTooLong: 'The link is quite long. Try shortening large description fields if some apps refuse to send it.', linkLoaded: 'Character loaded', linkLoadedMessage: 'Character data was restored from the link.', linkUpdated: 'Link updated', linkUpdatedMessage: 'The current page URL now contains the latest character state.', shareLinkInvalid: 'Could not restore character from link.', resetSheet: '🗑️ Reset Sheet', generatingPdf: '⏳ Generating PDF...', unnamedCharacter: 'Unnamed character', mainInfo: 'Main Info', combatEquipment: 'Combat & Equipment', spells: 'Spells',
                 pdfNotCreated: 'PDF was not created', validationSummary: 'Fix these fields:', pdfReady: 'PDF ready', pdfReadyMessage: 'File {fileName} has been generated and is downloading.', pdfErrorTitle: 'PDF generation error', pdfErrorMessage: 'Could not generate PDF.',
-                characterNameRequired: 'Enter character name before generating PDF.', mustBeNumber: '{label}: must be a number.', levelRange: 'Level should usually be between 0 and 10.', resetConfirm: 'Reset all character data?', generated: 'Generated', mod: 'mod',
+                characterNameRequired: 'Enter character name before generating PDF.', mustBeNumber: '{label}: must be a number.', levelRange: 'Level should usually be between 0 and 10.', resetConfirm: 'Reset all character data?', resetConfirmTitle: 'Reset character sheet?', resetConfirmMessage: 'All fields will be cleared. This action cannot be undone.', resetConfirmCancel: 'Cancel', resetConfirmAccept: 'Reset', resetSuccessTitle: 'Sheet reset', resetSuccessMessage: 'Character sheet has been reset successfully.', generated: 'Generated', mod: 'mod',
                 phName: 'Enter character name', phAncestry: 'Enter ancestry', phRace: 'Enter race or background', phMod: 'Mod', phPathNovice: 'e.g., Warrior, Magician, Priest, Rogue', phPathExpert: 'e.g., Paladin, Assassin, Sorcerer', phPathMaster: 'e.g., Archmage, Dread Knight', phNoviceTalents: 'List of talents gained from this path', phExpertTalents: 'Talents gained at expert level', phMasterTalents: 'Talents gained at master level', phWeapons: 'Sword 1d6+2, Crossbow 1d6...', phArmor: 'Leather, chainmail...', phGear: 'Backpack, rope, torches...', phWealth: 'ss/cp/gold', phTraditions: 'e.g., Battle, Shadow, Fire, Death', phCastings: '3/3', phSpells: 'Example:\\n1) Fireball (Rank 1, Fire) – 2d6 damage, blast 1 yard\\n2) Mask (Rank 0, Shadow) – +2 to Stealth', phFocus: 'Spellbook, rod, amulet', phProfessions: 'Thief, soldier, scholar, craftsman...', phLanguages: 'Common, Ancient, Elvish...', phNotes: 'Appearance, quirks, fears, allies, enemies, religion, background story...', spellRankHint: 'Depends on level and path'
             },
             ru: {
@@ -775,7 +851,7 @@
                 languagesProfessions: 'Языки и профессии', professions: 'Профессии', languages: 'Языки', notesTitle: 'Заметки, фон, черты', notes: 'Заметки',
                 downloadPdf: '📄 Скачать PDF', copyLink: '🔗 Копировать ссылку', copyLinkCreating: '⏳ Создание ссылки...', linkCopied: 'Ссылка скопирована', linkCopiedMessage: 'Ссылка на текущее состояние страницы скопирована в буфер обмена. Если измените поля, скопируйте новую ссылку.', linkCopyError: 'Не удалось скопировать ссылку', linkTooLong: 'Ссылка получилась длинной. Если мессенджер не отправляет её, сократите большие описательные поля.', linkLoaded: 'Персонаж загружен', linkLoadedMessage: 'Данные персонажа восстановлены из ссылки.', linkUpdated: 'Ссылка обновлена', linkUpdatedMessage: 'Текущий URL страницы теперь содержит актуальное состояние персонажа.', shareLinkInvalid: 'Не удалось восстановить персонажа из ссылки.', resetSheet: '🗑️ Сбросить лист', generatingPdf: '⏳ Генерация PDF...', unnamedCharacter: 'Безымянный персонаж', mainInfo: 'Основная информация', combatEquipment: 'Бой и снаряжение', spells: 'Заклинания',
                 pdfNotCreated: 'PDF не создан', validationSummary: 'Нужно исправить поля:', pdfReady: 'PDF готов', pdfReadyMessage: 'Файл {fileName} успешно сформирован и скачивается.', pdfErrorTitle: 'Ошибка генерации PDF', pdfErrorMessage: 'Не удалось сформировать PDF.',
-                characterNameRequired: 'Введите имя персонажа перед генерацией PDF.', mustBeNumber: '{label}: должно быть число.', levelRange: 'Уровень обычно должен быть от 0 до 10.', resetConfirm: 'Сбросить все данные персонажа?', generated: 'Создано', mod: 'мод',
+                characterNameRequired: 'Введите имя персонажа перед генерацией PDF.', mustBeNumber: '{label}: должно быть число.', levelRange: 'Уровень обычно должен быть от 0 до 10.', resetConfirm: 'Сбросить все данные персонажа?', resetConfirmTitle: 'Сбросить лист?', resetConfirmMessage: 'Все поля будут очищены. Это действие нельзя отменить.', resetConfirmCancel: 'Отмена', resetConfirmAccept: 'Сбросить', resetSuccessTitle: 'Лист сброшен', resetSuccessMessage: 'Лист персонажа успешно сброшен.', generated: 'Создано', mod: 'мод',
                 phName: 'Введите имя персонажа', phAncestry: 'Введите происхождение', phRace: 'Введите расу или фон', phMod: 'Мод', phPathNovice: 'например: Воин, Маг, Жрец, Плут', phPathExpert: 'например: Паладин, Убийца, Чародей', phPathMaster: 'например: Архимаг, Тёмный рыцарь', phNoviceTalents: 'Список талантов, полученных на пути новичка', phExpertTalents: 'Таланты, полученные на экспертном уровне', phMasterTalents: 'Таланты, полученные на мастерском уровне', phWeapons: 'Меч 1d6+2, арбалет 1d6...', phArmor: 'Кожаная броня, кольчуга...', phGear: 'Рюкзак, верёвка, факелы...', phWealth: '50 зм, 12 см, 8 мн', phTraditions: 'например: Битва, Тень, Огонь, Смерть', phCastings: '3/3', phSpells: 'Пример:\\n1) Огненный шар (Ранг 1, Огонь) – 2d6 урона, взрыв 1 ярд\\n2) Маска (Ранг 0, Тень) – +2 к скрытности', phFocus: 'Книга заклинаний, жезл, амулет', phProfessions: 'Вор, солдат, учёный, ремесленник...', phLanguages: 'Всеобщий, древний, эльфийский...', phNotes: 'Внешность, привычки, страхи, союзники, враги, религия, история...', spellRankHint: 'Зависит от уровня и пути'
             }
         };
@@ -847,6 +923,63 @@
             }, 4200);
             window.setTimeout(() => item.remove(), 4550);
         }
+
+
+        function showConfirmDialog({ title, message, cancelText, acceptText }) {
+            const backdrop = document.getElementById('confirm-backdrop');
+            const titleEl = document.getElementById('confirm-title');
+            const messageEl = document.getElementById('confirm-message');
+            const cancelButton = document.getElementById('confirm-cancel');
+            const acceptButton = document.getElementById('confirm-accept');
+
+            if (!backdrop || !titleEl || !messageEl || !cancelButton || !acceptButton) {
+                return Promise.resolve(false);
+            }
+
+            titleEl.textContent = title;
+            messageEl.textContent = message;
+            cancelButton.textContent = cancelText;
+            acceptButton.textContent = acceptText;
+
+            backdrop.classList.add('is-open');
+            acceptButton.focus({ preventScroll: true });
+
+            return new Promise(resolve => {
+                const cleanup = result => {
+                    backdrop.classList.remove('is-open');
+                    cancelButton.removeEventListener('click', onCancel);
+                    acceptButton.removeEventListener('click', onAccept);
+                    backdrop.removeEventListener('click', onBackdrop);
+                    document.removeEventListener('keydown', onKeydown);
+                    resolve(result);
+                };
+
+                const onCancel = () => cleanup(false);
+                const onAccept = () => cleanup(true);
+                const onBackdrop = event => {
+                    if (event.target === backdrop) cleanup(false);
+                };
+                const onKeydown = event => {
+                    if (event.key === 'Escape') cleanup(false);
+                    if (event.key === 'Enter') cleanup(true);
+                };
+
+                cancelButton.addEventListener('click', onCancel);
+                acceptButton.addEventListener('click', onAccept);
+                backdrop.addEventListener('click', onBackdrop);
+                document.addEventListener('keydown', onKeydown);
+            });
+        }
+
+        function askResetConfirmation() {
+            return showConfirmDialog({
+                title: tr('resetConfirmTitle'),
+                message: tr('resetConfirmMessage'),
+                cancelText: tr('resetConfirmCancel'),
+                acceptText: tr('resetConfirmAccept')
+            });
+        }
+
 
         function clearValidationErrors() {
             document.querySelectorAll('.field-error').forEach(error => error.remove());
@@ -1453,7 +1586,14 @@
                 else if (field.id === 'max-spell-rank') field.value = '0';
                 else field.value = '';
             });
+
+            applySelectedAttackType('melee');
             clearValidationErrors();
+
+            lastShareHash = '';
+            if (window.location.hash) {
+                window.history.replaceState(null, '', getCleanPageUrl());
+            }
         }
 
         document.addEventListener('DOMContentLoaded', () => {
@@ -1473,11 +1613,13 @@
 
             document.getElementById('download-pdf')?.addEventListener('click', downloadCharacterPdf);
             document.getElementById('copy-link')?.addEventListener('click', copyShareLink);
-            document.getElementById('clear-storage')?.addEventListener('click', () => {
-                if (confirm(tr('resetConfirm'))) {
-                    clearSheet();
-                    updateShareHash({ silent: true });
-                }
+            document.getElementById('clear-storage')?.addEventListener('click', async () => {
+                const confirmed = await askResetConfirmation();
+
+                if (!confirmed) return;
+
+                clearSheet();
+                showSnackbar('success', tr('resetSuccessTitle'), tr('resetSuccessMessage'));
             });
 
             document.querySelectorAll('input, textarea, select').forEach(field => {
