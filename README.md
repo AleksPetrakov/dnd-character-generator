@@ -1,8 +1,8 @@
-# DnD Character Generator
+# Sotdl Character Generator
 
 Simple offline-friendly character sheet generator for tabletop RPGs.
 
-🔗 Live: https://alekspetrakov.github.io/dnd-character-generator/
+🔗 Live: https://alekspetrakov.github.io/sotdl-character-generator/
 
 ---
 
@@ -25,6 +25,6 @@ Open the app in browser → fill character → click **Download PDF**
 ## Development
 
 ```bash
-git clone https://github.com/alekspetrakov/dnd-character-generator.git
-cd dnd-character-generator
+git clone https://github.com/alekspetrakov/sotdl-character-generator.git
+cd sotdl-character-generator
 open index.html
