@@ -4,273 +4,658 @@
     <title>Character Sheet SotDL — Shadow of the Demon Lord</title>
     <link rel="stylesheet" href="generic_sheet.css">
     <script src="generic_sheet.js" defer></script>
+    
     <style>
-        /* ---------- Global variables & reset ---------- */
         :root {
-            --bg-primary: #0a0c10;
-            --bg-secondary: #14181f;
-            --bg-card: rgba(20, 25, 32, 0.85);
+            --bg-primary: #07090d;
+            --bg-secondary: #10151d;
+            --bg-card: rgba(18, 23, 31, 0.92);
+            --bg-panel: rgba(6, 10, 15, 0.58);
             --border-glow: #8b3c3c;
             --accent-primary: #9e3c3c;
-            --accent-secondary: #c97e2a;
-            --text-light: #e6e9f0;
-            --text-muted: #9aa5b5;
-            --input-bg: #1e2530;
-            --input-border: #2e3a48;
-            --hover-glow: 0 0 8px rgba(158, 60, 60, 0.6);
+            --accent-secondary: #f19a2a;
+            --text-light: #e9edf5;
+            --text-title: #f3ddb3;
+            --text-muted: #a9b4c4;
+            --input-bg: #1e2632;
+            --input-border: #344253;
+            --input-border-focus: #b95447;
+            --hover-glow: 0 0 10px rgba(158, 60, 60, 0.55);
             --transition-default: all 0.2s ease-in-out;
+            --label-width: 145px;
+            --row-gap: 12px;
+            --page-max-width: 1440px;
         }
 
         * {
+            box-sizing: border-box;
             transition: var(--transition-default);
+        }
+
+        html {
+            background: #050608;
         }
 
         body {
-            background: radial-gradient(circle at 20% 30%, #0f1219, #050608);
-            font-family: 'Segoe UI', 'Cinema', 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+            max-width: var(--page-max-width);
+            margin: 0 auto;
+            padding: 22px 18px 28px;
+            background: radial-gradient(circle at 20% 18%, #121823, #050608 62%);
             color: var(--text-light);
-            padding: 2rem 1rem;
-            margin: 0;
-            animation: fadeIn 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+            font-family: 'Segoe UI', 'Cinema', 'Inter', system-ui, -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+            animation: fadeIn 0.45s cubic-bezier(0.23, 1, 0.32, 1);
         }
 
         @keyframes fadeIn {
-            0% { opacity: 0; transform: translateY(20px); }
-            100% { opacity: 1; transform: translateY(0); }
+            from { opacity: 0; transform: translateY(14px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
-        /* Glass‑effect containers */
         .container {
-            background: var(--bg-card);
+            width: 100%;
+            min-width: 0;
+            margin-bottom: 16px;
+            padding: 24px 28px;
+            background: linear-gradient(145deg, rgba(18, 23, 31, 0.95), rgba(12, 16, 22, 0.95));
+            border: 1px solid rgba(158, 60, 60, 0.38);
+            border-radius: 22px;
+            box-shadow: 0 14px 30px -16px rgba(0, 0, 0, 0.9), inset 0 1px 0 rgba(255,255,255,0.04);
             backdrop-filter: blur(3px);
-            border: 1px solid rgba(158, 60, 60, 0.3);
-            border-radius: 24px;
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.05);
-            padding: 1.2rem 1.5rem;
-            margin-bottom: 1.8rem;
-            transition: transform 0.2s, box-shadow 0.2s;
         }
 
         .container:hover {
-            box-shadow: 0 20px 30px -12px black, 0 0 0 1px var(--accent-primary) inset;
-            transform: translateY(-2px);
+            border-color: rgba(190, 78, 64, 0.62);
+            box-shadow: 0 18px 34px -18px black, 0 0 0 1px rgba(158, 60, 60, 0.2) inset;
+            transform: translateY(-1px);
         }
 
         h1, h2, h3 {
-            font-weight: 600;
-            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin: 0 0 18px;
+            padding-left: 14px;
             border-left: 4px solid var(--accent-primary);
-            padding-left: 12px;
-            margin-top: 0;
+            color: var(--text-title);
+            font-weight: 700;
+            letter-spacing: 0.2px;
             text-shadow: 0 2px 3px black;
         }
 
-        h1 { font-size: 1.6rem; color: #f0dbb2; }
-        h2 { font-size: 1.3rem; color: #e2c28b; }
-        h3 { font-size: 1.2rem; border-left-color: var(--accent-secondary); }
+        h1 { font-size: 1.55rem; }
+        h2 { font-size: 1.35rem; }
+        h3 {
+            margin-bottom: 14px;
+            border-left-color: var(--accent-secondary);
+            font-size: 1.18rem;
+        }
 
-        /* Inputs, buttons, text */
-        .field-title {
-            font-weight: 600;
-            color: var(--accent-secondary);
-            min-width: 100px;
-            text-transform: uppercase;
-            font-size: 0.85rem;
-            letter-spacing: 1px;
+        .rune-icon {
+            flex: 0 0 auto;
+            width: 22px;
+            text-align: center;
+            font-size: 1.25rem;
+            filter: drop-shadow(0 0 4px rgba(219, 101, 48, 0.75));
         }
 
         input, select, textarea, button {
+            min-height: 40px;
+            padding: 9px 14px;
+            color: var(--text-light);
             background: var(--input-bg);
             border: 1px solid var(--input-border);
-            border-radius: 14px;
-            padding: 8px 14px;
-            color: var(--text-light);
-            font-size: 0.9rem;
-            font-family: inherit;
-            transition: var(--transition-default);
+            border-radius: 11px;
+            font: inherit;
+            font-size: 0.94rem;
         }
 
         input:focus, select:focus, textarea:focus {
             outline: none;
-            border-color: var(--accent-primary);
+            border-color: var(--input-border-focus);
             box-shadow: var(--hover-glow);
-            background: #1f2a36;
+            background: #202b39;
         }
 
         textarea {
+            min-height: 76px;
             resize: vertical;
-            line-height: 1.4;
+            line-height: 1.45;
         }
 
         button {
-            background: linear-gradient(135deg, #2b1e1a, #1a1315);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            height: 44px;
+            min-height: 44px;
+            padding: 0 22px;
+            background: linear-gradient(135deg, rgba(62, 31, 28, 0.95), rgba(30, 18, 19, 0.95));
+            border: 1px solid #a24a3d;
+            border-radius: 13px;
+            color: #f2edf0;
+            font-weight: 800;
+            line-height: 1;
             cursor: pointer;
-            font-weight: bold;
-            border: 1px solid #7a3b2e;
-            transition: all 0.25s;
+            white-space: nowrap;
             backdrop-filter: blur(4px);
         }
 
-        button:hover {
-            background: linear-gradient(135deg, #5e2e2e, #3b1f1f);
+        button:hover:not(:disabled) {
+            background: linear-gradient(135deg, #68302f, #402020);
+            border-color: #d47541;
             box-shadow: 0 0 12px rgba(158, 60, 60, 0.7);
-            border-color: #c9703a;
-            transform: scale(1.02);
+            transform: translateY(-1px);
         }
 
-        button:active {
-            transform: scale(0.98);
+        button:active:not(:disabled) {
+            transform: translateY(0) scale(0.99);
         }
 
-        .field-data, .field-data-short {
-            background: var(--input-bg);
-            border-radius: 14px;
+        button:disabled {
+            opacity: 0.7;
+            cursor: wait;
+        }
+
+        .field-title {
+            flex: 0 0 var(--label-width);
+            min-width: 0;
+            color: var(--accent-secondary);
+            font-size: 0.83rem;
+            font-weight: 800;
+            letter-spacing: 1px;
+            line-height: 1.2;
+            text-transform: uppercase;
+        }
+
+        .field-data {
+            width: min(100%, 420px);
         }
 
         .field-data-short {
-            width: 70px;
+            width: 116px;
             text-align: center;
         }
 
-        /* Path blocks (Novice, Expert, Master) */
+        .field-desc {
+            margin: 5px 0 0 var(--label-width);
+            color: var(--text-muted);
+            font-size: 0.78rem;
+            font-style: italic;
+            line-height: 1.3;
+        }
+
+        .content-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            width: 100%;
+            margin-bottom: var(--row-gap);
+            animation: slideIn 0.25s ease-out;
+            animation-fill-mode: backwards;
+        }
+
+        .content-row:last-child {
+            margin-bottom: 0;
+        }
+
+        .content-row.has-desc {
+            flex-wrap: wrap;
+        }
+
+        .content-row.stacked {
+            align-items: flex-start;
+        }
+
+        .content-row.stacked .field-title {
+            padding-top: 11px;
+        }
+
+        .content-row.stacked .field-data,
+        .content-row.stacked textarea {
+            flex: 1 1 360px;
+            width: 100%;
+        }
+
+        .content-row.full {
+            display: block;
+        }
+
+        .content-row.full .field-title {
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .content-row.full .field-data,
+        .content-row.full textarea {
+            width: 100%;
+        }
+
+        .content-row.compact {
+            margin-bottom: 8px;
+        }
+
+        .content-row.compact .field-title {
+            flex-basis: 120px;
+        }
+
+        .inline-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 14px;
+        }
+
+        .top-grid {
+            display: grid;
+            grid-template-columns: minmax(320px, 1.25fr) minmax(300px, 1fr);
+            gap: 18px 64px;
+            align-items: start;
+        }
+
+        .top-grid .content-row {
+            margin-bottom: 14px;
+        }
+
+        .columns-2 {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+            gap: 16px 28px;
+            align-items: stretch;
+        }
+
+        .columns-2 > .container {
+            margin-bottom: 0;
+        }
+
+        .stat-grid .content-row {
+            margin-bottom: 10px;
+        }
+
+        .mod-input {
+            width: 96px !important;
+            text-align: center;
+        }
+
+        .health-pair {
+            display: grid;
+            grid-template-columns: minmax(90px, 1fr) auto minmax(90px, 1fr);
+            gap: 12px;
+            align-items: center;
+            flex: 1 1 260px;
+            max-width: 360px;
+        }
+
+        .health-pair input {
+            width: 100%;
+            text-align: center;
+        }
+
+        .health-separator {
+            color: var(--text-muted);
+            font-weight: 800;
+        }
+
+        .under-labels {
+            display: grid;
+            grid-template-columns: minmax(90px, 1fr) auto minmax(90px, 1fr);
+            gap: 12px;
+            margin: -6px 0 10px var(--label-width);
+            max-width: 360px;
+            color: var(--text-muted);
+            font-size: 0.72rem;
+            font-style: italic;
+            text-align: center;
+        }
+
         .path-block {
-            background: rgba(0, 0, 0, 0.4);
-            border-radius: 20px;
-            padding: 0 1.2rem 1.2rem 1.2rem;
-            margin-bottom: 1.5rem;
-            transition: all 0.2s;
             position: relative;
             overflow: hidden;
+            margin-bottom: 14px;
+            padding: 18px 18px 18px 22px;
+            background: var(--bg-panel);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            border-radius: 18px;
+        }
+
+        .path-block:last-child {
+            margin-bottom: 0;
         }
 
         .path-block::before {
             content: '';
             position: absolute;
-            top: 0;
-            left: 0;
+            inset: 0 auto 0 0;
             width: 4px;
-            height: 100%;
             background: linear-gradient(180deg, var(--accent-primary), var(--accent-secondary));
         }
 
         .path-block:hover {
-            background: rgba(25, 30, 38, 0.8);
+            background: rgba(14, 20, 28, 0.86);
         }
 
-        /* Reset button */
-        #clear-storage {
-            background: #2f1c1c;
-            border-color: #ac4a3a;
-            font-size: 1rem;
-            padding: 12px 28px;
-            margin-top: 1.5rem;
-            letter-spacing: 1px;
+        .path-block .field-data {
+            width: min(100%, 350px);
         }
 
-        #clear-storage:hover {
-            background: #631f1f;
-            box-shadow: 0 0 12px #b3472e;
+        .path-block textarea {
+            min-height: 76px;
         }
 
-        /* Magic details (collapsible) */
+        .magic-grid {
+            display: grid;
+            grid-template-columns: minmax(220px, 0.9fr) minmax(360px, 1.4fr) minmax(220px, 0.9fr);
+            gap: 18px 28px;
+            align-items: start;
+        }
+
+        .magic-grid .content-row {
+            margin-bottom: 12px;
+        }
+
         details {
-            background: rgba(0, 0, 0, 0.3);
-            border-radius: 20px;
-            padding: 0.5rem 1rem;
-            margin-top: 1rem;
+            grid-column: 1 / -1;
+            margin: 2px 0 0;
+            padding: 10px 14px;
+            background: rgba(0, 0, 0, 0.35);
+            border-radius: 16px;
         }
 
         summary {
-            font-weight: bold;
             color: #dba959;
+            font-weight: 800;
+            cursor: pointer;
         }
 
-        /* field hints */
-        .field-desc {
-            font-size: 0.75rem;
-            color: var(--text-muted);
-            margin-left: 8px;
-            font-style: italic;
+        .bottom-grid {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+            gap: 16px 28px;
         }
 
-        /* Columns layout */
-        .columns-2 {
-            display: flex;
-            gap: 1.8rem;
-            flex-wrap: wrap;
-        }
-        .columns-2 > .container {
-            flex: 1;
-            min-width: 240px;
+        .bottom-grid .container {
+            margin-bottom: 0;
         }
 
-        /* Row animation */
-        .content-row {
-            animation: slideIn 0.3s ease-out;
-            animation-fill-mode: backwards;
+        .actions-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-top: 18px;
+            margin-bottom: 0;
         }
+
+        .actions-row button {
+            width: 100%;
+            height: 50px;
+            min-height: 50px;
+            font-size: 1rem;
+            letter-spacing: 0.2px;
+        }
+
+        #clear-storage,
+        #download-pdf {
+            margin: 0 !important;
+            padding: 0 24px;
+        }
+
         @keyframes slideIn {
-            from { opacity: 0; transform: translateX(-8px);}
-            to { opacity: 1; transform: translateX(0);}
+            from { opacity: 0; transform: translateX(-8px); }
+            to { opacity: 1; transform: translateX(0); }
         }
 
-        /* Checkbox customization */
         input[type="checkbox"] {
             width: 20px;
             height: 20px;
             accent-color: #9e3c3c;
-            transform: scale(1.1);
-            margin-right: 8px;
         }
 
-        /* Mobile */
-        @media (max-width: 760px) {
+
+
+        .page-toolbar {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            gap: 10px;
+            margin: 0 0 16px;
+        }
+
+        .language-switcher {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 10px;
+            background: rgba(10, 14, 20, 0.72);
+            border: 1px solid rgba(158, 60, 60, 0.42);
+            border-radius: 14px;
+            box-shadow: 0 10px 24px -18px black;
+        }
+
+        .language-switcher__label {
+            color: var(--text-light);
+            font-size: 0.9rem;
+            font-weight: 800;
+            white-space: nowrap;
+        }
+
+        .language-switcher__buttons {
+            display: inline-grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 6px;
+        }
+
+        .lang-button {
+            height: 38px;
+            min-height: 38px;
+            padding: 0 16px;
+            border-radius: 10px;
+            font-size: 0.9rem;
+        }
+
+        .lang-button.is-active {
+            background: linear-gradient(135deg, #6b302d, #3a1e1f);
+            border-color: #d47541;
+            box-shadow: 0 0 10px rgba(158, 60, 60, 0.55);
+        }
+
+        .columns-2,
+        .bottom-grid {
+            margin-bottom: 18px;
+        }
+
+        .columns-2 + .container,
+        .container + .columns-2,
+        .container + .bottom-grid,
+        .bottom-grid + .actions-row {
+            margin-top: 18px;
+        }
+
+        @media (max-width: 980px) {
+            body {
+                padding: 14px 10px 22px;
+            }
+
+            .top-grid,
+            .columns-2,
+            .bottom-grid,
+            .actions-row,
+            .magic-grid {
+                grid-template-columns: 1fr;
+            }
+
             .container {
-                padding: 1rem;
+                padding: 20px 18px;
             }
-            .columns-2 {
-                flex-direction: column;
-                gap: 1rem;
-            }
-            .field-title {
-                min-width: 70px;
+
+            .columns-2 > .container,
+            .bottom-grid .container {
+                margin-bottom: 0;
             }
         }
 
-        /* Decorative rune icons */
-        .rune-icon {
-            font-size: 1.3rem;
-            margin-right: 6px;
-            filter: drop-shadow(0 0 3px #b55a2a);
+        @media (max-width: 640px) {
+            :root {
+                --label-width: 100%;
+            }
+
+            h1 { font-size: 1.35rem; }
+            h2 { font-size: 1.18rem; }
+
+            .content-row,
+            .content-row.stacked {
+                align-items: stretch;
+                flex-direction: column;
+                gap: 7px;
+            }
+
+            .content-row .rune-icon {
+                position: absolute;
+            }
+
+            .field-title {
+                flex-basis: auto;
+            }
+
+            .field-desc,
+            .under-labels {
+                margin-left: 0;
+            }
+
+            .field-data,
+            .field-data-short,
+            .mod-input,
+            .path-block .field-data {
+                width: 100% !important;
+            }
+
+            .health-pair,
+            .under-labels {
+                max-width: none;
+            }
+        }
+
+
+        .field-error {
+            flex-basis: 100%;
+            margin: -6px 0 0 var(--label-width);
+            color: #ff8d7f;
+            font-size: 0.78rem;
+            font-weight: 700;
+            line-height: 1.35;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.65);
+        }
+
+        .content-row.full .field-error {
+            margin-left: 0;
+            margin-top: 7px;
+        }
+
+        .content-row.stacked .field-error {
+            margin-left: var(--label-width);
+        }
+
+        .field-invalid {
+            border-color: #ff7568 !important;
+            box-shadow: 0 0 0 1px rgba(255, 117, 104, 0.45), 0 0 12px rgba(255, 117, 104, 0.25) !important;
+        }
+
+        .snackbar-root {
+            position: fixed;
+            z-index: 9999;
+            top: 18px;
+            right: 18px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            width: min(420px, calc(100vw - 36px));
+            pointer-events: none;
+        }
+
+        .snackbar {
+            pointer-events: auto;
+            padding: 14px 16px;
+            border-radius: 14px;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            background: rgba(18, 23, 31, 0.96);
+            color: var(--text-light);
+            box-shadow: 0 18px 34px -16px rgba(0, 0, 0, 0.95), inset 0 1px 0 rgba(255,255,255,0.05);
+            backdrop-filter: blur(7px);
+            transform: translateX(24px);
+            opacity: 0;
+            animation: snackbarIn 0.22s ease-out forwards;
+        }
+
+        .snackbar.success {
+            border-color: rgba(75, 211, 124, 0.55);
+            box-shadow: 0 18px 34px -16px rgba(0, 0, 0, 0.95), 0 0 0 1px rgba(75, 211, 124, 0.18) inset;
+        }
+
+        .snackbar.error {
+            border-color: rgba(255, 117, 104, 0.65);
+            box-shadow: 0 18px 34px -16px rgba(0, 0, 0, 0.95), 0 0 0 1px rgba(255, 117, 104, 0.2) inset;
+        }
+
+        .snackbar-title {
+            margin: 0 0 4px;
+            font-weight: 900;
+            color: var(--text-title);
+        }
+
+        .snackbar-message {
+            margin: 0;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            line-height: 1.35;
+        }
+
+        @keyframes snackbarIn {
+            to { opacity: 1; transform: translateX(0); }
         }
     </style>
 </head>
 
 <body>
+    <div class="page-toolbar">
+        <div class="language-switcher" aria-label="Language switcher">
+            <span class="language-switcher__label" id="language-title">🌐 Язык / Language:</span>
+            <div class="language-switcher__buttons">
+                <button type="button" class="lang-button" data-lang="ru">Русский</button>
+                <button type="button" class="lang-button" data-lang="en">English</button>
+            </div>
+        </div>
+    </div>
     <!-- Main Info -->
     <div class="container">
-        <div class="content-row"><span class="rune-icon">⚔️</span><label class="field-title">Name</label><input id="character-name" type="text" class="field-data"><p class="field-desc"></p></div>
-        <div class="content-row"><span class="rune-icon">🧬</span><label class="field-title">Ancestry</label><input id="ancestry" type="text" class="field-data"><p class="field-desc">Race / Background</p></div>
-        <div class="content-row"><span class="rune-icon">📈</span><label class="field-title">Level</label><input id="level" type="number" class="field-data"><p class="field-desc"></p></div>
-        <div class="content-row"><span class="rune-icon">📐</span><label class="field-title">Size</label><input id="size" type="text" class="field-data-short" value="1"><p class="field-desc">Size</p></div>
-        <div class="content-row"><span class="rune-icon">🏃</span><label class="field-title">Speed</label><input id="speed" type="number" class="field-data-short" value="10"><p class="field-desc">Speed</p></div>
+        <div class="top-grid">
+            <div>
+                <div class="content-row"><span class="rune-icon">⚔️</span><label class="field-title">Name</label><input id="character-name" type="text" class="field-data" placeholder="Enter character name"></div>
+                <div class="content-row"><span class="rune-icon">🧬</span><label class="field-title">Ancestry</label><input id="ancestry" type="text" class="field-data" placeholder="Enter ancestry"></div>
+                <div class="content-row"><span class="rune-icon">📖</span><label class="field-title">Race / Background</label><input id="race-background" type="text" class="field-data" placeholder="Enter race or background"></div>
+            </div>
+            <div>
+                <div class="content-row"><span class="rune-icon">📈</span><label class="field-title">Level</label><input id="level" type="number" class="field-data-short" value="1"></div>
+                <div class="content-row"><span class="rune-icon">📐</span><label class="field-title">Size</label><input id="size" type="text" class="field-data-short" value="1"></div>
+                <div class="content-row"><span class="rune-icon">🏃</span><label class="field-title">Speed</label><input id="speed" type="number" class="field-data-short" value="10"></div>
+            </div>
+        </div>
     </div>
 
     <!-- Attributes & Health -->
     <div class="columns-2">
-        <div class="container">
+        <div class="container stat-grid">
             <h1><span class="rune-icon">🗡️</span> Attributes</h1>
-            <div class="content-row"><label class="field-title" data-dice-type="1d20" data-modifier="strength-mod" data-label="Strength">Strength (STR)</label><input id="strength" type="number" class="field-data-short"><input type="number" class="field-data-short" id="strength-mod" placeholder="Mod" style="width: 60px;"></div>
-            <div class="content-row"><label class="field-title" data-dice-type="1d20" data-modifier="agility-mod" data-label="Agility">Agility (AGI)</label><input id="agility" type="number" class="field-data-short"><input type="number" class="field-data-short" id="agility-mod" placeholder="Mod" style="width: 60px;"></div>
-            <div class="content-row"><label class="field-title" data-dice-type="1d20" data-modifier="intellect-mod" data-label="Intellect">Intellect (INT)</label><input id="intellect" type="number" class="field-data-short"><input type="number" class="field-data-short" id="intellect-mod" placeholder="Mod" style="width: 60px;"></div>
-            <div class="content-row"><label class="field-title" data-dice-type="1d20" data-modifier="will-mod" data-label="Will">Will (WIL)</label><input id="will" type="number" class="field-data-short"><input type="number" class="field-data-short" id="will-mod" placeholder="Mod" style="width: 60px;"></div>
+            <div class="content-row"><label class="field-title" data-dice-type="1d20" data-modifier="strength-mod" data-label="Strength">Strength (STR)</label><input id="strength" type="number" class="field-data-short"><input type="number" class="field-data-short mod-input" id="strength-mod" placeholder="Mod"></div>
+            <div class="content-row"><label class="field-title" data-dice-type="1d20" data-modifier="agility-mod" data-label="Agility">Agility (AGI)</label><input id="agility" type="number" class="field-data-short"><input type="number" class="field-data-short mod-input" id="agility-mod" placeholder="Mod"></div>
+            <div class="content-row"><label class="field-title" data-dice-type="1d20" data-modifier="intellect-mod" data-label="Intellect">Intellect (INT)</label><input id="intellect" type="number" class="field-data-short"><input type="number" class="field-data-short mod-input" id="intellect-mod" placeholder="Mod"></div>
+            <div class="content-row"><label class="field-title" data-dice-type="1d20" data-modifier="will-mod" data-label="Will">Will (WIL)</label><input id="will" type="number" class="field-data-short"><input type="number" class="field-data-short mod-input" id="will-mod" placeholder="Mod"></div>
             <div class="content-row"><label class="field-title">Perception (PER)</label><input id="perception" type="number" class="field-data-short"></div>
             <div class="content-row"><label class="field-title">Defense (DEF)</label><input id="defense" type="number" class="field-data-short"></div>
         </div>
-        
-        <div class="container">
+
+        <div class="container stat-grid">
             <h1><span class="rune-icon">❤️</span> Health & Resources</h1>
-            <div class="content-row"><label class="field-title">Health (HP)</label><input id="health" type="number" class="field-data-short"><p class="field-desc">Current / Max</p></div>
+            <div class="content-row"><label class="field-title">Health (HP)</label><div class="health-pair"><input id="health" type="number" placeholder="Current"><span class="health-separator">/</span><input id="health-max" type="number" placeholder="Max"></div></div>
+            <div class="under-labels"><span>Current</span><span></span><span>Max</span></div>
             <div class="content-row"><label class="field-title">Healing Rate</label><input id="healing-rate" type="number" class="field-data-short"></div>
             <div class="content-row"><label class="field-title">Power (POW)</label><input id="power" type="number" class="field-data-short"></div>
             <div class="content-row"><label class="field-title">Insanity (INS)</label><input id="insanity" type="number" class="field-data-short"></div>
@@ -282,38 +667,40 @@
     <!-- PATHS -->
     <div class="container">
         <h1><span class="rune-icon">👑</span> Paths & Talents</h1>
-        
+
         <div class="path-block">
             <h3>🟢 Novice Path</h3>
             <div class="content-row"><label class="field-title">Path Name</label><input id="novice-path" type="text" class="field-data" placeholder="e.g., Warrior, Magician, Priest, Rogue"></div>
-            <div class="content-row"><label class="field-title">Novice Talents</label><textarea id="novice-talents" class="field-data" rows="3" placeholder="List of talents gained from this path"></textarea></div>
+            <div class="content-row stacked"><label class="field-title">Novice Talents</label><textarea id="novice-talents" class="field-data" rows="3" placeholder="List of talents gained from this path"></textarea></div>
         </div>
 
         <div class="path-block">
             <h3>🔵 Expert Path</h3>
             <div class="content-row"><label class="field-title">Path Name</label><input id="expert-path" type="text" class="field-data" placeholder="e.g., Paladin, Assassin, Sorcerer"></div>
-            <div class="content-row"><label class="field-title">Expert Talents</label><textarea id="expert-talents" class="field-data" rows="3" placeholder="Talents gained at expert level"></textarea></div>
+            <div class="content-row stacked"><label class="field-title">Expert Talents</label><textarea id="expert-talents" class="field-data" rows="3" placeholder="Talents gained at expert level"></textarea></div>
         </div>
 
         <div class="path-block">
             <h3>🔴 Master Path</h3>
             <div class="content-row"><label class="field-title">Path Name</label><input id="master-path" type="text" class="field-data" placeholder="e.g., Archmage, Dread Knight"></div>
-            <div class="content-row"><label class="field-title">Master Talents</label><textarea id="master-talents" class="field-data" rows="3" placeholder="Talents gained at master level"></textarea></div>
+            <div class="content-row stacked"><label class="field-title">Master Talents</label><textarea id="master-talents" class="field-data" rows="3" placeholder="Talents gained at master level"></textarea></div>
         </div>
     </div>
 
     <!-- COMBAT & EQUIPMENT -->
     <div class="columns-2">
         <div class="container">
-            <h2>⚔️ Attacks & Weapons</h2>
-            <div class="content-row"><button id="att-melee" class="field-data" data-modifier="strength-mod" data-dice-type="d20" data-label="Attack melee"><i class="ts-icon-d20"></i> Melee Attack</button></div>
-            <div class="content-row"><button id="att-range" class="field-data" data-modifier="agility-mod" data-dice-type="d20" data-label="Attack ranged"><i class="ts-icon-d20"></i> Ranged Attack</button></div>
-            <div class="content-row"><label class="field-title">Weapons & Damage</label><textarea id="weapons" class="field-data" rows="3" placeholder="Sword 1d6+2, Crossbow 1d6..."></textarea></div>
+            <h2><span class="rune-icon">⚔️</span> Attacks & Weapons</h2>
+            <div class="inline-actions">
+                <button id="att-melee" data-modifier="strength-mod" data-dice-type="d20" data-label="Attack melee"><i class="ts-icon-d20"></i> Melee Attack</button>
+                <button id="att-range" data-modifier="agility-mod" data-dice-type="d20" data-label="Attack ranged"><i class="ts-icon-d20"></i> Ranged Attack</button>
+            </div>
+            <div class="content-row stacked"><label class="field-title">Weapons & Damage</label><textarea id="weapons" class="field-data" rows="3" placeholder="Sword 1d6+2, Crossbow 1d6..."></textarea></div>
             <div class="content-row"><label class="field-title">Armor</label><input id="armor" type="text" class="field-data" placeholder="Leather, chainmail..."></div>
         </div>
         <div class="container">
-            <h2>🎒 Gear & Wealth</h2>
-            <div class="content-row"><label class="field-title">Inventory</label><textarea id="gear" class="field-data" rows="4" placeholder="Backpack, rope, torches..."></textarea></div>
+            <h2><span class="rune-icon">🎒</span> Gear & Wealth</h2>
+            <div class="content-row stacked"><label class="field-title">Inventory</label><textarea id="gear" class="field-data" rows="4" placeholder="Backpack, rope, torches..."></textarea></div>
             <div class="content-row"><label class="field-title">Wealth</label><input id="wealth" type="text" class="field-data" placeholder="ss/cp/gold"></div>
         </div>
     </div>
@@ -321,33 +708,858 @@
     <!-- ADVANCED MAGIC -->
     <div class="container">
         <h1><span class="rune-icon">🔮</span> Magic</h1>
-        <div class="content-row"><label class="field-title">Known Traditions</label><input id="traditions" type="text" class="field-data" placeholder="e.g., Battle, Shadow, Fire, Death"></div>
-        <div class="content-row"><label class="field-title">Max Spell Rank</label><input id="max-spell-rank" type="number" class="field-data-short" value="0"><p class="field-desc">Depends on level and path</p></div>
-        <div class="content-row"><label class="field-title">Castings</label><input id="castings" type="text" class="field-data-short" placeholder="3/3"></div>
-        <h2>📜 Spell List</h2>
-        <div class="content-row"><label class="field-title">Spells & Description</label><textarea id="spells-list" class="field-data" rows="6" placeholder="Example:&#10;1) Fireball (Rank 1, Fire) – 2d6 damage, blast 1 yard&#10;2) Mask (Rank 0, Shadow) – +2 to Stealth"></textarea></div>
-        <details>
-            <summary>📘 Detailed spell notes (line by line)</summary>
-            <p class="field-desc">Use the main field above for free‑form entries. This is just a hint.</p>
-        </details>
-        <div class="content-row"><label class="field-title">Focus / Power Symbol</label><input id="spell-focus" type="text" class="field-data" placeholder="Spellbook, rod, amulet"></div>
+        <div class="magic-grid">
+            <div>
+                <div class="content-row full"><label class="field-title">Known Traditions</label><input id="traditions" type="text" class="field-data" placeholder="e.g., Battle, Shadow, Fire, Death"></div>
+                <div class="content-row full"><label class="field-title">Max Spell Rank</label><input id="max-spell-rank" type="number" class="field-data-short" value="0"><p class="field-desc">Depends on level and path</p></div>
+                <div class="content-row full"><label class="field-title">Castings</label><input id="castings" type="text" class="field-data-short" placeholder="3/3"></div>
+            </div>
+            <div class="content-row full"><label class="field-title">Spell List / Description</label><textarea id="spells-list" class="field-data" rows="5" placeholder="Example:&#10;1) Fireball (Rank 1, Fire) – 2d6 damage, blast 1 yard&#10;2) Mask (Rank 0, Shadow) – +2 to Stealth"></textarea></div>
+            <div class="content-row full"><label class="field-title">Focus / Power Symbol</label><input id="spell-focus" type="text" class="field-data" placeholder="Spellbook, rod, amulet"></div>
+            <details>
+                <summary>📘 Detailed spell notes (line by line)</summary>
+                <p class="field-desc">Use the main field above for free-form entries. This is just a hint.</p>
+            </details>
+        </div>
     </div>
 
-    <!-- Languages & Professions -->
-    <div class="container">
-        <h1><span class="rune-icon">📖</span> Languages & Professions</h1>
-        <div class="content-row"><label class="field-title">Professions</label><textarea id="professions" class="field-data" rows="2" placeholder="Thief, soldier, scholar, craftsman..."></textarea></div>
-        <div class="content-row"><label class="field-title">Languages</label><textarea id="languages" class="field-data" rows="2" placeholder="Common, Ancient, Elvish..."></textarea></div>
+    <div class="bottom-grid">
+        <div class="container">
+            <h1><span class="rune-icon">📖</span> Languages & Professions</h1>
+            <div class="content-row stacked"><label class="field-title">Professions</label><textarea id="professions" class="field-data" rows="3" placeholder="Thief, soldier, scholar, craftsman..."></textarea></div>
+            <div class="content-row stacked"><label class="field-title">Languages</label><textarea id="languages" class="field-data" rows="3" placeholder="Common, Ancient, Elvish..."></textarea></div>
+        </div>
+
+        <div class="container">
+            <h1><span class="rune-icon">📜</span> Notes, Background, Traits</h1>
+            <div class="content-row full"><textarea id="notes" class="field-data" rows="7" placeholder="Appearance, quirks, fears, allies, enemies, religion, background story..."></textarea></div>
+        </div>
     </div>
 
-    <div class="container">
-        <h1><span class="rune-icon">📜</span> Notes, Background, Traits</h1>
-        <div class="content-row"><textarea id="notes" class="field-data" rows="5" placeholder="Appearance, quirks, fears, allies, enemies, religion..."></textarea></div>
+    <div class="actions-row">
+        <button id="download-pdf">📄 Download PDF</button>
+        <button id="clear-storage" onclick="if(confirm('Reset all character data?')) clearSheet()">🗑️ Reset Sheet</button>
     </div>
 
-    <!-- Reset button -->
-    <div class="content-row" style="margin-bottom: 0; justify-content: flex-end;">
-        <button id="clear-storage" style="margin: 0.5em 0 2em;" onclick="if(confirm('Reset all character data?')) clearSheet()">🗑️ Reset Sheet</button>
-    </div>
+    <div id="snackbar-root" class="snackbar-root" aria-live="polite" aria-atomic="true"></div>
+
+<script>
+(function () {
+    const PDF_PAGE_WIDTH_PT = 595.28;
+    const PDF_PAGE_HEIGHT_PT = 841.89;
+    const RENDER_WIDTH_PX = 794;
+    const RENDER_PAGE_HEIGHT_PX = 1123;
+    const RENDER_SCALE = 2;
+    const I18N_STORAGE_KEY = 'sotdl-character-sheet-language';
+    const I18N = {
+        en: {
+            languageTitle: '🌐 Language:',
+            name: 'Name', ancestry: 'Ancestry', raceBackground: 'Race / Background', level: 'Level', size: 'Size', speed: 'Speed',
+            attributes: 'Attributes', strength: 'Strength (STR)', agility: 'Agility (AGI)', intellect: 'Intellect (INT)', will: 'Will (WIL)', perception: 'Perception (PER)', defense: 'Defense (DEF)',
+            healthResources: 'Health & Resources', health: 'Health (HP)', current: 'Current', max: 'Max', healingRate: 'Healing Rate', power: 'Power (POW)', insanity: 'Insanity (INS)', corruption: 'Corruption (COR)', fortune: 'Fortune',
+            pathsTalents: 'Paths & Talents', novicePath: '🟢 Novice Path', expertPath: '🔵 Expert Path', masterPath: '🔴 Master Path', pathName: 'Path Name', noviceTalents: 'Novice Talents', expertTalents: 'Expert Talents', masterTalents: 'Master Talents',
+            attacksWeapons: 'Attacks & Weapons', meleeAttack: 'Melee Attack', rangedAttack: 'Ranged Attack', weaponsDamage: 'Weapons & Damage', armor: 'Armor', gearWealth: 'Gear & Wealth', inventory: 'Inventory', wealth: 'Wealth',
+            magic: 'Magic', knownTraditions: 'Known Traditions', maxSpellRank: 'Max Spell Rank', castings: 'Castings', spellListDescription: 'Spell List / Description', focusPowerSymbol: 'Focus / Power Symbol', detailsSpellNotes: '📘 Detailed spell notes (line by line)', spellHint: 'Use the main field above for free-form entries. This is just a hint.',
+            languagesProfessions: 'Languages & Professions', professions: 'Professions', languages: 'Languages', notesTitle: 'Notes, Background, Traits', notes: 'Notes',
+            downloadPdf: '📄 Download PDF', resetSheet: '🗑️ Reset Sheet', generatingPdf: '⏳ Generating PDF...', unnamedCharacter: 'Unnamed character', mainInfo: 'Main Info', combatEquipment: 'Combat & Equipment', spells: 'Spells',
+            pdfNotCreated: 'PDF was not created', validationSummary: 'Fix these fields:', pdfReady: 'PDF ready', pdfReadyMessage: 'File {fileName} has been generated and is downloading.', pdfErrorTitle: 'PDF generation error', pdfErrorMessage: 'Could not generate PDF.',
+            characterNameRequired: 'Enter character name before generating PDF.', mustBeNumber: '{label}: must be a number.', levelRange: 'Level should usually be between 0 and 10.', resetConfirm: 'Reset all character data?', generated: 'Generated', mod: 'mod',
+            phName: 'Enter character name', phAncestry: 'Enter ancestry', phRace: 'Enter race or background', phMod: 'Mod', phPathNovice: 'e.g., Warrior, Magician, Priest, Rogue', phPathExpert: 'e.g., Paladin, Assassin, Sorcerer', phPathMaster: 'e.g., Archmage, Dread Knight', phNoviceTalents: 'List of talents gained from this path', phExpertTalents: 'Talents gained at expert level', phMasterTalents: 'Talents gained at master level', phWeapons: 'Sword 1d6+2, Crossbow 1d6...', phArmor: 'Leather, chainmail...', phGear: 'Backpack, rope, torches...', phWealth: 'ss/cp/gold', phTraditions: 'e.g., Battle, Shadow, Fire, Death', phCastings: '3/3', phSpells: 'Example:\n1) Fireball (Rank 1, Fire) – 2d6 damage, blast 1 yard\n2) Mask (Rank 0, Shadow) – +2 to Stealth', phFocus: 'Spellbook, rod, amulet', phProfessions: 'Thief, soldier, scholar, craftsman...', phLanguages: 'Common, Ancient, Elvish...', phNotes: 'Appearance, quirks, fears, allies, enemies, religion, background story...', spellRankHint: 'Depends on level and path'
+        },
+        ru: {
+            languageTitle: '🌐 Язык:',
+            name: 'Имя', ancestry: 'Происхождение', raceBackground: 'Раса / фон', level: 'Уровень', size: 'Размер', speed: 'Скорость',
+            attributes: 'Характеристики', strength: 'Сила (СИЛ)', agility: 'Ловкость (ЛОВ)', intellect: 'Интеллект (ИНТ)', will: 'Воля (ВОЛ)', perception: 'Восприятие (ВСП)', defense: 'Защита (ЗАЩ)',
+            healthResources: 'Здоровье и ресурсы', health: 'Здоровье (HP)', current: 'Текущее', max: 'Максимум', healingRate: 'Скорость лечения', power: 'Сила (POW)', insanity: 'Безумие (INS)', corruption: 'Порча (COR)', fortune: 'Удача',
+            pathsTalents: 'Пути и таланты', novicePath: '🟢 Новичок', expertPath: '🔵 Эксперт', masterPath: '🔴 Мастер', pathName: 'Название пути', noviceTalents: 'Таланты новичка', expertTalents: 'Таланты эксперта', masterTalents: 'Таланты мастера',
+            attacksWeapons: 'Атаки и оружие', meleeAttack: 'Ближняя атака', rangedAttack: 'Дальняя атака', weaponsDamage: 'Оружие и урон', armor: 'Броня', gearWealth: 'Снаряжение и богатство', inventory: 'Инвентарь', wealth: 'Богатство',
+            magic: 'Магия', knownTraditions: 'Известные традиции', maxSpellRank: 'Макс. ранг заклинаний', castings: 'Ячейки заклинаний', spellListDescription: 'Список заклинаний / описание', focusPowerSymbol: 'Фокус / символ', detailsSpellNotes: '📘 Подробные заметки по заклинаниям', spellHint: 'Основное поле выше можно заполнять свободным текстом. Это только подсказка.',
+            languagesProfessions: 'Языки и профессии', professions: 'Профессии', languages: 'Языки', notesTitle: 'Заметки, фон, черты', notes: 'Заметки',
+            downloadPdf: '📄 Скачать PDF', resetSheet: '🗑️ Сбросить лист', generatingPdf: '⏳ Генерация PDF...', unnamedCharacter: 'Безымянный персонаж', mainInfo: 'Основная информация', combatEquipment: 'Бой и снаряжение', spells: 'Заклинания',
+            pdfNotCreated: 'PDF не создан', validationSummary: 'Нужно исправить поля:', pdfReady: 'PDF готов', pdfReadyMessage: 'Файл {fileName} успешно сформирован и скачивается.', pdfErrorTitle: 'Ошибка генерации PDF', pdfErrorMessage: 'Не удалось сформировать PDF.',
+            characterNameRequired: 'Введите имя персонажа перед генерацией PDF.', mustBeNumber: '{label}: должно быть число.', levelRange: 'Уровень обычно должен быть от 0 до 10.', resetConfirm: 'Сбросить все данные персонажа?', generated: 'Создано', mod: 'мод',
+            phName: 'Введите имя персонажа', phAncestry: 'Введите происхождение', phRace: 'Введите расу или фон', phMod: 'Мод', phPathNovice: 'например: Воин, Маг, Жрец, Плут', phPathExpert: 'например: Паладин, Убийца, Чародей', phPathMaster: 'например: Архимаг, Тёмный рыцарь', phNoviceTalents: 'Список талантов, полученных на пути новичка', phExpertTalents: 'Таланты, полученные на экспертном уровне', phMasterTalents: 'Таланты, полученные на мастерском уровне', phWeapons: 'Меч 1d6+2, арбалет 1d6...', phArmor: 'Кожаная броня, кольчуга...', phGear: 'Рюкзак, верёвка, факелы...', phWealth: '50 зм, 12 см, 8 мн', phTraditions: 'например: Битва, Тень, Огонь, Смерть', phCastings: '3/3', phSpells: 'Пример:\n1) Огненный шар (Ранг 1, Огонь) – 2d6 урона, взрыв 1 ярд\n2) Маска (Ранг 0, Тень) – +2 к скрытности', phFocus: 'Книга заклинаний, жезл, амулет', phProfessions: 'Вор, солдат, учёный, ремесленник...', phLanguages: 'Всеобщий, древний, эльфийский...', phNotes: 'Внешность, привычки, страхи, союзники, враги, религия, история...', spellRankHint: 'Зависит от уровня и пути'
+        }
+    };
+
+    let currentLanguage = localStorage.getItem(I18N_STORAGE_KEY) || 'ru';
+
+    function tr(key, params = {}) {
+        const value = (I18N[currentLanguage] && I18N[currentLanguage][key]) || I18N.en[key] || key;
+        return Object.keys(params).reduce((result, name) => result.replaceAll(`{${name}}`, params[name]), value);
+    }
+
+    function setText(selector, key, root = document) {
+        const el = root.querySelector(selector);
+        if (el) el.textContent = tr(key);
+    }
+
+    function setPlaceholder(selector, key, root = document) {
+        const el = root.querySelector(selector);
+        if (el) el.setAttribute('placeholder', tr(key));
+    }
+
+    function setConfirmHandler() {
+        const resetButton = document.getElementById('clear-storage');
+        if (!resetButton) return;
+        resetButton.onclick = () => {
+            if (confirm(tr('resetConfirm'))) clearSheet();
+        };
+    }
+
+    function applyLanguage(lang) {
+        currentLanguage = I18N[lang] ? lang : 'ru';
+        localStorage.setItem(I18N_STORAGE_KEY, currentLanguage);
+        document.documentElement.lang = currentLanguage;
+        document.title = currentLanguage === 'ru' ? 'Лист персонажа SotDL — Shadow of the Demon Lord' : 'Character Sheet SotDL — Shadow of the Demon Lord';
+
+        document.querySelectorAll('.lang-button').forEach(button => {
+            button.classList.toggle('is-active', button.dataset.lang === currentLanguage);
+            button.setAttribute('aria-pressed', String(button.dataset.lang === currentLanguage));
+        });
+
+        setText('#language-title', 'languageTitle');
+        setText('.top-grid > div:first-child .content-row:nth-child(1) .field-title', 'name');
+        setText('.top-grid > div:first-child .content-row:nth-child(2) .field-title', 'ancestry');
+        setText('.top-grid > div:first-child .content-row:nth-child(3) .field-title', 'raceBackground');
+        setText('.top-grid > div:nth-child(2) .content-row:nth-child(1) .field-title', 'level');
+        setText('.top-grid > div:nth-child(2) .content-row:nth-child(2) .field-title', 'size');
+        setText('.top-grid > div:nth-child(2) .content-row:nth-child(3) .field-title', 'speed');
+
+        setText('.columns-2:nth-of-type(2) .container:nth-child(1) h1', 'attributes');
+        setText('[data-label="Strength"]', 'strength');
+        setText('[data-label="Agility"]', 'agility');
+        setText('[data-label="Intellect"]', 'intellect');
+        setText('[data-label="Will"]', 'will');
+        setText('#perception', 'perception');
+        setText('#defense', 'defense');
+
+        const attrRows = document.querySelectorAll('.columns-2 .stat-grid:first-child .content-row .field-title');
+        ['strength','agility','intellect','will','perception','defense'].forEach((key, index) => { if (attrRows[index]) attrRows[index].textContent = tr(key); });
+        const hpRows = document.querySelectorAll('.columns-2 .stat-grid:nth-child(2) .content-row .field-title');
+        ['health','healingRate','power','insanity','corruption','fortune'].forEach((key, index) => { if (hpRows[index]) hpRows[index].textContent = tr(key); });
+        setText('.columns-2 .stat-grid:nth-child(2) h1', 'healthResources');
+        const underLabels = document.querySelectorAll('.under-labels span');
+        if (underLabels[0]) underLabels[0].textContent = tr('current');
+        if (underLabels[2]) underLabels[2].textContent = tr('max');
+
+        const allContainers = Array.from(document.querySelectorAll('body > .container, .bottom-grid > .container'));
+        setText('body > .container:nth-of-type(2) > h1', 'pathsTalents');
+        const pathTitles = document.querySelectorAll('.path-block h3');
+        ['novicePath','expertPath','masterPath'].forEach((key, index) => { if (pathTitles[index]) pathTitles[index].textContent = tr(key); });
+        const pathLabels = document.querySelectorAll('.path-block .field-title');
+        ['pathName','noviceTalents','pathName','expertTalents','pathName','masterTalents'].forEach((key, index) => { if (pathLabels[index]) pathLabels[index].textContent = tr(key); });
+
+        const combatContainers = document.querySelectorAll('body > .columns-2:nth-of-type(3) .container');
+        if (combatContainers[0]) {
+            setText('h2', 'attacksWeapons', combatContainers[0]);
+            setText('#att-melee', 'meleeAttack');
+            setText('#att-range', 'rangedAttack');
+            const labels = combatContainers[0].querySelectorAll('.field-title');
+            if (labels[0]) labels[0].textContent = tr('weaponsDamage');
+            if (labels[1]) labels[1].textContent = tr('armor');
+        }
+        if (combatContainers[1]) {
+            setText('h2', 'gearWealth', combatContainers[1]);
+            const labels = combatContainers[1].querySelectorAll('.field-title');
+            if (labels[0]) labels[0].textContent = tr('inventory');
+            if (labels[1]) labels[1].textContent = tr('wealth');
+        }
+
+        const magicContainer = document.querySelector('body > .container:nth-of-type(3)');
+        if (magicContainer) {
+            setText('h1', 'magic', magicContainer);
+            const labels = magicContainer.querySelectorAll('.field-title');
+            ['knownTraditions','maxSpellRank','castings','spellListDescription','focusPowerSymbol'].forEach((key, index) => { if (labels[index]) labels[index].textContent = tr(key); });
+            setText('summary', 'detailsSpellNotes', magicContainer);
+            const hint = magicContainer.querySelector('details .field-desc');
+            if (hint) hint.textContent = tr('spellHint');
+            const rankHint = magicContainer.querySelector('.content-row:nth-child(2) .field-desc');
+            if (rankHint) rankHint.textContent = tr('spellRankHint');
+        }
+
+        const bottomContainers = document.querySelectorAll('.bottom-grid .container');
+        if (bottomContainers[0]) {
+            setText('h1', 'languagesProfessions', bottomContainers[0]);
+            const labels = bottomContainers[0].querySelectorAll('.field-title');
+            if (labels[0]) labels[0].textContent = tr('professions');
+            if (labels[1]) labels[1].textContent = tr('languages');
+        }
+        if (bottomContainers[1]) setText('h1', 'notesTitle', bottomContainers[1]);
+
+        setText('#download-pdf', 'downloadPdf');
+        setText('#clear-storage', 'resetSheet');
+
+        setPlaceholder('#character-name', 'phName'); setPlaceholder('#ancestry', 'phAncestry'); setPlaceholder('#race-background', 'phRace');
+        document.querySelectorAll('.mod-input').forEach(input => input.placeholder = tr('phMod'));
+        setPlaceholder('#health', 'current'); setPlaceholder('#health-max', 'max');
+        setPlaceholder('#novice-path', 'phPathNovice'); setPlaceholder('#expert-path', 'phPathExpert'); setPlaceholder('#master-path', 'phPathMaster');
+        setPlaceholder('#novice-talents', 'phNoviceTalents'); setPlaceholder('#expert-talents', 'phExpertTalents'); setPlaceholder('#master-talents', 'phMasterTalents');
+        setPlaceholder('#weapons', 'phWeapons'); setPlaceholder('#armor', 'phArmor'); setPlaceholder('#gear', 'phGear'); setPlaceholder('#wealth', 'phWealth');
+        setPlaceholder('#traditions', 'phTraditions'); setPlaceholder('#castings', 'phCastings'); setPlaceholder('#spells-list', 'phSpells'); setPlaceholder('#spell-focus', 'phFocus');
+        setPlaceholder('#professions', 'phProfessions'); setPlaceholder('#languages', 'phLanguages'); setPlaceholder('#notes', 'phNotes');
+        setConfirmHandler();
+    }
+
+
+    function getFieldValue(id) {
+        const el = document.getElementById(id);
+        return el ? String(el.value || '').trim() : '';
+    }
+
+    function text(value, fallback = '—') {
+        return value && value.trim() ? value.trim() : fallback;
+    }
+
+
+    function showSnackbar(type, title, message) {
+        const root = document.getElementById('snackbar-root');
+        if (!root) return;
+
+        const item = document.createElement('div');
+        item.className = `snackbar ${type}`;
+        item.setAttribute('role', type === 'error' ? 'alert' : 'status');
+        item.innerHTML = `
+            <div class="snackbar-title">${escapeHtml(title)}</div>
+            <p class="snackbar-message">${escapeHtml(message)}</p>
+        `;
+        root.appendChild(item);
+
+        window.setTimeout(() => {
+            item.style.opacity = '0';
+            item.style.transform = 'translateX(24px)';
+        }, 4200);
+        window.setTimeout(() => item.remove(), 4550);
+    }
+
+    function clearValidationErrors() {
+        document.querySelectorAll('.field-error').forEach(error => error.remove());
+        document.querySelectorAll('.field-invalid').forEach(field => field.classList.remove('field-invalid'));
+    }
+
+    function showFieldError(fieldId, message) {
+        const field = document.getElementById(fieldId);
+        if (!field) return;
+
+        field.classList.add('field-invalid');
+
+        const row = field.closest('.content-row') || field.parentElement;
+        if (!row) return;
+
+        const error = document.createElement('div');
+        error.className = 'field-error';
+        error.textContent = message;
+        row.appendChild(error);
+    }
+
+    function validateCharacterSheet() {
+        clearValidationErrors();
+
+        const errors = [];
+        const addError = (fieldId, message) => {
+            errors.push({ fieldId, message });
+            showFieldError(fieldId, message);
+        };
+
+        if (!getFieldValue('character-name')) {
+            addError('character-name', tr('characterNameRequired'));
+        }
+
+        const numericFields = [
+            ['level', 'Level'],
+            ['speed', 'Speed'],
+            ['strength', 'Strength'],
+            ['strength-mod', 'Strength modifier'],
+            ['agility', 'Agility'],
+            ['agility-mod', 'Agility modifier'],
+            ['intellect', 'Intellect'],
+            ['intellect-mod', 'Intellect modifier'],
+            ['will', 'Will'],
+            ['will-mod', 'Will modifier'],
+            ['perception', 'Perception'],
+            ['defense', 'Defense'],
+            ['health', 'Health'],
+            ['healing-rate', 'Healing Rate'],
+            ['power', 'Power'],
+            ['insanity', 'Insanity'],
+            ['corruption', 'Corruption'],
+            ['fortune', 'Fortune'],
+            ['max-spell-rank', 'Max Spell Rank']
+        ];
+
+        numericFields.forEach(([fieldId, label]) => {
+            const value = getFieldValue(fieldId);
+            if (!value) return;
+            const normalized = value.replace(',', '.');
+            if (!Number.isFinite(Number(normalized))) {
+                addError(fieldId, tr('mustBeNumber', { label }));
+            }
+        });
+
+        const level = getFieldValue('level');
+        if (level && Number.isFinite(Number(level)) && (Number(level) < 0 || Number(level) > 10)) {
+            addError('level', tr('levelRange'));
+        }
+
+        if (errors.length) {
+            const firstField = document.getElementById(errors[0].fieldId);
+            firstField?.focus({ preventScroll: true });
+            firstField?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+
+        return errors;
+    }
+
+    function escapeHtml(value) {
+        return String(value)
+            .replaceAll('&', '&amp;')
+            .replaceAll('<', '&lt;')
+            .replaceAll('>', '&gt;')
+            .replaceAll('"', '&quot;')
+            .replaceAll("'", '&#039;');
+    }
+
+    function nl2br(value) {
+        return escapeHtml(value).replace(/\n/g, '<br>');
+    }
+
+    function section(title, rows) {
+        return `
+            <section class="pdf-section">
+                <h2>${escapeHtml(title)}</h2>
+                ${rows.map(([label, value]) => `
+                    <div class="pdf-row">
+                        <div class="pdf-label">${escapeHtml(label)}</div>
+                        <div class="pdf-value">${nl2br(text(value))}</div>
+                    </div>
+                `).join('')}
+            </section>
+        `;
+    }
+
+    function buildPrintableHtml() {
+        const characterName = text(getFieldValue('character-name'), tr('unnamedCharacter'));
+        const createdAt = new Date().toLocaleString();
+
+        return `
+            <!DOCTYPE html>
+            <html xmlns="http://www.w3.org/1999/xhtml">
+            <head>
+                <meta charset="UTF-8" />
+                <style>
+                    * { box-sizing: border-box; }
+                    body {
+                        width: ${RENDER_WIDTH_PX}px;
+                        margin: 0;
+                        padding: 34px;
+                        background: #f4efe5;
+                        color: #1f1714;
+                        font-family: Arial, Helvetica, sans-serif;
+                        font-size: 16px;
+                    }
+                    .pdf-sheet {
+                        min-height: 100%;
+                        padding: 28px;
+                        border: 3px solid #3b241f;
+                        background: #fffaf0;
+                    }
+                    h1 {
+                        margin: 0 0 6px;
+                        font-size: 30px;
+                        line-height: 1.15;
+                        color: #3b1818;
+                    }
+                    .subtitle {
+                        margin: 0 0 20px;
+                        color: #6e5a4c;
+                        font-size: 13px;
+                    }
+                    .grid {
+                        display: grid;
+                        grid-template-columns: 1fr 1fr;
+                        gap: 14px;
+                    }
+                    .pdf-section {
+                        break-inside: avoid;
+                        border: 1px solid #b9a88f;
+                        background: #fffdf7;
+                        margin: 0 0 14px;
+                        padding: 14px;
+                        border-radius: 8px;
+                    }
+                    .wide { grid-column: 1 / -1; }
+                    h2 {
+                        margin: 0 0 10px;
+                        font-size: 18px;
+                        color: #7a2e25;
+                        border-bottom: 1px solid #d3c3aa;
+                        padding-bottom: 6px;
+                    }
+                    .pdf-row {
+                        display: grid;
+                        grid-template-columns: 145px 1fr;
+                        gap: 10px;
+                        padding: 5px 0;
+                        border-bottom: 1px dashed #e0d4c0;
+                    }
+                    .pdf-row:last-child { border-bottom: 0; }
+                    .pdf-label {
+                        font-weight: 700;
+                        color: #4d3a32;
+                    }
+                    .pdf-value {
+                        white-space: normal;
+                        overflow-wrap: anywhere;
+                        line-height: 1.35;
+                    }
+                </style>
+            </head>
+            <body>
+                <main class="pdf-sheet">
+                    <h1>${escapeHtml(characterName)}</h1>
+                    <p class="subtitle">Shadow of the Demon Lord character sheet · Generated ${escapeHtml(createdAt)}</p>
+                    <div class="grid">
+                        ${section('Main Info', [
+                            ['Name', getFieldValue('character-name')],
+                            ['Ancestry', getFieldValue('ancestry')],
+                            ['Level', getFieldValue('level')],
+                            ['Size', getFieldValue('size')],
+                            ['Speed', getFieldValue('speed')]
+                        ])}
+                        ${section('Attributes', [
+                            ['Strength', `${getFieldValue('strength')} / mod ${getFieldValue('strength-mod')}`],
+                            ['Agility', `${getFieldValue('agility')} / mod ${getFieldValue('agility-mod')}`],
+                            ['Intellect', `${getFieldValue('intellect')} / mod ${getFieldValue('intellect-mod')}`],
+                            ['Will', `${getFieldValue('will')} / mod ${getFieldValue('will-mod')}`],
+                            ['Perception', getFieldValue('perception')],
+                            ['Defense', getFieldValue('defense')]
+                        ])}
+                        ${section('Health & Resources', [
+                            ['Health', getFieldValue('health')],
+                            ['Healing Rate', getFieldValue('healing-rate')],
+                            ['Power', getFieldValue('power')],
+                            ['Insanity', getFieldValue('insanity')],
+                            ['Corruption', getFieldValue('corruption')],
+                            ['Fortune', getFieldValue('fortune')]
+                        ])}
+                        <div class="wide">
+                            ${section('Paths & Talents', [
+                                ['Novice Path', getFieldValue('novice-path')],
+                                ['Novice Talents', getFieldValue('novice-talents')],
+                                ['Expert Path', getFieldValue('expert-path')],
+                                ['Expert Talents', getFieldValue('expert-talents')],
+                                ['Master Path', getFieldValue('master-path')],
+                                ['Master Talents', getFieldValue('master-talents')]
+                            ])}
+                            ${section('Combat & Equipment', [
+                                ['Weapons & Damage', getFieldValue('weapons')],
+                                ['Armor', getFieldValue('armor')],
+                                ['Inventory', getFieldValue('gear')],
+                                ['Wealth', getFieldValue('wealth')]
+                            ])}
+                            ${section('Magic', [
+                                ['Known Traditions', getFieldValue('traditions')],
+                                ['Max Spell Rank', getFieldValue('max-spell-rank')],
+                                ['Castings', getFieldValue('castings')],
+                                ['Spells', getFieldValue('spells-list')],
+                                ['Focus / Power Symbol', getFieldValue('spell-focus')]
+                            ])}
+                            ${section('Languages & Professions', [
+                                ['Professions', getFieldValue('professions')],
+                                ['Languages', getFieldValue('languages')]
+                            ])}
+                            ${section('Notes, Background, Traits', [
+                                ['Notes', getFieldValue('notes')]
+                            ])}
+                        </div>
+                    </div>
+                </main>
+            </body>
+            </html>
+        `;
+    }
+
+    function sanitizeFileName(value) {
+        return text(value, 'character-sheet')
+            .toLowerCase()
+            .replace(/[^a-zа-яё0-9_-]+/gi, '-')
+            .replace(/^-+|-+$/g, '') || 'character-sheet';
+    }
+
+    function escapePdfName(value) {
+        return String(value).replace(/[^a-zA-Z0-9]/g, '');
+    }
+
+    function pdfString(value) {
+        return String(value).replace(/\\/g, '\\\\').replace(/\(/g, '\\(').replace(/\)/g, '\\)');
+    }
+
+    function makePdfFromJpegs(images) {
+        const objects = [];
+        const addObject = content => {
+            objects.push(content);
+            return objects.length;
+        };
+
+        const catalogId = addObject('');
+        const pagesId = addObject('');
+        const pageIds = [];
+
+        images.forEach((image, index) => {
+            const imageBytes = atob(image.dataUrl.split(',')[1]);
+            const imageObjId = addObject(`<< /Type /XObject /Subtype /Image /Width ${image.width} /Height ${image.height} /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length ${imageBytes.length} >>\nstream\n${imageBytes}\nendstream`);
+            const content = `q\n${PDF_PAGE_WIDTH_PT} 0 0 ${PDF_PAGE_HEIGHT_PT} 0 0 cm\n/Im${index + 1} Do\nQ`;
+            const contentObjId = addObject(`<< /Length ${content.length} >>\nstream\n${content}\nendstream`);
+            const pageId = addObject(`<< /Type /Page /Parent ${pagesId} 0 R /MediaBox [0 0 ${PDF_PAGE_WIDTH_PT} ${PDF_PAGE_HEIGHT_PT}] /Resources << /XObject << /Im${index + 1} ${imageObjId} 0 R >> >> /Contents ${contentObjId} 0 R >>`);
+            pageIds.push(pageId);
+        });
+
+        objects[catalogId - 1] = `<< /Type /Catalog /Pages ${pagesId} 0 R >>`;
+        objects[pagesId - 1] = `<< /Type /Pages /Kids [${pageIds.map(id => `${id} 0 R`).join(' ')}] /Count ${pageIds.length} >>`;
+
+        let pdf = '%PDF-1.4\n%\xE2\xE3\xCF\xD3\n';
+        const offsets = [0];
+        objects.forEach((object, index) => {
+            offsets.push(pdf.length);
+            pdf += `${index + 1} 0 obj\n${object}\nendobj\n`;
+        });
+        const xrefOffset = pdf.length;
+        pdf += `xref\n0 ${objects.length + 1}\n0000000000 65535 f \n`;
+        offsets.slice(1).forEach(offset => {
+            pdf += `${String(offset).padStart(10, '0')} 00000 n \n`;
+        });
+        pdf += `trailer\n<< /Size ${objects.length + 1} /Root ${catalogId} 0 R /Title (${pdfString(getFieldValue('character-name') || 'Character Sheet')}) >>\nstartxref\n${xrefOffset}\n%%EOF`;
+
+        const bytes = new Uint8Array(pdf.length);
+        for (let i = 0; i < pdf.length; i += 1) {
+            bytes[i] = pdf.charCodeAt(i) & 0xff;
+        }
+        return new Blob([bytes], { type: 'application/pdf' });
+    }
+
+    function downloadBlob(blob, fileName) {
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = fileName;
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+        URL.revokeObjectURL(url);
+    }
+
+    function getPdfSections() {
+        return [
+            {
+                title: tr('mainInfo'),
+                rows: [
+                    [tr('name'), getFieldValue('character-name')],
+                    [tr('ancestry'), getFieldValue('ancestry')],
+                    [tr('raceBackground'), getFieldValue('race-background')],
+                    [tr('level'), getFieldValue('level')],
+                    [tr('size'), getFieldValue('size')],
+                    [tr('speed'), getFieldValue('speed')]
+                ]
+            },
+            {
+                title: tr('attributes'),
+                rows: [
+                    [tr('strength'), `${getFieldValue('strength') || '—'} / ${tr('mod')} ${getFieldValue('strength-mod') || '—'}`],
+                    [tr('agility'), `${getFieldValue('agility') || '—'} / ${tr('mod')} ${getFieldValue('agility-mod') || '—'}`],
+                    [tr('intellect'), `${getFieldValue('intellect') || '—'} / ${tr('mod')} ${getFieldValue('intellect-mod') || '—'}`],
+                    [tr('will'), `${getFieldValue('will') || '—'} / ${tr('mod')} ${getFieldValue('will-mod') || '—'}`],
+                    [tr('perception'), getFieldValue('perception')],
+                    [tr('defense'), getFieldValue('defense')]
+                ]
+            },
+            {
+                title: tr('healthResources'),
+                rows: [
+                    [tr('health'), `${getFieldValue('health') || '—'} / ${getFieldValue('health-max') || '—'}`],
+                    [tr('healingRate'), getFieldValue('healing-rate')],
+                    [tr('power'), getFieldValue('power')],
+                    [tr('insanity'), getFieldValue('insanity')],
+                    [tr('corruption'), getFieldValue('corruption')],
+                    [tr('fortune'), getFieldValue('fortune')]
+                ]
+            },
+            {
+                title: tr('pathsTalents'),
+                rows: [
+                    [tr('novicePath').replace(/^\S+\s*/, ''), getFieldValue('novice-path')],
+                    [tr('noviceTalents'), getFieldValue('novice-talents')],
+                    [tr('expertPath').replace(/^\S+\s*/, ''), getFieldValue('expert-path')],
+                    [tr('expertTalents'), getFieldValue('expert-talents')],
+                    [tr('masterPath').replace(/^\S+\s*/, ''), getFieldValue('master-path')],
+                    [tr('masterTalents'), getFieldValue('master-talents')]
+                ]
+            },
+            {
+                title: tr('combatEquipment'),
+                rows: [
+                    [tr('weaponsDamage'), getFieldValue('weapons')],
+                    [tr('armor'), getFieldValue('armor')],
+                    [tr('inventory'), getFieldValue('gear')],
+                    [tr('wealth'), getFieldValue('wealth')]
+                ]
+            },
+            {
+                title: tr('magic'),
+                rows: [
+                    [tr('knownTraditions'), getFieldValue('traditions')],
+                    [tr('maxSpellRank'), getFieldValue('max-spell-rank')],
+                    [tr('castings'), getFieldValue('castings')],
+                    [tr('spells'), getFieldValue('spells-list')],
+                    [tr('focusPowerSymbol'), getFieldValue('spell-focus')]
+                ]
+            },
+            {
+                title: tr('languagesProfessions'),
+                rows: [
+                    [tr('professions'), getFieldValue('professions')],
+                    [tr('languages'), getFieldValue('languages')]
+                ]
+            },
+            {
+                title: tr('notesTitle'),
+                rows: [[tr('notes'), getFieldValue('notes')]]
+            }
+        ];
+    }
+
+    function drawRoundedRect(ctx, x, y, width, height, radius) {
+        const r = Math.min(radius, width / 2, height / 2);
+        ctx.beginPath();
+        ctx.moveTo(x + r, y);
+        ctx.arcTo(x + width, y, x + width, y + height, r);
+        ctx.arcTo(x + width, y + height, x, y + height, r);
+        ctx.arcTo(x, y + height, x, y, r);
+        ctx.arcTo(x, y, x + width, y, r);
+        ctx.closePath();
+    }
+
+    function wrapCanvasText(ctx, value, maxWidth) {
+        const textValue = text(String(value || '')).replace(/\r/g, '');
+        const result = [];
+        textValue.split('\n').forEach(line => {
+            const words = line.split(/\s+/).filter(Boolean);
+            if (!words.length) {
+                result.push('');
+                return;
+            }
+            let current = '';
+            words.forEach(word => {
+                const testLine = current ? `${current} ${word}` : word;
+                if (ctx.measureText(testLine).width <= maxWidth) {
+                    current = testLine;
+                    return;
+                }
+                if (current) result.push(current);
+                if (ctx.measureText(word).width <= maxWidth) {
+                    current = word;
+                    return;
+                }
+                let chunk = '';
+                for (const char of word) {
+                    const testChunk = chunk + char;
+                    if (ctx.measureText(testChunk).width > maxWidth && chunk) {
+                        result.push(chunk);
+                        chunk = char;
+                    } else {
+                        chunk = testChunk;
+                    }
+                }
+                current = chunk;
+            });
+            if (current) result.push(current);
+        });
+        return result.length ? result : ['—'];
+    }
+
+    function renderCharacterSheetToJpegs() {
+        const width = RENDER_WIDTH_PX * RENDER_SCALE;
+        const height = RENDER_PAGE_HEIGHT_PX * RENDER_SCALE;
+        const margin = 70;
+        const contentWidth = width - margin * 2;
+        const pages = [];
+        let canvas;
+        let ctx;
+        let y;
+        let pageNumber = 0;
+
+        const setFont = (size, weight = '400') => {
+            ctx.font = `${weight} ${size}px Arial, Helvetica, sans-serif`;
+        };
+
+        const newPage = () => {
+            if (canvas) {
+                drawFooter();
+                pages.push({ dataUrl: canvas.toDataURL('image/jpeg', 0.92), width: canvas.width, height: canvas.height });
+            }
+            pageNumber += 1;
+            canvas = document.createElement('canvas');
+            canvas.width = width;
+            canvas.height = height;
+            ctx = canvas.getContext('2d');
+            ctx.fillStyle = '#f4efe5';
+            ctx.fillRect(0, 0, width, height);
+            ctx.fillStyle = '#fffaf0';
+            ctx.strokeStyle = '#3b241f';
+            ctx.lineWidth = 5;
+            drawRoundedRect(ctx, margin / 2, margin / 2, width - margin, height - margin, 18);
+            ctx.fill();
+            ctx.stroke();
+            y = margin + 28;
+        };
+
+        const drawFooter = () => {
+            setFont(20, '400');
+            ctx.fillStyle = '#8a7868';
+            ctx.textAlign = 'right';
+            ctx.fillText(`Page ${pageNumber}`, width - margin, height - margin + 6);
+            ctx.textAlign = 'left';
+        };
+
+        const ensureSpace = needed => {
+            if (y + needed > height - margin - 50) newPage();
+        };
+
+        const drawSection = sectionData => {
+            setFont(26, '700');
+            const titleHeight = 44;
+            setFont(21, '400');
+            let sectionHeight = 34 + titleHeight;
+            const rowMetrics = sectionData.rows.map(([label, value]) => {
+                setFont(21, '400');
+                const lines = wrapCanvasText(ctx, value, contentWidth - 380);
+                const rowHeight = Math.max(48, lines.length * 30 + 18);
+                sectionHeight += rowHeight;
+                return { label, lines, rowHeight };
+            });
+            sectionHeight += 22;
+
+            if (sectionHeight > height - margin * 2) {
+                ensureSpace(130);
+            } else {
+                ensureSpace(sectionHeight + 18);
+            }
+
+            const startY = y;
+            const boxX = margin;
+            const boxY = y;
+            const boxW = contentWidth;
+            const boxH = Math.min(sectionHeight, height - margin - y - 58);
+
+            ctx.fillStyle = '#fffdf7';
+            ctx.strokeStyle = '#b9a88f';
+            ctx.lineWidth = 2;
+            drawRoundedRect(ctx, boxX, boxY, boxW, boxH, 14);
+            ctx.fill();
+            ctx.stroke();
+
+            y += 28;
+            setFont(31, '700');
+            ctx.fillStyle = '#7a2e25';
+            ctx.fillText(sectionData.title, boxX + 26, y + 28);
+            y += titleHeight + 14;
+            ctx.strokeStyle = '#d3c3aa';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.moveTo(boxX + 24, y - 4);
+            ctx.lineTo(boxX + boxW - 24, y - 4);
+            ctx.stroke();
+
+            rowMetrics.forEach(row => {
+                if (y + row.rowHeight > height - margin - 62) {
+                    newPage();
+                    y += 10;
+                }
+                const rowTop = y;
+                setFont(21, '700');
+                ctx.fillStyle = '#4d3a32';
+                ctx.fillText(String(row.label), boxX + 26, y + 31);
+
+                setFont(21, '400');
+                ctx.fillStyle = '#1f1714';
+                row.lines.forEach((line, i) => {
+                    ctx.fillText(line, boxX + 330, y + 31 + i * 30);
+                });
+
+                y = rowTop + row.rowHeight;
+                ctx.strokeStyle = '#e0d4c0';
+                ctx.setLineDash([8, 8]);
+                ctx.beginPath();
+                ctx.moveTo(boxX + 24, y);
+                ctx.lineTo(boxX + boxW - 24, y);
+                ctx.stroke();
+                ctx.setLineDash([]);
+            });
+
+            y = Math.max(y + 24, startY + boxH + 28);
+        };
+
+        newPage();
+        const characterName = text(getFieldValue('character-name'), tr('unnamedCharacter'));
+        setFont(46, '700');
+        ctx.fillStyle = '#3b1818';
+        ctx.fillText(characterName, margin, y);
+        y += 40;
+        setFont(20, '400');
+        ctx.fillStyle = '#6e5a4c';
+        ctx.fillText(`Shadow of the Demon Lord · ${tr('generated')} ${new Date().toLocaleString()}`, margin, y);
+        y += 42;
+
+        getPdfSections().forEach(drawSection);
+        drawFooter();
+        pages.push({ dataUrl: canvas.toDataURL('image/jpeg', 0.92), width: canvas.width, height: canvas.height });
+        return pages;
+    }
+
+    async function downloadCharacterPdf() {
+        const button = document.getElementById('download-pdf');
+        const oldText = button.textContent;
+        try {
+            const validationErrors = validateCharacterSheet();
+            if (validationErrors.length) {
+                showSnackbar(
+                    'error',
+                    tr('pdfNotCreated'),
+                    `${tr('validationSummary')} ${validationErrors.map(error => error.message).join(' ')}`
+                );
+                return;
+            }
+
+            button.disabled = true;
+            button.textContent = tr('generatingPdf');
+            const pdfBlob = makePdfFromJpegs(renderCharacterSheetToJpegs());
+            const fileName = `${sanitizeFileName(getFieldValue('character-name'))}.pdf`;
+            downloadBlob(pdfBlob, fileName);
+            showSnackbar('success', tr('pdfReady'), tr('pdfReadyMessage', { fileName }));
+        } catch (error) {
+            const message = error instanceof Error ? error.message : String(error);
+            showSnackbar('error', tr('pdfErrorTitle'), message || tr('pdfErrorMessage'));
+        } finally {
+            button.disabled = false;
+            button.textContent = oldText;
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        document.querySelectorAll('.lang-button').forEach(button => {
+            button.addEventListener('click', () => applyLanguage(button.dataset.lang));
+        });
+        applyLanguage(currentLanguage);
+        document.getElementById('download-pdf')?.addEventListener('click', downloadCharacterPdf);
+        document.querySelectorAll('input, textarea, select').forEach(field => {
+            field.addEventListener('input', () => {
+                field.classList.remove('field-invalid');
+                const row = field.closest('.content-row');
+                row?.querySelectorAll('.field-error').forEach(error => error.remove());
+            });
+        });
+    });
+})();
+</script>
+
 </body>
 </html>
