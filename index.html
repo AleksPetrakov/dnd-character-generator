@@ -3,1976 +3,1496 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SotDL Character Generator — Offline Character Sheet & PDF Export</title>
 
-    <title>DnD Character Generator — Offline Character Sheet & PDF Export</title>
     <meta name="description" content="Create a dark fantasy tabletop RPG character sheet, switch between English and Russian, save data locally, and export your character to PDF. Works offline.">
-    <meta name="keywords" content="DnD character generator, D&D character sheet, tabletop RPG, Shadow of the Demon Lord, PDF character sheet, offline character generator, DnD PDF export">
+    <meta name="keywords" content="SotDL character generator, D&D character sheet, tabletop RPG, Shadow of the Demon Lord, PDF character sheet, offline character generator, SotDL PDF export">
     <meta name="author" content="Aleksandr Petrakov">
     <meta name="robots" content="index, follow">
     <meta name="theme-color" content="#9e3c3c">
     <meta name="color-scheme" content="dark">
-    <link rel="canonical" href="https://alekspetrakov.github.io/dnd-character-generator/">
+    <link rel="canonical" href="https://alekspetrakov.github.io/sotdl-character-generator/">
 
     <meta property="og:type" content="website">
-    <meta property="og:site_name" content="DnD Character Generator">
-    <meta property="og:title" content="DnD Character Generator — Offline Character Sheet & PDF Export">
+    <meta property="og:site_name" content="SotDL Character Generator">
+    <meta property="og:title" content="SotDL Character Generator — Offline Character Sheet & PDF Export">
     <meta property="og:description" content="Create your tabletop RPG character sheet, use RU/EN languages, and export it to PDF. Offline ready.">
-    <meta property="og:url" content="https://alekspetrakov.github.io/dnd-character-generator/">
-    <meta property="og:image" content="https://alekspetrakov.github.io/dnd-character-generator/assets/images/dnd_social_preview.png">
-    <meta property="og:image:secure_url" content="https://alekspetrakov.github.io/dnd-character-generator/assets/images/dnd_social_preview.png">
-    <meta property="og:image:alt" content="Dark fantasy DnD Character Generator interface preview">
+    <meta property="og:url" content="https://alekspetrakov.github.io/sotdl-character-generator/">
+    <meta property="og:image" content="https://alekspetrakov.github.io/sotdl-character-generator/assets/images/sotdl_social_preview.png">
+    <meta property="og:image:secure_url" content="https://alekspetrakov.github.io/sotdl-character-generator/assets/images/sotdl_social_preview.png">
+    <meta property="og:image:alt" content="Dark fantasy SotDL Character Generator interface preview">
     <meta property="og:image:type" content="image/png">
     <meta property="og:image:width" content="1536">
     <meta property="og:image:height" content="864">
 
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="DnD Character Generator — Offline Character Sheet & PDF Export">
+    <meta name="twitter:title" content="SotDL Character Generator — Offline Character Sheet & PDF Export">
     <meta name="twitter:description" content="Create your tabletop RPG character sheet and export it to PDF. Offline ready.">
-    <meta name="twitter:image" content="https://alekspetrakov.github.io/dnd-character-generator/assets/images/dnd_social_preview.png">
-    <meta name="twitter:image:alt" content="Dark fantasy DnD Character Generator interface preview">
+    <meta name="twitter:image" content="https://alekspetrakov.github.io/sotdl-character-generator/assets/images/sotdl_social_preview.png">
+    <meta name="twitter:image:alt" content="Dark fantasy SotDL Character Generator interface preview">
 
     <link rel="icon" href="favicon.ico" sizes="any">
     <link rel="icon" href="favicon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="favicon-180x180.png">
     <link rel="manifest" href="manifest.json">
-
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "WebApplication",
-      "name": "DnD Character Generator",
-      "url": "https://alekspetrakov.github.io/dnd-character-generator/",
-      "description": "Offline-friendly tabletop RPG character sheet generator with English/Russian language switch and PDF export.",
-      "applicationCategory": "GameApplication",
-      "operatingSystem": "Any",
-      "author": {
-        "@type": "Person",
-        "name": "Aleksandr Petrakov"
-      },
-      "image": "https://alekspetrakov.github.io/dnd-character-generator/assets/images/dnd_social_preview.png",
-      "offers": {
-        "@type": "Offer",
-        "price": "0",
-        "priceCurrency": "USD"
-      }
-    }
-    </script>
-    <link rel="stylesheet" href="generic_sheet.css">
-    <script src="generic_sheet.js" defer></script>
-    
     <style>
         :root {
-            --bg-primary: #07090d;
-            --bg-secondary: #10151d;
-            --bg-card: rgba(18, 23, 31, 0.92);
-            --bg-panel: rgba(6, 10, 15, 0.58);
-            --border-glow: #8b3c3c;
-            --accent-primary: #9e3c3c;
-            --accent-secondary: #f19a2a;
-            --text-light: #e9edf5;
-            --text-title: #f3ddb3;
-            --text-muted: #a9b4c4;
-            --input-bg: #1e2632;
-            --input-border: #344253;
-            --input-border-focus: #b95447;
-            --hover-glow: 0 0 10px rgba(158, 60, 60, 0.55);
-            --transition-default: all 0.2s ease-in-out;
-            --label-width: 145px;
-            --row-gap: 12px;
-            --page-max-width: 1440px;
+            --bg-page: #050608;
+            --bg-radial-start: #121823;
+            --bg-panel: rgba(18, 23, 31, 0.95);
+            --bg-card: rgba(12, 16, 22, 0.95);
+            --bg-input: #1e2632;
+            --border: #344253;
+            --red: #9e3c3c;
+            --red-light: #b95447;
+            --gold: #f3ddb3;
+            --amber: #f19a2a;
+            --text: #e9edf5;
+            --muted: #a9b4c4;
+            --shadow-demon: 0 1.25rem 2.5rem -1.25rem rgba(0, 0, 0, 0.95), inset 0 0.0625rem 0 rgba(255, 255, 255, 0.04);
+            --shadow-glow: 0 0 0.75rem rgba(158, 60, 60, 0.55);
         }
 
-        * {
-            box-sizing: border-box;
-            transition: var(--transition-default);
-        }
+        * { box-sizing: border-box; }
 
         html {
-            background: #050608;
+            min-height: 100%;
+            background: var(--bg-page);
         }
 
         body {
-            max-width: var(--page-max-width);
-            margin: 0 auto;
-            padding: 22px 18px 28px;
-            background: radial-gradient(circle at 20% 18%, #121823, #050608 62%);
-            color: var(--text-light);
-            font-family: 'Segoe UI', 'Cinema', 'Inter', system-ui, -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
-            animation: fadeIn 0.45s cubic-bezier(0.23, 1, 0.32, 1);
+            min-height: 100vh;
+            margin: 0;
+            background: radial-gradient(circle at 20% 18%, var(--bg-radial-start), var(--bg-page) 62%);
+            color: var(--text);
+            font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            -webkit-overflow-scrolling: touch;
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(14px); }
-            to { opacity: 1; transform: translateY(0); }
+        input, textarea, select, button {
+            font: inherit;
+            font-size: 1rem;
         }
 
-        .container {
+        button { cursor: pointer; }
+
+        button:disabled {
+            cursor: wait;
+            opacity: 0.7;
+        }
+
+        main {
             width: 100%;
-            min-width: 0;
-            margin-bottom: 16px;
-            padding: 24px 28px;
-            background: linear-gradient(145deg, rgba(18, 23, 31, 0.95), rgba(12, 16, 22, 0.95));
-            border: 1px solid rgba(158, 60, 60, 0.38);
-            border-radius: 22px;
-            box-shadow: 0 14px 30px -16px rgba(0, 0, 0, 0.9), inset 0 1px 0 rgba(255,255,255,0.04);
-            backdrop-filter: blur(3px);
+            max-width: 80rem;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 1.25rem;
+            padding: 1rem;
         }
 
-        .container:hover {
-            border-color: rgba(190, 78, 64, 0.62);
-            box-shadow: 0 18px 34px -18px black, 0 0 0 1px rgba(158, 60, 60, 0.2) inset;
-            transform: translateY(-1px);
+        @media (min-width: 640px) {
+            main {
+                padding-left: 1.5rem;
+                padding-right: 1.5rem;
+            }
         }
 
-        h1, h2, h3 {
+        @media (min-width: 1024px) {
+            main {
+                padding-left: 2rem;
+                padding-right: 2rem;
+            }
+        }
+
+        header {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            padding: 1rem;
+            border: 0.0625rem solid rgba(158, 60, 60, 0.4);
+            border-radius: 1.5rem;
+            background: rgba(12, 16, 22, 0.82);
+            box-shadow: var(--shadow-demon);
+            backdrop-filter: blur(0.5rem);
+        }
+
+        @media (min-width: 640px) {
+            header {
+                flex-direction: row;
+                align-items: center;
+                justify-content: space-between;
+            }
+        }
+
+        header h1 {
+            margin: 0;
+            color: var(--gold);
+            font-size: 1.25rem;
+            font-weight: 900;
+        }
+
+        @media (min-width: 640px) {
+            header h1 { font-size: 1.5rem; }
+        }
+
+        header p {
+            margin: 0.25rem 0 0;
+            color: var(--muted);
+            font-size: 0.875rem;
+        }
+
+        .lang-button,
+        .action-button,
+        .primary-button {
+            min-height: 3rem;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.75rem 1.25rem;
+            border: 0.0625rem solid var(--red-light);
+            border-radius: 1rem;
+            background: linear-gradient(135deg, rgba(158, 60, 60, 0.72), rgba(0, 0, 0, 0.72));
+            color: var(--text);
+            font-weight: 900;
+            text-decoration: none;
+            box-shadow: var(--shadow-demon);
+            transition: border-color 0.18s ease, box-shadow 0.18s ease, transform 0.18s ease, background 0.18s ease;
+        }
+
+        .lang-button {
+            flex: 1 1 0;
+            min-height: 2.5rem;
+            padding: 0.5rem 1rem;
+            border-radius: 0.75rem;
+            background: var(--bg-input);
+            font-size: 0.875rem;
+        }
+
+        .lang-button:hover,
+        .action-button:hover,
+        .primary-button:hover {
+            border-color: var(--amber);
+            box-shadow: var(--shadow-glow);
+            transform: translateY(-0.0625rem);
+        }
+
+        .lang-button.is-active {
+            background: var(--red);
+            box-shadow: var(--shadow-glow);
+        }
+
+        .card {
+            padding: 1.25rem;
+            border: 0.0625rem solid rgba(158, 60, 60, 0.4);
+            border-radius: 1.5rem;
+            background: linear-gradient(135deg, var(--bg-panel), var(--bg-card));
+            box-shadow: var(--shadow-demon);
+            backdrop-filter: blur(0.5rem);
+        }
+
+        @media (min-width: 640px) {
+            .card { padding: 1.5rem; }
+        }
+
+        @media (min-width: 1024px) {
+            .card { padding: 1.75rem; }
+        }
+
+        .section-title {
             display: flex;
             align-items: center;
-            gap: 8px;
-            margin: 0 0 18px;
-            padding-left: 14px;
-            border-left: 4px solid var(--accent-primary);
-            color: var(--text-title);
-            font-weight: 700;
-            letter-spacing: 0.2px;
-            text-shadow: 0 2px 3px black;
-        }
-
-        h1 { font-size: 1.55rem; }
-        h2 { font-size: 1.35rem; }
-        h3 {
-            margin-bottom: 14px;
-            border-left-color: var(--accent-secondary);
-            font-size: 1.18rem;
-        }
-
-        .rune-icon {
-            flex: 0 0 auto;
-            width: 22px;
-            text-align: center;
+            gap: 0.5rem;
+            margin: 0 0 1.25rem;
+            padding-left: 0.75rem;
+            border-left: 0.25rem solid var(--red);
+            color: var(--gold);
             font-size: 1.25rem;
-            filter: drop-shadow(0 0 4px rgba(219, 101, 48, 0.75));
+            font-weight: 900;
         }
 
-        input, select, textarea, button {
-            min-height: 40px;
-            padding: 9px 14px;
-            color: var(--text-light);
-            background: var(--input-bg);
-            border: 1px solid var(--input-border);
-            border-radius: 11px;
-            font: inherit;
-            font-size: 0.94rem;
+        @media (min-width: 640px) {
+            .section-title { font-size: 1.5rem; }
         }
 
-        input:focus, select:focus, textarea:focus {
+        .field-row,
+        .stat-row {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        @media (min-width: 640px) {
+            .field-row,
+            .stat-row {
+                flex-direction: row;
+                align-items: center;
+            }
+        }
+
+        .field-column {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .field-label {
+            flex-shrink: 0;
+            color: var(--amber);
+            font-size: 0.75rem;
+            font-weight: 900;
+            letter-spacing: 0.055em;
+            text-transform: uppercase;
+        }
+
+        @media (min-width: 640px) {
+            .field-label { width: 11rem; }
+        }
+
+        .field-control {
+            width: 100%;
+            min-height: 2.75rem;
+            padding: 0.625rem 1rem;
+            border: 0.0625rem solid var(--border);
+            border-radius: 0.75rem;
             outline: none;
-            border-color: var(--input-border-focus);
-            box-shadow: var(--hover-glow);
-            background: #202b39;
+            background: var(--bg-input);
+            color: var(--text);
+            transition: border-color 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
         }
 
-        textarea {
-            min-height: 76px;
+        .field-control::placeholder { color: rgba(169, 180, 196, 0.62); }
+
+        .field-control:focus {
+            border-color: var(--red-light);
+            box-shadow: var(--shadow-glow);
+            background: #222b39;
+        }
+
+        textarea.field-control {
             resize: vertical;
             line-height: 1.45;
         }
 
-        button {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            height: 44px;
-            min-height: 44px;
-            padding: 0 22px;
-            background: linear-gradient(135deg, rgba(62, 31, 28, 0.95), rgba(30, 18, 19, 0.95));
-            border: 1px solid #a24a3d;
-            border-radius: 13px;
-            color: #f2edf0;
-            font-weight: 800;
-            line-height: 1;
-            cursor: pointer;
-            white-space: nowrap;
-            backdrop-filter: blur(4px);
+        .stat-row input { text-align: center; }
+
+        @media (min-width: 640px) {
+            .stat-row input { max-width: 8rem; }
+
+            .field-row > input[type="number"],
+            .field-row > input[id="size"],
+            #max-spell-rank,
+            #castings {
+                max-width: 10rem;
+            }
         }
 
-        button:hover:not(:disabled) {
-            background: linear-gradient(135deg, #68302f, #402020);
-            border-color: #d47541;
-            box-shadow: 0 0 12px rgba(158, 60, 60, 0.7);
-            transform: translateY(-1px);
+        .path-card {
+            padding: 1rem;
+            border: 0.0625rem solid rgba(255, 255, 255, 0.05);
+            border-radius: 1.5rem;
+            background: rgba(0, 0, 0, 0.3);
         }
 
-        button:active:not(:disabled) {
-            transform: translateY(0) scale(0.99);
-        }
-
-        button:disabled {
-            opacity: 0.7;
-            cursor: wait;
-        }
-
-        .field-title {
-            flex: 0 0 var(--label-width);
-            min-width: 0;
-            color: var(--accent-secondary);
-            font-size: 0.83rem;
-            font-weight: 800;
-            letter-spacing: 1px;
-            line-height: 1.2;
-            text-transform: uppercase;
-        }
-
-        .field-data {
-            width: min(100%, 420px);
-        }
-
-        .field-data-short {
-            width: 116px;
-            text-align: center;
-        }
-
-        .field-desc {
-            margin: 5px 0 0 var(--label-width);
-            color: var(--text-muted);
-            font-size: 0.78rem;
-            font-style: italic;
-            line-height: 1.3;
-        }
-
-        .content-row {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            width: 100%;
-            margin-bottom: var(--row-gap);
-            animation: slideIn 0.25s ease-out;
-            animation-fill-mode: backwards;
-        }
-
-        .content-row:last-child {
-            margin-bottom: 0;
-        }
-
-        .content-row.has-desc {
-            flex-wrap: wrap;
-        }
-
-        .content-row.stacked {
-            align-items: flex-start;
-        }
-
-        .content-row.stacked .field-title {
-            padding-top: 11px;
-        }
-
-        .content-row.stacked .field-data,
-        .content-row.stacked textarea {
-            flex: 1 1 360px;
-            width: 100%;
-        }
-
-        .content-row.full {
-            display: block;
-        }
-
-        .content-row.full .field-title {
-            display: block;
-            margin-bottom: 8px;
-        }
-
-        .content-row.full .field-data,
-        .content-row.full textarea {
-            width: 100%;
-        }
-
-        .content-row.compact {
-            margin-bottom: 8px;
-        }
-
-        .content-row.compact .field-title {
-            flex-basis: 120px;
-        }
-
-        .inline-actions {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin-bottom: 14px;
-        }
-
-        .top-grid {
-            display: grid;
-            grid-template-columns: minmax(320px, 1.25fr) minmax(300px, 1fr);
-            gap: 18px 64px;
-            align-items: start;
-        }
-
-        .top-grid .content-row {
-            margin-bottom: 14px;
-        }
-
-        .columns-2 {
-            display: grid;
-            grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-            gap: 16px 28px;
-            align-items: stretch;
-        }
-
-        .columns-2 > .container {
-            margin-bottom: 0;
-        }
-
-        .stat-grid .content-row {
-            margin-bottom: 10px;
-        }
-
-        .mod-input {
-            width: 96px !important;
-            text-align: center;
-        }
-
-        .health-pair {
-            display: grid;
-            grid-template-columns: minmax(90px, 1fr) auto minmax(90px, 1fr);
-            gap: 12px;
-            align-items: center;
-            flex: 1 1 260px;
-            max-width: 360px;
-        }
-
-        .health-pair input {
-            width: 100%;
-            text-align: center;
-        }
-
-        .health-separator {
-            color: var(--text-muted);
-            font-weight: 800;
-        }
-
-        .under-labels {
-            display: grid;
-            grid-template-columns: minmax(90px, 1fr) auto minmax(90px, 1fr);
-            gap: 12px;
-            margin: -6px 0 10px var(--label-width);
-            max-width: 360px;
-            color: var(--text-muted);
-            font-size: 0.72rem;
-            font-style: italic;
-            text-align: center;
-        }
-
-        .path-block {
-            position: relative;
-            overflow: hidden;
-            margin-bottom: 14px;
-            padding: 18px 18px 18px 22px;
-            background: var(--bg-panel);
-            border: 1px solid rgba(255, 255, 255, 0.04);
-            border-radius: 18px;
-        }
-
-        .path-block:last-child {
-            margin-bottom: 0;
-        }
-
-        .path-block::before {
-            content: '';
-            position: absolute;
-            inset: 0 auto 0 0;
-            width: 4px;
-            background: linear-gradient(180deg, var(--accent-primary), var(--accent-secondary));
-        }
-
-        .path-block:hover {
-            background: rgba(14, 20, 28, 0.86);
-        }
-
-        .path-block .field-data {
-            width: min(100%, 350px);
-        }
-
-        .path-block textarea {
-            min-height: 76px;
-        }
-
-        .magic-grid {
-            display: grid;
-            grid-template-columns: minmax(220px, 0.9fr) minmax(360px, 1.4fr) minmax(220px, 0.9fr);
-            gap: 18px 28px;
-            align-items: start;
-        }
-
-        .magic-grid .content-row {
-            margin-bottom: 12px;
+        .path-title {
+            margin: 0 0 1rem;
+            padding-left: 0.75rem;
+            border-left: 0.25rem solid var(--amber);
+            color: var(--gold);
+            font-size: 1.125rem;
+            font-weight: 900;
         }
 
         details {
-            grid-column: 1 / -1;
-            margin: 2px 0 0;
-            padding: 10px 14px;
-            background: rgba(0, 0, 0, 0.35);
-            border-radius: 16px;
+            margin-top: 1rem;
+            padding: 1rem;
+            border-radius: 1rem;
+            background: rgba(0, 0, 0, 0.3);
         }
 
         summary {
-            color: #dba959;
-            font-weight: 800;
             cursor: pointer;
+            color: var(--amber);
+            font-weight: 900;
         }
 
-        .bottom-grid {
-            display: grid;
-            grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-            gap: 16px 28px;
-        }
-
-        .bottom-grid .container {
-            margin-bottom: 0;
-        }
-
-        .actions-row {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 16px;
-            margin-top: 18px;
-            margin-bottom: 0;
-        }
-
-        .actions-row button {
-            flex: 1 1 220px;
-            min-width: 220px;
-            width: auto;
-            height: 50px;
-            min-height: 50px;
-            font-size: 1rem;
-            letter-spacing: 0.2px;
-        }
-
-        #clear-storage,
-        #download-pdf,
-        #copy-link {
-            margin: 0 !important;
-            padding: 0 24px;
-        }
-
-        @keyframes slideIn {
-            from { opacity: 0; transform: translateX(-8px); }
-            to { opacity: 1; transform: translateX(0); }
-        }
-
-        input[type="checkbox"] {
-            width: 20px;
-            height: 20px;
-            accent-color: #9e3c3c;
-        }
-
-
-
-        .page-toolbar {
-            display: flex;
-            justify-content: flex-end;
-            align-items: center;
-            gap: 10px;
-            margin: 0 0 16px;
-        }
-
-        .language-switcher {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            padding: 8px 10px;
-            background: rgba(10, 14, 20, 0.72);
-            border: 1px solid rgba(158, 60, 60, 0.42);
-            border-radius: 14px;
-            box-shadow: 0 10px 24px -18px black;
-        }
-
-        .language-switcher__label {
-            color: var(--text-light);
-            font-size: 0.9rem;
-            font-weight: 800;
-            white-space: nowrap;
-        }
-
-        .language-switcher__buttons {
-            display: inline-grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 6px;
-        }
-
-        .lang-button {
-            height: 38px;
-            min-height: 38px;
-            padding: 0 16px;
-            border-radius: 10px;
-            font-size: 0.9rem;
-        }
-
-        .lang-button.is-active {
-            background: linear-gradient(135deg, #6b302d, #3a1e1f);
-            border-color: #d47541;
-            box-shadow: 0 0 10px rgba(158, 60, 60, 0.55);
-        }
-
-        .columns-2,
-        .bottom-grid {
-            margin-bottom: 18px;
-        }
-
-        .columns-2 + .container,
-        .container + .columns-2,
-        .container + .bottom-grid,
-        .bottom-grid + .actions-row {
-            margin-top: 18px;
-        }
-
-        @media (max-width: 980px) {
-            body {
-                padding: 14px 10px 22px;
-            }
-
-            .top-grid,
-            .columns-2,
-            .bottom-grid,
-            .actions-row,
-            .magic-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .container {
-                padding: 20px 18px;
-            }
-
-            .columns-2 > .container,
-            .bottom-grid .container {
-                margin-bottom: 0;
-            }
-        }
-
-        @media (max-width: 640px) {
-            :root {
-                --label-width: 100%;
-            }
-
-            h1 { font-size: 1.35rem; }
-            h2 { font-size: 1.18rem; }
-
-            .content-row,
-            .content-row.stacked {
-                align-items: stretch;
-                flex-direction: column;
-                gap: 7px;
-            }
-
-            .content-row .rune-icon {
-                position: absolute;
-            }
-
-            .field-title {
-                flex-basis: auto;
-            }
-
-            .field-desc,
-            .under-labels {
-                margin-left: 0;
-            }
-
-            .field-data,
-            .field-data-short,
-            .mod-input,
-            .path-block .field-data {
-                width: 100% !important;
-            }
-
-            .health-pair,
-            .under-labels {
-                max-width: none;
-            }
-        }
-
-
-        .field-error {
-            flex-basis: 100%;
-            margin: -6px 0 0 var(--label-width);
-            color: #ff8d7f;
-            font-size: 0.78rem;
-            font-weight: 700;
-            line-height: 1.35;
-            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.65);
-        }
-
-        .content-row.full .field-error {
-            margin-left: 0;
-            margin-top: 7px;
-        }
-
-        .content-row.stacked .field-error {
-            margin-left: var(--label-width);
+        details p {
+            margin: 0.5rem 0 0;
+            color: var(--muted);
+            font-size: 0.875rem;
+            font-style: italic;
         }
 
         .field-invalid {
             border-color: #ff7568 !important;
-            box-shadow: 0 0 0 1px rgba(255, 117, 104, 0.45), 0 0 12px rgba(255, 117, 104, 0.25) !important;
+            box-shadow: 0 0 0 0.0625rem rgba(255, 117, 104, 0.45), 0 0 0.75rem rgba(255, 117, 104, 0.25) !important;
         }
 
+        .field-error {
+            width: 100%;
+            color: #fca5a5;
+            font-size: 0.875rem;
+            font-weight: 700;
+        }
+
+        #snackbar-root {
+            position: fixed;
+            z-index: 50;
+            top: 1rem;
+            right: 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            width: min(26rem, calc(100vw - 2rem));
+            pointer-events: none;
+        }
+
+        .snackbar {
+            pointer-events: auto;
+            padding: 1rem;
+            border: 0.0625rem solid rgba(255, 255, 255, 0.12);
+            border-radius: 1rem;
+            background: rgba(18, 23, 31, 0.96);
+            box-shadow: var(--shadow-demon);
+            backdrop-filter: blur(0.5rem);
+            animation: snackbar-in 0.22s ease-out forwards;
+        }
+
+        .snackbar.success { border-color: rgba(74, 222, 128, 0.6); }
+
+        .snackbar.error { border-color: rgba(248, 113, 113, 0.7); }
+
+        .snackbar-title {
+            margin-bottom: 0.25rem;
+            color: var(--gold);
+            font-weight: 900;
+        }
+
+        .snackbar-message {
+            margin: 0;
+            color: var(--muted);
+            font-size: 0.875rem;
+            line-height: 1.45;
+        }
+
+        @keyframes snackbar-in {
+            from { opacity: 0; transform: translateX(1.5rem); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        .sr-only {
+            position: absolute;
+            width: 0.0625rem;
+            height: 0.0625rem;
+            padding: 0;
+            margin: -0.0625rem;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+
+        .text-demon-muted { color: var(--muted); }
+        .text-demon-amber { color: var(--amber); }
+        .font-black { font-weight: 900; }
+        .font-bold { font-weight: 700; }
+        .text-sm { font-size: 0.875rem; }
+        .text-xs { font-size: 0.75rem; }
+        .italic { font-style: italic; }
+        .text-center { text-align: center; }
+        .w-full { width: 100%; }
+        .flex { display: flex; }
+        .flex-col { flex-direction: column; }
+        .flex-1 { flex: 1 1 0; }
+        .items-center { align-items: center; }
+        .gap-1 { gap: 0.25rem; }
+        .gap-2 { gap: 0.5rem; }
+        .gap-3 { gap: 0.75rem; }
+        .gap-4 { gap: 1rem; }
+        .gap-5 { gap: 1.25rem; }
+        .mb-4 { margin-bottom: 1rem; }
+        .mt-4 { margin-top: 1rem; }
+        .min-h-28 { min-height: 7rem; }
+        .min-h-32 { min-height: 8rem; }
+        .min-h-36 { min-height: 9rem; }
+        .min-h-48 { min-height: 12rem; }
+        .min-h-72 { min-height: 18rem; }
+        .whitespace-nowrap { white-space: nowrap; }
+        .leading-relaxed { line-height: 1.625; }
+
+        @media (min-width: 640px) {
+            .sm\:flex-row { flex-direction: row; }
+            .sm\:items-center { align-items: center; }
+        }
+
+        @media (min-width: 1024px) {
+            .lg\:flex-row { flex-direction: row; }
+        }
+
+        @media (min-width: 1280px) {
+            .xl\:flex-row { flex-direction: row; }
+            .flex-\[1\.6\] { flex: 1.6 1 0; }
+        }
 
         .attack-option {
             position: relative;
         }
 
         .attack-option.is-selected {
-            border-color: #f19a2a !important;
+            border-color: var(--amber) !important;
             background: linear-gradient(135deg, rgba(185, 84, 71, 0.98), rgba(92, 36, 31, 0.98)) !important;
             box-shadow:
                 0 0 0 0.0625rem rgba(241, 154, 42, 0.42),
                 0 0 1rem rgba(241, 154, 42, 0.36),
-                0 1.25rem 2.5rem -1.25rem rgba(0, 0, 0, 0.95) !important;
+                var(--shadow-demon) !important;
             transform: translateY(-0.0625rem);
         }
 
-        .snackbar-root {
-            position: fixed;
-            z-index: 9999;
-            top: 18px;
-            right: 18px;
+        .actions-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .actions-row .primary-button {
+            flex: 1 1 3.75rem;
+            min-width: 3.75rem;
+        }
+
+        .layout-stack {
             display: flex;
             flex-direction: column;
-            gap: 10px;
-            width: min(420px, calc(100vw - 36px));
-            pointer-events: none;
+            gap: 1.25rem;
         }
 
-        .snackbar {
-            pointer-events: auto;
-            padding: 14px 16px;
-            border-radius: 14px;
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            background: rgba(18, 23, 31, 0.96);
-            color: var(--text-light);
-            box-shadow: 0 18px 34px -16px rgba(0, 0, 0, 0.95), inset 0 1px 0 rgba(255,255,255,0.05);
-            backdrop-filter: blur(7px);
-            transform: translateX(24px);
-            opacity: 0;
-            animation: snackbarIn 0.22s ease-out forwards;
+        .layout-row {
+            display: flex;
+            flex-direction: column;
+            gap: 1.25rem;
         }
 
-        .snackbar.success {
-            border-color: rgba(75, 211, 124, 0.55);
-            box-shadow: 0 18px 34px -16px rgba(0, 0, 0, 0.95), 0 0 0 1px rgba(75, 211, 124, 0.18) inset;
+        .layout-row > .card {
+            flex: 1 1 0;
+            min-width: 0;
         }
 
-        .snackbar.error {
-            border-color: rgba(255, 117, 104, 0.65);
-            box-shadow: 0 18px 34px -16px rgba(0, 0, 0, 0.95), 0 0 0 1px rgba(255, 117, 104, 0.2) inset;
+        .top-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
         }
 
-        .snackbar-title {
-            margin: 0 0 4px;
-            font-weight: 900;
-            color: var(--text-title);
+        .top-grid > div {
+            flex: 1 1 0;
+            min-width: 0;
         }
 
-        .snackbar-message {
-            margin: 0;
-            color: var(--text-muted);
-            font-size: 0.9rem;
-            line-height: 1.35;
+        @media (min-width: 1024px) {
+            .layout-row,
+            .top-grid {
+                flex-direction: row;
+            }
+
+            .top-grid {
+                gap: 2rem;
+            }
         }
 
-        @keyframes snackbarIn {
-            to { opacity: 1; transform: translateX(0); }
+        @media (max-width: 639px) {
+            main {
+                padding: 0.75rem;
+                gap: 1rem;
+            }
+
+            .card {
+                padding: 1rem;
+                border-radius: 1.25rem;
+            }
+
+            .field-row,
+            .stat-row,
+            .field-column {
+                width: 100%;
+                min-width: 0;
+            }
+
+            .field-row,
+            .stat-row {
+                flex-direction: column !important;
+                align-items: stretch !important;
+            }
+
+            .field-label {
+                width: 100% !important;
+            }
+
+            .field-control,
+            .stat-row input,
+            .field-row input,
+            .field-row textarea,
+            .field-row select,
+            #max-spell-rank,
+            #castings {
+                width: 100% !important;
+                max-width: 100% !important;
+            }
+
+            .actions-row {
+                flex-direction: column;
+            }
+
+            .actions-row .primary-button {
+                width: 100%;
+                min-width: 100%;
+            }
         }
+
     </style>
+<script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "SotDL Character Generator",
+      "url": "https://alekspetrakov.github.io/sotdl-character-generator/",
+      "description": "Offline-friendly tabletop RPG character sheet generator with English/Russian language switch and PDF export.",
+      "applicationCategory": "GameApplication",
+      "operatingSystem": "Any",
+      "author": { "@type": "Person", "name": "Aleksandr Petrakov" },
+      "image": "https://alekspetrakov.github.io/sotdl-character-generator/assets/images/sotdl_social_preview.png",
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+    }
+    </script>
+    <!-- build: restored-style-with-share-autosave-v1 -->
 </head>
 
-<body>
-    <div class="page-toolbar">
-        <div class="language-switcher" aria-label="Language switcher">
-            <span class="language-switcher__label" id="language-title">🌐 Язык / Language:</span>
-            <div class="language-switcher__buttons">
-                <button type="button" class="lang-button" data-lang="ru">Русский</button>
-                <button type="button" class="lang-button" data-lang="en">English</button>
+<body class="min-h-screen bg-[radial-gradient(circle_at_20%_18%,#121823,#050608_62%)] text-demon-text font-sans">
+    <main class="layout-stack">
+        <header class="flex flex-col gap-4 rounded-3xl border border-demon-red/40 bg-demon-card/80 p-4 shadow-demon backdrop-blur sm:flex-row sm:items-center sm:justify-between">
+            <div class="flex flex-col gap-1">
+                <h1 class="text-xl font-black text-demon-gold sm:text-2xl" data-i18n="appTitle">SotDL Character Generator</h1>
+                <p class="text-sm text-demon-muted" data-i18n="appSubtitle">Dark fantasy character sheet with PDF export</p>
             </div>
-        </div>
-    </div>
-    <!-- Main Info -->
-    <div class="container">
-        <div class="top-grid">
-            <div>
-                <div class="content-row"><span class="rune-icon">⚔️</span><label class="field-title">Name</label><input id="character-name" type="text" class="field-data" placeholder="Enter character name"></div>
-                <div class="content-row"><span class="rune-icon">🧬</span><label class="field-title">Ancestry</label><input id="ancestry" type="text" class="field-data" placeholder="Enter ancestry"></div>
-                <div class="content-row"><span class="rune-icon">📖</span><label class="field-title">Race / Background</label><input id="race-background" type="text" class="field-data" placeholder="Enter race or background"></div>
+
+            <div class="flex flex-col gap-2 rounded-2xl border border-demon-red/40 bg-black/30 p-2 sm:flex-row sm:items-center">
+                <span class="whitespace-nowrap text-sm font-extrabold text-demon-text" data-i18n="languageTitle">🌐 Language:</span>
+                <div class="flex gap-2">
+                    <button type="button" class="lang-button flex-1 rounded-xl border border-demon-redLight bg-demon-input px-4 py-2 text-sm font-black hover:bg-demon-red/60" data-lang="en">English</button>
+                    <button type="button" class="lang-button flex-1 rounded-xl border border-demon-redLight bg-demon-input px-4 py-2 text-sm font-black hover:bg-demon-red/60" data-lang="ru">Русский</button>
+                </div>
             </div>
-            <div>
-                <div class="content-row"><span class="rune-icon">📈</span><label class="field-title">Level</label><input id="level" type="number" class="field-data-short" value="1"></div>
-                <div class="content-row"><span class="rune-icon">📐</span><label class="field-title">Size</label><input id="size" type="text" class="field-data-short" value="1"></div>
-                <div class="content-row"><span class="rune-icon">🏃</span><label class="field-title">Speed</label><input id="speed" type="number" class="field-data-short" value="10"></div>
+        </header>
+
+        <section class="card">
+            <div class="top-grid">
+                <div class="flex flex-1 flex-col gap-4">
+                    <label class="field-row">
+                        <span class="field-label" data-i18n="name">Name</span>
+                        <input id="character-name" class="field-control" type="text" data-placeholder="phName">
+                    </label>
+                    <label class="field-row">
+                        <span class="field-label" data-i18n="ancestry">Ancestry</span>
+                        <input id="ancestry" class="field-control" type="text" data-placeholder="phAncestry">
+                    </label>
+                    <label class="field-row">
+                        <span class="field-label" data-i18n="raceBackground">Race / Background</span>
+                        <input id="race-background" class="field-control" type="text" data-placeholder="phRace">
+                    </label>
+                </div>
+                <div class="flex flex-1 flex-col gap-4">
+                    <label class="field-row">
+                        <span class="field-label" data-i18n="level">Level</span>
+                        <input id="level" class="field-control sm:max-w-[10rem]" type="number" value="1">
+                    </label>
+                    <label class="field-row">
+                        <span class="field-label" data-i18n="size">Size</span>
+                        <input id="size" class="field-control sm:max-w-[10rem]" type="text" value="1">
+                    </label>
+                    <label class="field-row">
+                        <span class="field-label" data-i18n="speed">Speed</span>
+                        <input id="speed" class="field-control sm:max-w-[10rem]" type="number" value="10">
+                    </label>
+                </div>
             </div>
-        </div>
-    </div>
+        </section>
 
-    <!-- Attributes & Health -->
-    <div class="columns-2">
-        <div class="container stat-grid">
-            <h1><span class="rune-icon">🗡️</span> Attributes</h1>
-            <div class="content-row"><label class="field-title" data-dice-type="1d20" data-modifier="strength-mod" data-label="Strength">Strength (STR)</label><input id="strength" type="number" class="field-data-short"><input type="number" class="field-data-short mod-input" id="strength-mod" placeholder="Mod"></div>
-            <div class="content-row"><label class="field-title" data-dice-type="1d20" data-modifier="agility-mod" data-label="Agility">Agility (AGI)</label><input id="agility" type="number" class="field-data-short"><input type="number" class="field-data-short mod-input" id="agility-mod" placeholder="Mod"></div>
-            <div class="content-row"><label class="field-title" data-dice-type="1d20" data-modifier="intellect-mod" data-label="Intellect">Intellect (INT)</label><input id="intellect" type="number" class="field-data-short"><input type="number" class="field-data-short mod-input" id="intellect-mod" placeholder="Mod"></div>
-            <div class="content-row"><label class="field-title" data-dice-type="1d20" data-modifier="will-mod" data-label="Will">Will (WIL)</label><input id="will" type="number" class="field-data-short"><input type="number" class="field-data-short mod-input" id="will-mod" placeholder="Mod"></div>
-            <div class="content-row"><label class="field-title">Perception (PER)</label><input id="perception" type="number" class="field-data-short"></div>
-            <div class="content-row"><label class="field-title">Defense (DEF)</label><input id="defense" type="number" class="field-data-short"></div>
-        </div>
-
-        <div class="container stat-grid">
-            <h1><span class="rune-icon">❤️</span> Health & Resources</h1>
-            <div class="content-row"><label class="field-title">Health (HP)</label><div class="health-pair"><input id="health" type="number" placeholder="Current"><span class="health-separator">/</span><input id="health-max" type="number" placeholder="Max"></div></div>
-            <div class="under-labels"><span>Current</span><span></span><span>Max</span></div>
-            <div class="content-row"><label class="field-title">Healing Rate</label><input id="healing-rate" type="number" class="field-data-short"></div>
-            <div class="content-row"><label class="field-title">Power (POW)</label><input id="power" type="number" class="field-data-short"></div>
-            <div class="content-row"><label class="field-title">Insanity (INS)</label><input id="insanity" type="number" class="field-data-short"></div>
-            <div class="content-row"><label class="field-title">Corruption (COR)</label><input id="corruption" type="number" class="field-data-short"></div>
-            <div class="content-row"><label class="field-title">Fortune</label><input id="fortune" type="number" class="field-data-short"></div>
-        </div>
-    </div>
-
-    <!-- PATHS -->
-    <div class="container">
-        <h1><span class="rune-icon">👑</span> Paths & Talents</h1>
-
-        <div class="path-block">
-            <h3>🟢 Novice Path</h3>
-            <div class="content-row"><label class="field-title">Path Name</label><input id="novice-path" type="text" class="field-data" placeholder="e.g., Warrior, Magician, Priest, Rogue"></div>
-            <div class="content-row stacked"><label class="field-title">Novice Talents</label><textarea id="novice-talents" class="field-data" rows="3" placeholder="List of talents gained from this path"></textarea></div>
-        </div>
-
-        <div class="path-block">
-            <h3>🔵 Expert Path</h3>
-            <div class="content-row"><label class="field-title">Path Name</label><input id="expert-path" type="text" class="field-data" placeholder="e.g., Paladin, Assassin, Sorcerer"></div>
-            <div class="content-row stacked"><label class="field-title">Expert Talents</label><textarea id="expert-talents" class="field-data" rows="3" placeholder="Talents gained at expert level"></textarea></div>
-        </div>
-
-        <div class="path-block">
-            <h3>🔴 Master Path</h3>
-            <div class="content-row"><label class="field-title">Path Name</label><input id="master-path" type="text" class="field-data" placeholder="e.g., Archmage, Dread Knight"></div>
-            <div class="content-row stacked"><label class="field-title">Master Talents</label><textarea id="master-talents" class="field-data" rows="3" placeholder="Talents gained at master level"></textarea></div>
-        </div>
-    </div>
-
-    <!-- COMBAT & EQUIPMENT -->
-    <div class="columns-2">
-        <div class="container">
-            <h2><span class="rune-icon">⚔️</span> Attacks & Weapons</h2>
-            <div class="inline-actions">
-                <button id="att-melee" class="attack-option" data-attack-type="melee" aria-pressed="true" data-modifier="strength-mod" data-dice-type="d20" data-label="Attack melee"><i class="ts-icon-d20"></i> Melee Attack</button>
-                <button id="att-range" class="attack-option" data-attack-type="ranged" aria-pressed="false" data-modifier="agility-mod" data-dice-type="d20" data-label="Attack ranged"><i class="ts-icon-d20"></i> Ranged Attack</button>
-            </div>
-            <div class="content-row stacked"><label class="field-title">Weapons & Damage</label><textarea id="weapons" class="field-data" rows="3" placeholder="Sword 1d6+2, Crossbow 1d6..."></textarea></div>
-            <div class="content-row"><label class="field-title">Armor</label><input id="armor" type="text" class="field-data" placeholder="Leather, chainmail..."></div>
-        </div>
-        <div class="container">
-            <h2><span class="rune-icon">🎒</span> Gear & Wealth</h2>
-            <div class="content-row stacked"><label class="field-title">Inventory</label><textarea id="gear" class="field-data" rows="4" placeholder="Backpack, rope, torches..."></textarea></div>
-            <div class="content-row"><label class="field-title">Wealth</label><input id="wealth" type="text" class="field-data" placeholder="ss/cp/gold"></div>
-        </div>
-    </div>
-
-    <!-- ADVANCED MAGIC -->
-    <div class="container">
-        <h1><span class="rune-icon">🔮</span> Magic</h1>
-        <div class="magic-grid">
-            <div>
-                <div class="content-row full"><label class="field-title">Known Traditions</label><input id="traditions" type="text" class="field-data" placeholder="e.g., Battle, Shadow, Fire, Death"></div>
-                <div class="content-row full"><label class="field-title">Max Spell Rank</label><input id="max-spell-rank" type="number" class="field-data-short" value="0"><p class="field-desc">Depends on level and path</p></div>
-                <div class="content-row full"><label class="field-title">Castings</label><input id="castings" type="text" class="field-data-short" placeholder="3/3"></div>
-            </div>
-            <div class="content-row full"><label class="field-title">Spell List / Description</label><textarea id="spells-list" class="field-data" rows="5" placeholder="Example:&#10;1) Fireball (Rank 1, Fire) – 2d6 damage, blast 1 yard&#10;2) Mask (Rank 0, Shadow) – +2 to Stealth"></textarea></div>
-            <div class="content-row full"><label class="field-title">Focus / Power Symbol</label><input id="spell-focus" type="text" class="field-data" placeholder="Spellbook, rod, amulet"></div>
-            <details>
-                <summary>📘 Detailed spell notes (line by line)</summary>
-                <p class="field-desc">Use the main field above for free-form entries. This is just a hint.</p>
-            </details>
-        </div>
-    </div>
-
-    <div class="bottom-grid">
-        <div class="container">
-            <h1><span class="rune-icon">📖</span> Languages & Professions</h1>
-            <div class="content-row stacked"><label class="field-title">Professions</label><textarea id="professions" class="field-data" rows="3" placeholder="Thief, soldier, scholar, craftsman..."></textarea></div>
-            <div class="content-row stacked"><label class="field-title">Languages</label><textarea id="languages" class="field-data" rows="3" placeholder="Common, Ancient, Elvish..."></textarea></div>
-        </div>
-
-        <div class="container">
-            <h1><span class="rune-icon">📜</span> Notes, Background, Traits</h1>
-            <div class="content-row full"><textarea id="notes" class="field-data" rows="7" placeholder="Appearance, quirks, fears, allies, enemies, religion, background story..."></textarea></div>
-        </div>
-    </div>
-
-    <div class="actions-row">
-        <button id="download-pdf">📄 Download PDF</button>
-            <button id="copy-link" type="button">🔗 Copy Link</button>
-        <button id="clear-storage">🗑️ Reset Sheet</button>
-    </div>
-
-    <div id="snackbar-root" class="snackbar-root" aria-live="polite" aria-atomic="true"></div>
-
-<script>
-(function () {
-    const PDF_PAGE_WIDTH_PT = 595.28;
-    const PDF_PAGE_HEIGHT_PT = 841.89;
-    const RENDER_WIDTH_PX = 794;
-    const RENDER_PAGE_HEIGHT_PX = 1123;
-    const RENDER_SCALE = 2;
-    const I18N_STORAGE_KEY = 'sotdl-character-sheet-language';
-    const I18N = {
-        en: {
-            languageTitle: '🌐 Language:',
-            name: 'Name', ancestry: 'Ancestry', raceBackground: 'Race / Background', level: 'Level', size: 'Size', speed: 'Speed',
-            attributes: 'Attributes', strength: 'Strength (STR)', agility: 'Agility (AGI)', intellect: 'Intellect (INT)', will: 'Will (WIL)', perception: 'Perception (PER)', defense: 'Defense (DEF)',
-            healthResources: 'Health & Resources', health: 'Health (HP)', current: 'Current', max: 'Max', healingRate: 'Healing Rate', power: 'Power (POW)', insanity: 'Insanity (INS)', corruption: 'Corruption (COR)', fortune: 'Fortune',
-            pathsTalents: 'Paths & Talents', novicePath: '🟢 Novice Path', expertPath: '🔵 Expert Path', masterPath: '🔴 Master Path', pathName: 'Path Name', noviceTalents: 'Novice Talents', expertTalents: 'Expert Talents', masterTalents: 'Master Talents',
-            attacksWeapons: 'Attacks & Weapons', meleeAttack: 'Melee Attack', rangedAttack: 'Ranged Attack', weaponsDamage: 'Weapons & Damage', armor: 'Armor', gearWealth: 'Gear & Wealth', inventory: 'Inventory', wealth: 'Wealth',
-            magic: 'Magic', knownTraditions: 'Known Traditions', maxSpellRank: 'Max Spell Rank', castings: 'Castings', spellListDescription: 'Spell List / Description', focusPowerSymbol: 'Focus / Power Symbol', detailsSpellNotes: '📘 Detailed spell notes (line by line)', spellHint: 'Use the main field above for free-form entries. This is just a hint.',
-            languagesProfessions: 'Languages & Professions', professions: 'Professions', languages: 'Languages', notesTitle: 'Notes, Background, Traits', notes: 'Notes',
-            downloadPdf: '📄 Download PDF', copyLink: '🔗 Copy Link', copyLinkCreating: '⏳ Creating Link...', linkCopied: 'Link copied', linkCopiedMessage: 'The link to the current page state has been copied to the clipboard. If you change fields later, copy a new link.', linkCopyError: 'Could not copy link', linkTooLong: 'The link is quite long. Try shortening large description fields if some apps refuse to send it.', linkLoaded: 'Character loaded', linkLoadedMessage: 'Character data was restored from the link.', linkUpdated: 'Link updated', linkUpdatedMessage: 'The current page URL now contains the latest character state.', shareLinkInvalid: 'Could not restore character from link.', resetSheet: '🗑️ Reset Sheet', generatingPdf: '⏳ Generating PDF...', unnamedCharacter: 'Unnamed character', mainInfo: 'Main Info', combatEquipment: 'Combat & Equipment', spells: 'Spells',
-            pdfNotCreated: 'PDF was not created', validationSummary: 'Fix these fields:', pdfReady: 'PDF ready', pdfReadyMessage: 'File {fileName} has been generated and is downloading.', pdfErrorTitle: 'PDF generation error', pdfErrorMessage: 'Could not generate PDF.',
-            characterNameRequired: 'Enter character name before generating PDF.', mustBeNumber: '{label}: must be a number.', levelRange: 'Level should usually be between 0 and 10.', resetConfirm: 'Reset all character data?', generated: 'Generated', mod: 'mod',
-            phName: 'Enter character name', phAncestry: 'Enter ancestry', phRace: 'Enter race or background', phMod: 'Mod', phPathNovice: 'e.g., Warrior, Magician, Priest, Rogue', phPathExpert: 'e.g., Paladin, Assassin, Sorcerer', phPathMaster: 'e.g., Archmage, Dread Knight', phNoviceTalents: 'List of talents gained from this path', phExpertTalents: 'Talents gained at expert level', phMasterTalents: 'Talents gained at master level', phWeapons: 'Sword 1d6+2, Crossbow 1d6...', phArmor: 'Leather, chainmail...', phGear: 'Backpack, rope, torches...', phWealth: 'ss/cp/gold', phTraditions: 'e.g., Battle, Shadow, Fire, Death', phCastings: '3/3', phSpells: 'Example:\n1) Fireball (Rank 1, Fire) – 2d6 damage, blast 1 yard\n2) Mask (Rank 0, Shadow) – +2 to Stealth', phFocus: 'Spellbook, rod, amulet', phProfessions: 'Thief, soldier, scholar, craftsman...', phLanguages: 'Common, Ancient, Elvish...', phNotes: 'Appearance, quirks, fears, allies, enemies, religion, background story...', spellRankHint: 'Depends on level and path'
-        },
-        ru: {
-            languageTitle: '🌐 Язык:',
-            name: 'Имя', ancestry: 'Происхождение', raceBackground: 'Раса / фон', level: 'Уровень', size: 'Размер', speed: 'Скорость',
-            attributes: 'Характеристики', strength: 'Сила (СИЛ)', agility: 'Ловкость (ЛОВ)', intellect: 'Интеллект (ИНТ)', will: 'Воля (ВОЛ)', perception: 'Восприятие (ВСП)', defense: 'Защита (ЗАЩ)',
-            healthResources: 'Здоровье и ресурсы', health: 'Здоровье (HP)', current: 'Текущее', max: 'Максимум', healingRate: 'Скорость лечения', power: 'Сила (POW)', insanity: 'Безумие (INS)', corruption: 'Порча (COR)', fortune: 'Удача',
-            pathsTalents: 'Пути и таланты', novicePath: '🟢 Новичок', expertPath: '🔵 Эксперт', masterPath: '🔴 Мастер', pathName: 'Название пути', noviceTalents: 'Таланты новичка', expertTalents: 'Таланты эксперта', masterTalents: 'Таланты мастера',
-            attacksWeapons: 'Атаки и оружие', meleeAttack: 'Ближняя атака', rangedAttack: 'Дальняя атака', weaponsDamage: 'Оружие и урон', armor: 'Броня', gearWealth: 'Снаряжение и богатство', inventory: 'Инвентарь', wealth: 'Богатство',
-            magic: 'Магия', knownTraditions: 'Известные традиции', maxSpellRank: 'Макс. ранг заклинаний', castings: 'Ячейки заклинаний', spellListDescription: 'Список заклинаний / описание', focusPowerSymbol: 'Фокус / символ', detailsSpellNotes: '📘 Подробные заметки по заклинаниям', spellHint: 'Основное поле выше можно заполнять свободным текстом. Это только подсказка.',
-            languagesProfessions: 'Языки и профессии', professions: 'Профессии', languages: 'Языки', notesTitle: 'Заметки, фон, черты', notes: 'Заметки',
-            downloadPdf: '📄 Скачать PDF', copyLink: '🔗 Копировать ссылку', copyLinkCreating: '⏳ Создание ссылки...', linkCopied: 'Ссылка скопирована', linkCopiedMessage: 'Ссылка на текущее состояние страницы скопирована в буфер обмена. Если измените поля, скопируйте новую ссылку.', linkCopyError: 'Не удалось скопировать ссылку', linkTooLong: 'Ссылка получилась длинной. Если мессенджер не отправляет её, сократите большие описательные поля.', linkLoaded: 'Персонаж загружен', linkLoadedMessage: 'Данные персонажа восстановлены из ссылки.', linkUpdated: 'Ссылка обновлена', linkUpdatedMessage: 'Текущий URL страницы теперь содержит актуальное состояние персонажа.', shareLinkInvalid: 'Не удалось восстановить персонажа из ссылки.', resetSheet: '🗑️ Сбросить лист', generatingPdf: '⏳ Генерация PDF...', unnamedCharacter: 'Безымянный персонаж', mainInfo: 'Основная информация', combatEquipment: 'Бой и снаряжение', spells: 'Заклинания',
-            pdfNotCreated: 'PDF не создан', validationSummary: 'Нужно исправить поля:', pdfReady: 'PDF готов', pdfReadyMessage: 'Файл {fileName} успешно сформирован и скачивается.', pdfErrorTitle: 'Ошибка генерации PDF', pdfErrorMessage: 'Не удалось сформировать PDF.',
-            characterNameRequired: 'Введите имя персонажа перед генерацией PDF.', mustBeNumber: '{label}: должно быть число.', levelRange: 'Уровень обычно должен быть от 0 до 10.', resetConfirm: 'Сбросить все данные персонажа?', generated: 'Создано', mod: 'мод',
-            phName: 'Введите имя персонажа', phAncestry: 'Введите происхождение', phRace: 'Введите расу или фон', phMod: 'Мод', phPathNovice: 'например: Воин, Маг, Жрец, Плут', phPathExpert: 'например: Паладин, Убийца, Чародей', phPathMaster: 'например: Архимаг, Тёмный рыцарь', phNoviceTalents: 'Список талантов, полученных на пути новичка', phExpertTalents: 'Таланты, полученные на экспертном уровне', phMasterTalents: 'Таланты, полученные на мастерском уровне', phWeapons: 'Меч 1d6+2, арбалет 1d6...', phArmor: 'Кожаная броня, кольчуга...', phGear: 'Рюкзак, верёвка, факелы...', phWealth: '50 зм, 12 см, 8 мн', phTraditions: 'например: Битва, Тень, Огонь, Смерть', phCastings: '3/3', phSpells: 'Пример:\n1) Огненный шар (Ранг 1, Огонь) – 2d6 урона, взрыв 1 ярд\n2) Маска (Ранг 0, Тень) – +2 к скрытности', phFocus: 'Книга заклинаний, жезл, амулет', phProfessions: 'Вор, солдат, учёный, ремесленник...', phLanguages: 'Всеобщий, древний, эльфийский...', phNotes: 'Внешность, привычки, страхи, союзники, враги, религия, история...', spellRankHint: 'Зависит от уровня и пути'
-        }
-    };
-
-    let currentLanguage = localStorage.getItem(I18N_STORAGE_KEY) || 'en';
-
-    function tr(key, params = {}) {
-        const value = (I18N[currentLanguage] && I18N[currentLanguage][key]) || I18N.en[key] || key;
-        return Object.keys(params).reduce((result, name) => result.replaceAll(`{${name}}`, params[name]), value);
-    }
-
-    function setText(selector, key, root = document) {
-        const el = root.querySelector(selector);
-        if (el) el.textContent = tr(key);
-    }
-
-    function setPlaceholder(selector, key, root = document) {
-        const el = root.querySelector(selector);
-        if (el) el.setAttribute('placeholder', tr(key));
-    }
-
-    function setConfirmHandler() {
-        const resetButton = document.getElementById('clear-storage');
-        if (!resetButton) return;
-        resetButton.onclick = () => {
-            if (confirm(tr('resetConfirm'))) clearSheet();
-        };
-    }
-
-    function applyLanguage(lang) {
-        currentLanguage = I18N[lang] ? lang : 'en';
-        localStorage.setItem(I18N_STORAGE_KEY, currentLanguage);
-        document.documentElement.lang = currentLanguage;
-        document.title = currentLanguage === 'ru' ? 'DnD Генератор персонажа — лист персонажа и экспорт в PDF' : 'DnD Character Generator — Offline Character Sheet & PDF Export';
-
-        document.querySelectorAll('.lang-button').forEach(button => {
-            button.classList.toggle('is-active', button.dataset.lang === currentLanguage);
-            button.setAttribute('aria-pressed', String(button.dataset.lang === currentLanguage));
-        });
-
-        setText('#language-title', 'languageTitle');
-        setText('.top-grid > div:first-child .content-row:nth-child(1) .field-title', 'name');
-        setText('.top-grid > div:first-child .content-row:nth-child(2) .field-title', 'ancestry');
-        setText('.top-grid > div:first-child .content-row:nth-child(3) .field-title', 'raceBackground');
-        setText('.top-grid > div:nth-child(2) .content-row:nth-child(1) .field-title', 'level');
-        setText('.top-grid > div:nth-child(2) .content-row:nth-child(2) .field-title', 'size');
-        setText('.top-grid > div:nth-child(2) .content-row:nth-child(3) .field-title', 'speed');
-
-        setText('.columns-2:nth-of-type(2) .container:nth-child(1) h1', 'attributes');
-        setText('[data-label="Strength"]', 'strength');
-        setText('[data-label="Agility"]', 'agility');
-        setText('[data-label="Intellect"]', 'intellect');
-        setText('[data-label="Will"]', 'will');
-        setText('#perception', 'perception');
-        setText('#defense', 'defense');
-
-        const attrRows = document.querySelectorAll('.columns-2 .stat-grid:first-child .content-row .field-title');
-        ['strength','agility','intellect','will','perception','defense'].forEach((key, index) => { if (attrRows[index]) attrRows[index].textContent = tr(key); });
-        const hpRows = document.querySelectorAll('.columns-2 .stat-grid:nth-child(2) .content-row .field-title');
-        ['health','healingRate','power','insanity','corruption','fortune'].forEach((key, index) => { if (hpRows[index]) hpRows[index].textContent = tr(key); });
-        setText('.columns-2 .stat-grid:nth-child(2) h1', 'healthResources');
-        const underLabels = document.querySelectorAll('.under-labels span');
-        if (underLabels[0]) underLabels[0].textContent = tr('current');
-        if (underLabels[2]) underLabels[2].textContent = tr('max');
-
-        const allContainers = Array.from(document.querySelectorAll('body > .container, .bottom-grid > .container'));
-        setText('body > .container:nth-of-type(2) > h1', 'pathsTalents');
-        const pathTitles = document.querySelectorAll('.path-block h3');
-        ['novicePath','expertPath','masterPath'].forEach((key, index) => { if (pathTitles[index]) pathTitles[index].textContent = tr(key); });
-        const pathLabels = document.querySelectorAll('.path-block .field-title');
-        ['pathName','noviceTalents','pathName','expertTalents','pathName','masterTalents'].forEach((key, index) => { if (pathLabels[index]) pathLabels[index].textContent = tr(key); });
-
-        const combatContainers = document.querySelectorAll('body > .columns-2:nth-of-type(3) .container');
-        if (combatContainers[0]) {
-            setText('h2', 'attacksWeapons', combatContainers[0]);
-            setText('#att-melee', 'meleeAttack');
-            setText('#att-range', 'rangedAttack');
-            const labels = combatContainers[0].querySelectorAll('.field-title');
-            if (labels[0]) labels[0].textContent = tr('weaponsDamage');
-            if (labels[1]) labels[1].textContent = tr('armor');
-        }
-        if (combatContainers[1]) {
-            setText('h2', 'gearWealth', combatContainers[1]);
-            const labels = combatContainers[1].querySelectorAll('.field-title');
-            if (labels[0]) labels[0].textContent = tr('inventory');
-            if (labels[1]) labels[1].textContent = tr('wealth');
-        }
-
-        const magicContainer = document.querySelector('body > .container:nth-of-type(3)');
-        if (magicContainer) {
-            setText('h1', 'magic', magicContainer);
-            const labels = magicContainer.querySelectorAll('.field-title');
-            ['knownTraditions','maxSpellRank','castings','spellListDescription','focusPowerSymbol'].forEach((key, index) => { if (labels[index]) labels[index].textContent = tr(key); });
-            setText('summary', 'detailsSpellNotes', magicContainer);
-            const hint = magicContainer.querySelector('details .field-desc');
-            if (hint) hint.textContent = tr('spellHint');
-            const rankHint = magicContainer.querySelector('.content-row:nth-child(2) .field-desc');
-            if (rankHint) rankHint.textContent = tr('spellRankHint');
-        }
-
-        const bottomContainers = document.querySelectorAll('.bottom-grid .container');
-        if (bottomContainers[0]) {
-            setText('h1', 'languagesProfessions', bottomContainers[0]);
-            const labels = bottomContainers[0].querySelectorAll('.field-title');
-            if (labels[0]) labels[0].textContent = tr('professions');
-            if (labels[1]) labels[1].textContent = tr('languages');
-        }
-        if (bottomContainers[1]) setText('h1', 'notesTitle', bottomContainers[1]);
-
-        setText('#download-pdf', 'downloadPdf');
-        setText('#copy-link', 'copyLink');
-        setText('#clear-storage', 'resetSheet');
-
-        setPlaceholder('#character-name', 'phName'); setPlaceholder('#ancestry', 'phAncestry'); setPlaceholder('#race-background', 'phRace');
-        document.querySelectorAll('.mod-input').forEach(input => input.placeholder = tr('phMod'));
-        setPlaceholder('#health', 'current'); setPlaceholder('#health-max', 'max');
-        setPlaceholder('#novice-path', 'phPathNovice'); setPlaceholder('#expert-path', 'phPathExpert'); setPlaceholder('#master-path', 'phPathMaster');
-        setPlaceholder('#novice-talents', 'phNoviceTalents'); setPlaceholder('#expert-talents', 'phExpertTalents'); setPlaceholder('#master-talents', 'phMasterTalents');
-        setPlaceholder('#weapons', 'phWeapons'); setPlaceholder('#armor', 'phArmor'); setPlaceholder('#gear', 'phGear'); setPlaceholder('#wealth', 'phWealth');
-        setPlaceholder('#traditions', 'phTraditions'); setPlaceholder('#castings', 'phCastings'); setPlaceholder('#spells-list', 'phSpells'); setPlaceholder('#spell-focus', 'phFocus');
-        setPlaceholder('#professions', 'phProfessions'); setPlaceholder('#languages', 'phLanguages'); setPlaceholder('#notes', 'phNotes');
-        setConfirmHandler();
-    }
-
-
-    function getFieldValue(id) {
-        const el = document.getElementById(id);
-        return el ? String(el.value || '').trim() : '';
-    }
-
-    function text(value, fallback = '—') {
-        return value && value.trim() ? value.trim() : fallback;
-    }
-
-
-    function showSnackbar(type, title, message) {
-        const root = document.getElementById('snackbar-root');
-        if (!root) return;
-
-        const item = document.createElement('div');
-        item.className = `snackbar ${type}`;
-        item.setAttribute('role', type === 'error' ? 'alert' : 'status');
-        item.innerHTML = `
-            <div class="snackbar-title">${escapeHtml(title)}</div>
-            <p class="snackbar-message">${escapeHtml(message)}</p>
-        `;
-        root.appendChild(item);
-
-        window.setTimeout(() => {
-            item.style.opacity = '0';
-            item.style.transform = 'translateX(24px)';
-        }, 4200);
-        window.setTimeout(() => item.remove(), 4550);
-    }
-
-    function clearValidationErrors() {
-        document.querySelectorAll('.field-error').forEach(error => error.remove());
-        document.querySelectorAll('.field-invalid').forEach(field => field.classList.remove('field-invalid'));
-    }
-
-    function showFieldError(fieldId, message) {
-        const field = document.getElementById(fieldId);
-        if (!field) return;
-
-        field.classList.add('field-invalid');
-
-        const row = field.closest('.content-row') || field.parentElement;
-        if (!row) return;
-
-        const error = document.createElement('div');
-        error.className = 'field-error';
-        error.textContent = message;
-        row.appendChild(error);
-    }
-
-    function validateCharacterSheet() {
-        clearValidationErrors();
-
-        const errors = [];
-        const addError = (fieldId, message) => {
-            errors.push({ fieldId, message });
-            showFieldError(fieldId, message);
-        };
-
-        if (!getFieldValue('character-name')) {
-            addError('character-name', tr('characterNameRequired'));
-        }
-
-        const numericFields = [
-            ['level', 'Level'],
-            ['speed', 'Speed'],
-            ['strength', 'Strength'],
-            ['strength-mod', 'Strength modifier'],
-            ['agility', 'Agility'],
-            ['agility-mod', 'Agility modifier'],
-            ['intellect', 'Intellect'],
-            ['intellect-mod', 'Intellect modifier'],
-            ['will', 'Will'],
-            ['will-mod', 'Will modifier'],
-            ['perception', 'Perception'],
-            ['defense', 'Defense'],
-            ['health', 'Health'],
-            ['healing-rate', 'Healing Rate'],
-            ['power', 'Power'],
-            ['insanity', 'Insanity'],
-            ['corruption', 'Corruption'],
-            ['fortune', 'Fortune'],
-            ['max-spell-rank', 'Max Spell Rank']
-        ];
-
-        numericFields.forEach(([fieldId, label]) => {
-            const value = getFieldValue(fieldId);
-            if (!value) return;
-            const normalized = value.replace(',', '.');
-            if (!Number.isFinite(Number(normalized))) {
-                addError(fieldId, tr('mustBeNumber', { label }));
-            }
-        });
-
-        const level = getFieldValue('level');
-        if (level && Number.isFinite(Number(level)) && (Number(level) < 0 || Number(level) > 10)) {
-            addError('level', tr('levelRange'));
-        }
-
-        if (errors.length) {
-            const firstField = document.getElementById(errors[0].fieldId);
-            firstField?.focus({ preventScroll: true });
-            firstField?.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        }
-
-        return errors;
-    }
-
-    function escapeHtml(value) {
-        return String(value)
-            .replaceAll('&', '&amp;')
-            .replaceAll('<', '&lt;')
-            .replaceAll('>', '&gt;')
-            .replaceAll('"', '&quot;')
-            .replaceAll("'", '&#039;');
-    }
-
-    function nl2br(value) {
-        return escapeHtml(value).replace(/\n/g, '<br>');
-    }
-
-    function section(title, rows) {
-        return `
-            <section class="pdf-section">
-                <h2>${escapeHtml(title)}</h2>
-                ${rows.map(([label, value]) => `
-                    <div class="pdf-row">
-                        <div class="pdf-label">${escapeHtml(label)}</div>
-                        <div class="pdf-value">${nl2br(text(value))}</div>
-                    </div>
-                `).join('')}
+        <div class="layout-row">
+            <section class="card flex-1">
+                <h2 class="section-title">🗡️ <span data-i18n="attributes">Attributes</span></h2>
+                <div class="flex flex-col gap-3">
+                    <div class="stat-row"><span class="field-label" data-i18n="strength">Strength (STR)</span><input id="strength" class="field-control" type="number"><input id="strength-mod" class="field-control" type="number" data-placeholder="phMod"></div>
+                    <div class="stat-row"><span class="field-label" data-i18n="agility">Agility (AGI)</span><input id="agility" class="field-control" type="number"><input id="agility-mod" class="field-control" type="number" data-placeholder="phMod"></div>
+                    <div class="stat-row"><span class="field-label" data-i18n="intellect">Intellect (INT)</span><input id="intellect" class="field-control" type="number"><input id="intellect-mod" class="field-control" type="number" data-placeholder="phMod"></div>
+                    <div class="stat-row"><span class="field-label" data-i18n="will">Will (WIL)</span><input id="will" class="field-control" type="number"><input id="will-mod" class="field-control" type="number" data-placeholder="phMod"></div>
+                    <label class="field-row"><span class="field-label" data-i18n="perception">Perception (PER)</span><input id="perception" class="field-control sm:max-w-[10rem]" type="number"></label>
+                    <label class="field-row"><span class="field-label" data-i18n="defense">Defense (DEF)</span><input id="defense" class="field-control sm:max-w-[10rem]" type="number"></label>
+                </div>
             </section>
-        `;
-    }
 
-    function buildPrintableHtml() {
-        const characterName = text(getFieldValue('character-name'), tr('unnamedCharacter'));
-        const createdAt = new Date().toLocaleString();
-
-        return `
-            <!DOCTYPE html>
-            <html xmlns="http://www.w3.org/1999/xhtml">
-            <head>
-                <meta charset="UTF-8" />
-                <style>
-                    * { box-sizing: border-box; }
-                    body {
-                        width: ${RENDER_WIDTH_PX}px;
-                        margin: 0;
-                        padding: 34px;
-                        background: #f4efe5;
-                        color: #1f1714;
-                        font-family: Arial, Helvetica, sans-serif;
-                        font-size: 16px;
-                    }
-                    .pdf-sheet {
-                        min-height: 100%;
-                        padding: 28px;
-                        border: 3px solid #3b241f;
-                        background: #fffaf0;
-                    }
-                    h1 {
-                        margin: 0 0 6px;
-                        font-size: 30px;
-                        line-height: 1.15;
-                        color: #3b1818;
-                    }
-                    .subtitle {
-                        margin: 0 0 20px;
-                        color: #6e5a4c;
-                        font-size: 13px;
-                    }
-                    .grid {
-                        display: grid;
-                        grid-template-columns: 1fr 1fr;
-                        gap: 14px;
-                    }
-                    .pdf-section {
-                        break-inside: avoid;
-                        border: 1px solid #b9a88f;
-                        background: #fffdf7;
-                        margin: 0 0 14px;
-                        padding: 14px;
-                        border-radius: 8px;
-                    }
-                    .wide { grid-column: 1 / -1; }
-                    h2 {
-                        margin: 0 0 10px;
-                        font-size: 18px;
-                        color: #7a2e25;
-                        border-bottom: 1px solid #d3c3aa;
-                        padding-bottom: 6px;
-                    }
-                    .pdf-row {
-                        display: grid;
-                        grid-template-columns: 145px 1fr;
-                        gap: 10px;
-                        padding: 5px 0;
-                        border-bottom: 1px dashed #e0d4c0;
-                    }
-                    .pdf-row:last-child { border-bottom: 0; }
-                    .pdf-label {
-                        font-weight: 700;
-                        color: #4d3a32;
-                    }
-                    .pdf-value {
-                        white-space: normal;
-                        overflow-wrap: anywhere;
-                        line-height: 1.35;
-                    }
-                </style>
-            </head>
-            <body>
-                <main class="pdf-sheet">
-                    <h1>${escapeHtml(characterName)}</h1>
-                    <p class="subtitle">Shadow of the Demon Lord character sheet · Generated ${escapeHtml(createdAt)}</p>
-                    <div class="grid">
-                        ${section('Main Info', [
-                            ['Name', getFieldValue('character-name')],
-                            ['Ancestry', getFieldValue('ancestry')],
-                            ['Level', getFieldValue('level')],
-                            ['Size', getFieldValue('size')],
-                            ['Speed', getFieldValue('speed')]
-                        ])}
-                        ${section('Attributes', [
-                            ['Strength', `${getFieldValue('strength')} / mod ${getFieldValue('strength-mod')}`],
-                            ['Agility', `${getFieldValue('agility')} / mod ${getFieldValue('agility-mod')}`],
-                            ['Intellect', `${getFieldValue('intellect')} / mod ${getFieldValue('intellect-mod')}`],
-                            ['Will', `${getFieldValue('will')} / mod ${getFieldValue('will-mod')}`],
-                            ['Perception', getFieldValue('perception')],
-                            ['Defense', getFieldValue('defense')]
-                        ])}
-                        ${section('Health & Resources', [
-                            ['Health', getFieldValue('health')],
-                            ['Healing Rate', getFieldValue('healing-rate')],
-                            ['Power', getFieldValue('power')],
-                            ['Insanity', getFieldValue('insanity')],
-                            ['Corruption', getFieldValue('corruption')],
-                            ['Fortune', getFieldValue('fortune')]
-                        ])}
-                        <div class="wide">
-                            ${section('Paths & Talents', [
-                                ['Novice Path', getFieldValue('novice-path')],
-                                ['Novice Talents', getFieldValue('novice-talents')],
-                                ['Expert Path', getFieldValue('expert-path')],
-                                ['Expert Talents', getFieldValue('expert-talents')],
-                                ['Master Path', getFieldValue('master-path')],
-                                ['Master Talents', getFieldValue('master-talents')]
-                            ])}
-                            ${section('Combat & Equipment', [
-                                ['Weapons & Damage', getFieldValue('weapons')],
-                                ['Armor', getFieldValue('armor')],
-                                ['Inventory', getFieldValue('gear')],
-                                ['Wealth', getFieldValue('wealth')]
-                            ])}
-                            ${section('Magic', [
-                                ['Known Traditions', getFieldValue('traditions')],
-                                ['Max Spell Rank', getFieldValue('max-spell-rank')],
-                                ['Castings', getFieldValue('castings')],
-                                ['Spells', getFieldValue('spells-list')],
-                                ['Focus / Power Symbol', getFieldValue('spell-focus')]
-                            ])}
-                            ${section('Languages & Professions', [
-                                ['Professions', getFieldValue('professions')],
-                                ['Languages', getFieldValue('languages')]
-                            ])}
-                            ${section('Notes, Background, Traits', [
-                                ['Notes', getFieldValue('notes')]
-                            ])}
+            <section class="card flex-1">
+                <h2 class="section-title">❤️ <span data-i18n="healthResources">Health & Resources</span></h2>
+                <div class="flex flex-col gap-3">
+                    <div class="field-row">
+                        <span class="field-label" data-i18n="health">Health (HP)</span>
+                        <div class="flex flex-1 items-center gap-3">
+                            <input id="health" class="field-control text-center" type="number" data-placeholder="current">
+                            <span class="font-black text-demon-muted">/</span>
+                            <input id="health-max" class="field-control text-center" type="number" data-placeholder="max">
                         </div>
                     </div>
-                </main>
-            </body>
-            </html>
-        `;
-    }
+                    <label class="field-row"><span class="field-label" data-i18n="healingRate">Healing Rate</span><input id="healing-rate" class="field-control sm:max-w-[10rem]" type="number"></label>
+                    <label class="field-row"><span class="field-label" data-i18n="power">Power (POW)</span><input id="power" class="field-control sm:max-w-[10rem]" type="number"></label>
+                    <label class="field-row"><span class="field-label" data-i18n="insanity">Insanity (INS)</span><input id="insanity" class="field-control sm:max-w-[10rem]" type="number"></label>
+                    <label class="field-row"><span class="field-label" data-i18n="corruption">Corruption (COR)</span><input id="corruption" class="field-control sm:max-w-[10rem]" type="number"></label>
+                    <label class="field-row"><span class="field-label" data-i18n="fortune">Fortune</span><input id="fortune" class="field-control sm:max-w-[10rem]" type="number"></label>
+                </div>
+            </section>
+        </div>
 
-    function sanitizeFileName(value) {
-        return text(value, 'character-sheet')
-            .toLowerCase()
-            .replace(/[^a-zа-яё0-9_-]+/gi, '-')
-            .replace(/^-+|-+$/g, '') || 'character-sheet';
-    }
+        <section class="card">
+            <h2 class="section-title">👑 <span data-i18n="pathsTalents">Paths & Talents</span></h2>
+            <div class="flex flex-col gap-4">
+                <div class="path-card">
+                    <h3 class="path-title" data-i18n="novicePath">🟢 Novice Path</h3>
+                    <label class="field-row"><span class="field-label" data-i18n="pathName">Path Name</span><input id="novice-path" class="field-control" type="text" data-placeholder="phPathNovice"></label>
+                    <label class="field-column"><span class="field-label" data-i18n="noviceTalents">Novice Talents</span><textarea id="novice-talents" class="field-control min-h-28" data-placeholder="phNoviceTalents"></textarea></label>
+                </div>
+                <div class="path-card">
+                    <h3 class="path-title" data-i18n="expertPath">🔵 Expert Path</h3>
+                    <label class="field-row"><span class="field-label" data-i18n="pathName">Path Name</span><input id="expert-path" class="field-control" type="text" data-placeholder="phPathExpert"></label>
+                    <label class="field-column"><span class="field-label" data-i18n="expertTalents">Expert Talents</span><textarea id="expert-talents" class="field-control min-h-28" data-placeholder="phExpertTalents"></textarea></label>
+                </div>
+                <div class="path-card">
+                    <h3 class="path-title" data-i18n="masterPath">🔴 Master Path</h3>
+                    <label class="field-row"><span class="field-label" data-i18n="pathName">Path Name</span><input id="master-path" class="field-control" type="text" data-placeholder="phPathMaster"></label>
+                    <label class="field-column"><span class="field-label" data-i18n="masterTalents">Master Talents</span><textarea id="master-talents" class="field-control min-h-28" data-placeholder="phMasterTalents"></textarea></label>
+                </div>
+            </div>
+        </section>
 
-    function escapePdfName(value) {
-        return String(value).replace(/[^a-zA-Z0-9]/g, '');
-    }
+        <div class="layout-row">
+            <section class="card flex-1">
+                <h2 class="section-title">⚔️ <span data-i18n="attacksWeapons">Attacks & Weapons</span></h2>
+                <div class="mb-4 flex flex-col gap-3 sm:flex-row">
+                    <button id="att-melee" type="button" class="action-button attack-option flex-1" data-attack-type="melee" aria-pressed="true" data-i18n="meleeAttack">Melee Attack</button>
+                    <button id="att-range" type="button" class="action-button attack-option flex-1" data-attack-type="ranged" aria-pressed="false" data-i18n="rangedAttack">Ranged Attack</button>
+                </div>
+                <label class="field-column"><span class="field-label" data-i18n="weaponsDamage">Weapons & Damage</span><textarea id="weapons" class="field-control min-h-28" data-placeholder="phWeapons"></textarea></label>
+                <label class="field-row mt-4"><span class="field-label" data-i18n="armor">Armor</span><input id="armor" class="field-control" type="text" data-placeholder="phArmor"></label>
+            </section>
 
-    function pdfString(value) {
-        return String(value).replace(/\\/g, '\\\\').replace(/\(/g, '\\(').replace(/\)/g, '\\)');
-    }
+            <section class="card flex-1">
+                <h2 class="section-title">🎒 <span data-i18n="gearWealth">Gear & Wealth</span></h2>
+                <label class="field-column"><span class="field-label" data-i18n="inventory">Inventory</span><textarea id="gear" class="field-control min-h-36" data-placeholder="phGear"></textarea></label>
+                <label class="field-row mt-4"><span class="field-label" data-i18n="wealth">Wealth</span><input id="wealth" class="field-control" type="text" data-placeholder="phWealth"></label>
+            </section>
+        </div>
 
-    function makePdfFromJpegs(images) {
-        const objects = [];
-        const addObject = content => {
-            objects.push(content);
-            return objects.length;
+        <section class="card">
+            <h2 class="section-title">🔮 <span data-i18n="magic">Magic</span></h2>
+            <div class="flex flex-col gap-5 xl:flex-row">
+                <div class="flex flex-1 flex-col gap-4">
+                    <label class="field-column"><span class="field-label" data-i18n="knownTraditions">Known Traditions</span><input id="traditions" class="field-control" type="text" data-placeholder="phTraditions"></label>
+                    <label class="field-column"><span class="field-label" data-i18n="maxSpellRank">Max Spell Rank</span><input id="max-spell-rank" class="field-control sm:max-w-[10rem]" type="number" value="0"><span class="text-xs italic text-demon-muted" data-i18n="spellRankHint">Depends on level and path</span></label>
+                    <label class="field-column"><span class="field-label" data-i18n="castings">Castings</span><input id="castings" class="field-control sm:max-w-[10rem]" type="text" data-placeholder="phCastings"></label>
+                </div>
+                <label class="field-column flex-[1.6]"><span class="field-label" data-i18n="spellListDescription">Spell List / Description</span><textarea id="spells-list" class="field-control min-h-48" data-placeholder="phSpells"></textarea></label>
+                <label class="field-column flex-1"><span class="field-label" data-i18n="focusPowerSymbol">Focus / Power Symbol</span><input id="spell-focus" class="field-control" type="text" data-placeholder="phFocus"></label>
+            </div>
+            <details class="mt-4 rounded-2xl bg-black/30 p-4">
+                <summary class="cursor-pointer font-black text-demon-amber" data-i18n="detailsSpellNotes">📘 Detailed spell notes</summary>
+                <p class="mt-2 text-sm italic text-demon-muted" data-i18n="spellHint">Use the main field above for free-form entries.</p>
+            </details>
+        </section>
+
+        <div class="layout-row">
+            <section class="card flex-1">
+                <h2 class="section-title">📖 <span data-i18n="languagesProfessions">Languages & Professions</span></h2>
+                <label class="field-column"><span class="field-label" data-i18n="professions">Professions</span><textarea id="professions" class="field-control min-h-32" data-placeholder="phProfessions"></textarea></label>
+                <label class="field-column mt-4"><span class="field-label" data-i18n="languages">Languages</span><textarea id="languages" class="field-control min-h-32" data-placeholder="phLanguages"></textarea></label>
+            </section>
+
+            <section class="card flex-1">
+                <h2 class="section-title">📜 <span data-i18n="notesTitle">Notes, Background, Traits</span></h2>
+                <label class="field-column"><span class="sr-only" data-i18n="notes">Notes</span><textarea id="notes" class="field-control min-h-72" data-placeholder="phNotes"></textarea></label>
+            </section>
+        </div>
+
+        <div class="actions-row">
+            <button id="download-pdf" type="button" class="primary-button" data-i18n="downloadPdf">📄 Download PDF</button>
+            <button id="copy-link" type="button" class="primary-button" data-i18n="copyLink">🔗 Copy Link</button>
+            <button id="clear-storage" type="button" class="primary-button" data-i18n="resetSheet">🗑️ Reset Sheet</button>
+        </div>
+    </main>
+
+    <div id="snackbar-root" aria-live="polite" aria-atomic="true"></div>
+<script>
+
+        window.addEventListener('error', function (event) {
+            const root = document.getElementById('snackbar-root');
+            if (!root) return;
+            const item = document.createElement('div');
+            item.className = 'snackbar error';
+            item.setAttribute('role', 'alert');
+            item.innerHTML = '<div class="snackbar-title">JavaScript error</div><p class="snackbar-message">' + String(event.message || 'Unknown error') + '</p>';
+            root.appendChild(item);
+        });
+
+    (function () {
+        const PDF_PAGE_WIDTH_PT = 595.28;
+        const PDF_PAGE_HEIGHT_PT = 841.89;
+        const RENDER_WIDTH_PX = 794;
+        const RENDER_PAGE_HEIGHT_PX = 1123;
+        const RENDER_SCALE = 2;
+        const I18N_STORAGE_KEY = 'sotdl-character-sheet-language';
+
+        const I18N = {
+            en: {
+                appTitle: 'SotDL Character Generator',
+                appSubtitle: 'Dark fantasy character sheet with PDF export',
+                languageTitle: '🌐 Language:',
+                name: 'Name', ancestry: 'Ancestry', raceBackground: 'Race / Background', level: 'Level', size: 'Size', speed: 'Speed',
+                attributes: 'Attributes', strength: 'Strength (STR)', agility: 'Agility (AGI)', intellect: 'Intellect (INT)', will: 'Will (WIL)', perception: 'Perception (PER)', defense: 'Defense (DEF)',
+                healthResources: 'Health & Resources', health: 'Health (HP)', current: 'Current', max: 'Max', healingRate: 'Healing Rate', power: 'Power (POW)', insanity: 'Insanity (INS)', corruption: 'Corruption (COR)', fortune: 'Fortune',
+                pathsTalents: 'Paths & Talents', novicePath: '🟢 Novice Path', expertPath: '🔵 Expert Path', masterPath: '🔴 Master Path', pathName: 'Path Name', noviceTalents: 'Novice Talents', expertTalents: 'Expert Talents', masterTalents: 'Master Talents',
+                attacksWeapons: 'Attacks & Weapons', meleeAttack: 'Melee Attack', rangedAttack: 'Ranged Attack', weaponsDamage: 'Weapons & Damage', armor: 'Armor', gearWealth: 'Gear & Wealth', inventory: 'Inventory', wealth: 'Wealth',
+                magic: 'Magic', knownTraditions: 'Known Traditions', maxSpellRank: 'Max Spell Rank', castings: 'Castings', spellListDescription: 'Spell List / Description', focusPowerSymbol: 'Focus / Power Symbol', selectedAttack: 'Selected Attack', detailsSpellNotes: '📘 Detailed spell notes', spellHint: 'Use the main field above for free-form entries.',
+                languagesProfessions: 'Languages & Professions', professions: 'Professions', languages: 'Languages', notesTitle: 'Notes, Background, Traits', notes: 'Notes',
+                downloadPdf: '📄 Download PDF', copyLink: '🔗 Copy Link', copyLinkCreating: '⏳ Creating Link...', linkCopied: 'Link copied', linkCopiedMessage: 'The link to the current page state has been copied to the clipboard. If you change fields later, copy a new link.', linkCopyError: 'Could not copy link', linkTooLong: 'The link is quite long. Try shortening large description fields if some apps refuse to send it.', linkLoaded: 'Character loaded', linkLoadedMessage: 'Character data was restored from the link.', linkUpdated: 'Link updated', linkUpdatedMessage: 'The current page URL now contains the latest character state.', shareLinkInvalid: 'Could not restore character from link.', resetSheet: '🗑️ Reset Sheet', generatingPdf: '⏳ Generating PDF...', unnamedCharacter: 'Unnamed character', mainInfo: 'Main Info', combatEquipment: 'Combat & Equipment', spells: 'Spells',
+                pdfNotCreated: 'PDF was not created', validationSummary: 'Fix these fields:', pdfReady: 'PDF ready', pdfReadyMessage: 'File {fileName} has been generated and is downloading.', pdfErrorTitle: 'PDF generation error', pdfErrorMessage: 'Could not generate PDF.',
+                characterNameRequired: 'Enter character name before generating PDF.', mustBeNumber: '{label}: must be a number.', levelRange: 'Level should usually be between 0 and 10.', resetConfirm: 'Reset all character data?', generated: 'Generated', mod: 'mod',
+                phName: 'Enter character name', phAncestry: 'Enter ancestry', phRace: 'Enter race or background', phMod: 'Mod', phPathNovice: 'e.g., Warrior, Magician, Priest, Rogue', phPathExpert: 'e.g., Paladin, Assassin, Sorcerer', phPathMaster: 'e.g., Archmage, Dread Knight', phNoviceTalents: 'List of talents gained from this path', phExpertTalents: 'Talents gained at expert level', phMasterTalents: 'Talents gained at master level', phWeapons: 'Sword 1d6+2, Crossbow 1d6...', phArmor: 'Leather, chainmail...', phGear: 'Backpack, rope, torches...', phWealth: 'ss/cp/gold', phTraditions: 'e.g., Battle, Shadow, Fire, Death', phCastings: '3/3', phSpells: 'Example:\\n1) Fireball (Rank 1, Fire) – 2d6 damage, blast 1 yard\\n2) Mask (Rank 0, Shadow) – +2 to Stealth', phFocus: 'Spellbook, rod, amulet', phProfessions: 'Thief, soldier, scholar, craftsman...', phLanguages: 'Common, Ancient, Elvish...', phNotes: 'Appearance, quirks, fears, allies, enemies, religion, background story...', spellRankHint: 'Depends on level and path'
+            },
+            ru: {
+                appTitle: 'SotDL Генератор персонажа',
+                appSubtitle: 'Тёмное фэнтези, лист персонажа и экспорт в PDF',
+                languageTitle: '🌐 Язык:',
+                name: 'Имя', ancestry: 'Происхождение', raceBackground: 'Раса / фон', level: 'Уровень', size: 'Размер', speed: 'Скорость',
+                attributes: 'Характеристики', strength: 'Сила (СИЛ)', agility: 'Ловкость (ЛОВ)', intellect: 'Интеллект (ИНТ)', will: 'Воля (ВОЛ)', perception: 'Восприятие (ВСП)', defense: 'Защита (ЗАЩ)',
+                healthResources: 'Здоровье и ресурсы', health: 'Здоровье (HP)', current: 'Текущее', max: 'Максимум', healingRate: 'Скорость лечения', power: 'Сила (POW)', insanity: 'Безумие (INS)', corruption: 'Порча (COR)', fortune: 'Удача',
+                pathsTalents: 'Пути и таланты', novicePath: '🟢 Новичок', expertPath: '🔵 Эксперт', masterPath: '🔴 Мастер', pathName: 'Название пути', noviceTalents: 'Таланты новичка', expertTalents: 'Таланты эксперта', masterTalents: 'Таланты мастера',
+                attacksWeapons: 'Атаки и оружие', meleeAttack: 'Ближняя атака', rangedAttack: 'Дальняя атака', weaponsDamage: 'Оружие и урон', armor: 'Броня', gearWealth: 'Снаряжение и богатство', inventory: 'Инвентарь', wealth: 'Богатство',
+                magic: 'Магия', knownTraditions: 'Известные традиции', maxSpellRank: 'Макс. ранг заклинаний', castings: 'Ячейки заклинаний', spellListDescription: 'Список заклинаний / описание', focusPowerSymbol: 'Фокус / символ', selectedAttack: 'Выбранная атака', detailsSpellNotes: '📘 Подробные заметки', spellHint: 'Основное поле выше можно заполнять свободным текстом.',
+                languagesProfessions: 'Языки и профессии', professions: 'Профессии', languages: 'Языки', notesTitle: 'Заметки, фон, черты', notes: 'Заметки',
+                downloadPdf: '📄 Скачать PDF', copyLink: '🔗 Копировать ссылку', copyLinkCreating: '⏳ Создание ссылки...', linkCopied: 'Ссылка скопирована', linkCopiedMessage: 'Ссылка на текущее состояние страницы скопирована в буфер обмена. Если измените поля, скопируйте новую ссылку.', linkCopyError: 'Не удалось скопировать ссылку', linkTooLong: 'Ссылка получилась длинной. Если мессенджер не отправляет её, сократите большие описательные поля.', linkLoaded: 'Персонаж загружен', linkLoadedMessage: 'Данные персонажа восстановлены из ссылки.', linkUpdated: 'Ссылка обновлена', linkUpdatedMessage: 'Текущий URL страницы теперь содержит актуальное состояние персонажа.', shareLinkInvalid: 'Не удалось восстановить персонажа из ссылки.', resetSheet: '🗑️ Сбросить лист', generatingPdf: '⏳ Генерация PDF...', unnamedCharacter: 'Безымянный персонаж', mainInfo: 'Основная информация', combatEquipment: 'Бой и снаряжение', spells: 'Заклинания',
+                pdfNotCreated: 'PDF не создан', validationSummary: 'Нужно исправить поля:', pdfReady: 'PDF готов', pdfReadyMessage: 'Файл {fileName} успешно сформирован и скачивается.', pdfErrorTitle: 'Ошибка генерации PDF', pdfErrorMessage: 'Не удалось сформировать PDF.',
+                characterNameRequired: 'Введите имя персонажа перед генерацией PDF.', mustBeNumber: '{label}: должно быть число.', levelRange: 'Уровень обычно должен быть от 0 до 10.', resetConfirm: 'Сбросить все данные персонажа?', generated: 'Создано', mod: 'мод',
+                phName: 'Введите имя персонажа', phAncestry: 'Введите происхождение', phRace: 'Введите расу или фон', phMod: 'Мод', phPathNovice: 'например: Воин, Маг, Жрец, Плут', phPathExpert: 'например: Паладин, Убийца, Чародей', phPathMaster: 'например: Архимаг, Тёмный рыцарь', phNoviceTalents: 'Список талантов, полученных на пути новичка', phExpertTalents: 'Таланты, полученные на экспертном уровне', phMasterTalents: 'Таланты, полученные на мастерском уровне', phWeapons: 'Меч 1d6+2, арбалет 1d6...', phArmor: 'Кожаная броня, кольчуга...', phGear: 'Рюкзак, верёвка, факелы...', phWealth: '50 зм, 12 см, 8 мн', phTraditions: 'например: Битва, Тень, Огонь, Смерть', phCastings: '3/3', phSpells: 'Пример:\\n1) Огненный шар (Ранг 1, Огонь) – 2d6 урона, взрыв 1 ярд\\n2) Маска (Ранг 0, Тень) – +2 к скрытности', phFocus: 'Книга заклинаний, жезл, амулет', phProfessions: 'Вор, солдат, учёный, ремесленник...', phLanguages: 'Всеобщий, древний, эльфийский...', phNotes: 'Внешность, привычки, страхи, союзники, враги, религия, история...', spellRankHint: 'Зависит от уровня и пути'
+            }
         };
 
-        const catalogId = addObject('');
-        const pagesId = addObject('');
-        const pageIds = [];
+        let currentLanguage = localStorage.getItem(I18N_STORAGE_KEY) || 'en';
 
-        images.forEach((image, index) => {
-            const imageBytes = atob(image.dataUrl.split(',')[1]);
-            const imageObjId = addObject(`<< /Type /XObject /Subtype /Image /Width ${image.width} /Height ${image.height} /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length ${imageBytes.length} >>\nstream\n${imageBytes}\nendstream`);
-            const content = `q\n${PDF_PAGE_WIDTH_PT} 0 0 ${PDF_PAGE_HEIGHT_PT} 0 0 cm\n/Im${index + 1} Do\nQ`;
-            const contentObjId = addObject(`<< /Length ${content.length} >>\nstream\n${content}\nendstream`);
-            const pageId = addObject(`<< /Type /Page /Parent ${pagesId} 0 R /MediaBox [0 0 ${PDF_PAGE_WIDTH_PT} ${PDF_PAGE_HEIGHT_PT}] /Resources << /XObject << /Im${index + 1} ${imageObjId} 0 R >> >> /Contents ${contentObjId} 0 R >>`);
-            pageIds.push(pageId);
-        });
-
-        objects[catalogId - 1] = `<< /Type /Catalog /Pages ${pagesId} 0 R >>`;
-        objects[pagesId - 1] = `<< /Type /Pages /Kids [${pageIds.map(id => `${id} 0 R`).join(' ')}] /Count ${pageIds.length} >>`;
-
-        let pdf = '%PDF-1.4\n%\xE2\xE3\xCF\xD3\n';
-        const offsets = [0];
-        objects.forEach((object, index) => {
-            offsets.push(pdf.length);
-            pdf += `${index + 1} 0 obj\n${object}\nendobj\n`;
-        });
-        const xrefOffset = pdf.length;
-        pdf += `xref\n0 ${objects.length + 1}\n0000000000 65535 f \n`;
-        offsets.slice(1).forEach(offset => {
-            pdf += `${String(offset).padStart(10, '0')} 00000 n \n`;
-        });
-        pdf += `trailer\n<< /Size ${objects.length + 1} /Root ${catalogId} 0 R /Title (${pdfString(getFieldValue('character-name') || 'Character Sheet')}) >>\nstartxref\n${xrefOffset}\n%%EOF`;
-
-        const bytes = new Uint8Array(pdf.length);
-        for (let i = 0; i < pdf.length; i += 1) {
-            bytes[i] = pdf.charCodeAt(i) & 0xff;
+        function tr(key, params = {}) {
+            const value = (I18N[currentLanguage] && I18N[currentLanguage][key]) || I18N.en[key] || key;
+            return Object.keys(params).reduce((result, name) => result.replaceAll(`{${name}}`, params[name]), value);
         }
-        return new Blob([bytes], { type: 'application/pdf' });
-    }
 
-    function downloadBlob(blob, fileName) {
-        const url = URL.createObjectURL(blob);
-        const link = document.createElement('a');
-        link.href = url;
-        link.download = fileName;
-        document.body.appendChild(link);
-        link.click();
-        link.remove();
-        URL.revokeObjectURL(url);
-    }
+        function applyLanguage(lang) {
+            currentLanguage = I18N[lang] ? lang : 'en';
+            localStorage.setItem(I18N_STORAGE_KEY, currentLanguage);
+            document.documentElement.lang = currentLanguage;
+            document.title = currentLanguage === 'ru'
+                ? 'SotDL Генератор персонажа — лист персонажа и экспорт в PDF'
+                : 'SotDL Character Generator — Offline Character Sheet & PDF Export';
 
-    function getPdfSections() {
-        return [
-            {
-                title: tr('mainInfo'),
-                rows: [
-                    [tr('name'), getFieldValue('character-name')],
-                    [tr('ancestry'), getFieldValue('ancestry')],
-                    [tr('raceBackground'), getFieldValue('race-background')],
-                    [tr('level'), getFieldValue('level')],
-                    [tr('size'), getFieldValue('size')],
-                    [tr('speed'), getFieldValue('speed')]
-                ]
-            },
-            {
-                title: tr('attributes'),
-                rows: [
-                    [tr('strength'), `${getFieldValue('strength') || '—'} / ${tr('mod')} ${getFieldValue('strength-mod') || '—'}`],
-                    [tr('agility'), `${getFieldValue('agility') || '—'} / ${tr('mod')} ${getFieldValue('agility-mod') || '—'}`],
-                    [tr('intellect'), `${getFieldValue('intellect') || '—'} / ${tr('mod')} ${getFieldValue('intellect-mod') || '—'}`],
-                    [tr('will'), `${getFieldValue('will') || '—'} / ${tr('mod')} ${getFieldValue('will-mod') || '—'}`],
-                    [tr('perception'), getFieldValue('perception')],
-                    [tr('defense'), getFieldValue('defense')]
-                ]
-            },
-            {
-                title: tr('healthResources'),
-                rows: [
-                    [tr('health'), `${getFieldValue('health') || '—'} / ${getFieldValue('health-max') || '—'}`],
-                    [tr('healingRate'), getFieldValue('healing-rate')],
-                    [tr('power'), getFieldValue('power')],
-                    [tr('insanity'), getFieldValue('insanity')],
-                    [tr('corruption'), getFieldValue('corruption')],
-                    [tr('fortune'), getFieldValue('fortune')]
-                ]
-            },
-            {
-                title: tr('pathsTalents'),
-                rows: [
-                    [tr('novicePath').replace(/^\S+\s*/, ''), getFieldValue('novice-path')],
-                    [tr('noviceTalents'), getFieldValue('novice-talents')],
-                    [tr('expertPath').replace(/^\S+\s*/, ''), getFieldValue('expert-path')],
-                    [tr('expertTalents'), getFieldValue('expert-talents')],
-                    [tr('masterPath').replace(/^\S+\s*/, ''), getFieldValue('master-path')],
-                    [tr('masterTalents'), getFieldValue('master-talents')]
-                ]
-            },
-            {
-                title: tr('combatEquipment'),
-                rows: [
-                    [tr('weaponsDamage'), getFieldValue('weapons')],
-                    [tr('armor'), getFieldValue('armor')],
-                    [tr('inventory'), getFieldValue('gear')],
-                    [tr('wealth'), getFieldValue('wealth')]
-                ]
-            },
-            {
-                title: tr('magic'),
-                rows: [
-                    [tr('knownTraditions'), getFieldValue('traditions')],
-                    [tr('maxSpellRank'), getFieldValue('max-spell-rank')],
-                    [tr('castings'), getFieldValue('castings')],
-                    [tr('spells'), getFieldValue('spells-list')],
-                    [tr('focusPowerSymbol'), getFieldValue('spell-focus')]
-                ]
-            },
-            {
-                title: tr('languagesProfessions'),
-                rows: [
-                    [tr('professions'), getFieldValue('professions')],
-                    [tr('languages'), getFieldValue('languages')]
-                ]
-            },
-            {
-                title: tr('notesTitle'),
-                rows: [[tr('notes'), getFieldValue('notes')]]
-            }
-        ];
-    }
-
-    function drawRoundedRect(ctx, x, y, width, height, radius) {
-        const r = Math.min(radius, width / 2, height / 2);
-        ctx.beginPath();
-        ctx.moveTo(x + r, y);
-        ctx.arcTo(x + width, y, x + width, y + height, r);
-        ctx.arcTo(x + width, y + height, x, y + height, r);
-        ctx.arcTo(x, y + height, x, y, r);
-        ctx.arcTo(x, y, x + width, y, r);
-        ctx.closePath();
-    }
-
-    function wrapCanvasText(ctx, value, maxWidth) {
-        const textValue = text(String(value || '')).replace(/\r/g, '');
-        const result = [];
-        textValue.split('\n').forEach(line => {
-            const words = line.split(/\s+/).filter(Boolean);
-            if (!words.length) {
-                result.push('');
-                return;
-            }
-            let current = '';
-            words.forEach(word => {
-                const testLine = current ? `${current} ${word}` : word;
-                if (ctx.measureText(testLine).width <= maxWidth) {
-                    current = testLine;
-                    return;
-                }
-                if (current) result.push(current);
-                if (ctx.measureText(word).width <= maxWidth) {
-                    current = word;
-                    return;
-                }
-                let chunk = '';
-                for (const char of word) {
-                    const testChunk = chunk + char;
-                    if (ctx.measureText(testChunk).width > maxWidth && chunk) {
-                        result.push(chunk);
-                        chunk = char;
-                    } else {
-                        chunk = testChunk;
-                    }
-                }
-                current = chunk;
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                el.textContent = tr(el.dataset.i18n);
             });
-            if (current) result.push(current);
-        });
-        return result.length ? result : ['—'];
-    }
 
-    function renderCharacterSheetToJpegs() {
-        const width = RENDER_WIDTH_PX * RENDER_SCALE;
-        const height = RENDER_PAGE_HEIGHT_PX * RENDER_SCALE;
-        const margin = 70;
-        const contentWidth = width - margin * 2;
-        const pages = [];
-        let canvas;
-        let ctx;
-        let y;
-        let pageNumber = 0;
-
-        const setFont = (size, weight = '400') => {
-            ctx.font = `${weight} ${size}px Arial, Helvetica, sans-serif`;
-        };
-
-        const newPage = () => {
-            if (canvas) {
-                drawFooter();
-                pages.push({ dataUrl: canvas.toDataURL('image/jpeg', 0.92), width: canvas.width, height: canvas.height });
-            }
-            pageNumber += 1;
-            canvas = document.createElement('canvas');
-            canvas.width = width;
-            canvas.height = height;
-            ctx = canvas.getContext('2d');
-            ctx.fillStyle = '#f4efe5';
-            ctx.fillRect(0, 0, width, height);
-            ctx.fillStyle = '#fffaf0';
-            ctx.strokeStyle = '#3b241f';
-            ctx.lineWidth = 5;
-            drawRoundedRect(ctx, margin / 2, margin / 2, width - margin, height - margin, 18);
-            ctx.fill();
-            ctx.stroke();
-            y = margin + 28;
-        };
-
-        const drawFooter = () => {
-            setFont(20, '400');
-            ctx.fillStyle = '#8a7868';
-            ctx.textAlign = 'right';
-            ctx.fillText(`Page ${pageNumber}`, width - margin, height - margin + 6);
-            ctx.textAlign = 'left';
-        };
-
-        const ensureSpace = needed => {
-            if (y + needed > height - margin - 50) newPage();
-        };
-
-        const drawSection = sectionData => {
-            setFont(26, '700');
-            const titleHeight = 44;
-            setFont(21, '400');
-            let sectionHeight = 34 + titleHeight;
-            const rowMetrics = sectionData.rows.map(([label, value]) => {
-                setFont(21, '400');
-                const lines = wrapCanvasText(ctx, value, contentWidth - 380);
-                const rowHeight = Math.max(48, lines.length * 30 + 18);
-                sectionHeight += rowHeight;
-                return { label, lines, rowHeight };
+            document.querySelectorAll('[data-placeholder]').forEach(el => {
+                el.setAttribute('placeholder', tr(el.dataset.placeholder));
             });
-            sectionHeight += 22;
 
-            if (sectionHeight > height - margin * 2) {
-                ensureSpace(130);
-            } else {
-                ensureSpace(sectionHeight + 18);
+            document.querySelectorAll('.lang-button').forEach(button => {
+                const active = button.dataset.lang === currentLanguage;
+                button.classList.toggle('is-active', active);
+                button.setAttribute('aria-pressed', String(active));
+            });
+        }
+
+        function getFieldValue(id) {
+            const el = document.getElementById(id);
+            return el ? String(el.value || '').trim() : '';
+        }
+
+        function text(value, fallback = '—') {
+            return value && String(value).trim() ? String(value).trim() : fallback;
+        }
+
+        function escapeHtml(value) {
+            return String(value)
+                .replaceAll('&', '&amp;')
+                .replaceAll('<', '&lt;')
+                .replaceAll('>', '&gt;')
+                .replaceAll('"', '&quot;')
+                .replaceAll("'", '&#039;');
+        }
+
+        function showSnackbar(type, title, message) {
+            const root = document.getElementById('snackbar-root');
+            if (!root) return;
+
+            const item = document.createElement('div');
+            item.className = `snackbar ${type === 'error' ? 'error' : 'success'}`;
+            item.setAttribute('role', type === 'error' ? 'alert' : 'status');
+            item.innerHTML = `
+                <div class="snackbar-title">${escapeHtml(title)}</div>
+                <p class="snackbar-message">${escapeHtml(message)}</p>
+            `;
+            root.appendChild(item);
+
+            window.setTimeout(() => {
+                item.style.opacity = '0';
+                item.style.transform = 'translateX(1.5rem)';
+            }, 4200);
+            window.setTimeout(() => item.remove(), 4550);
+        }
+
+        function clearValidationErrors() {
+            document.querySelectorAll('.field-error').forEach(error => error.remove());
+            document.querySelectorAll('.field-invalid').forEach(field => field.classList.remove('field-invalid'));
+        }
+
+        function showFieldError(fieldId, message) {
+            const field = document.getElementById(fieldId);
+            if (!field) return;
+
+            field.classList.add('field-invalid');
+            const container = field.closest('label, .stat-row, .field-row') || field.parentElement;
+            if (!container) return;
+
+            const error = document.createElement('div');
+            error.className = 'field-error w-full text-sm font-bold text-red-300';
+            error.textContent = message;
+            container.appendChild(error);
+        }
+
+        function validateCharacterSheet() {
+            clearValidationErrors();
+
+            const errors = [];
+            const addError = (fieldId, message) => {
+                errors.push({ fieldId, message });
+                showFieldError(fieldId, message);
+            };
+
+            if (!getFieldValue('character-name')) {
+                addError('character-name', tr('characterNameRequired'));
             }
 
-            const startY = y;
-            const boxX = margin;
-            const boxY = y;
-            const boxW = contentWidth;
-            const boxH = Math.min(sectionHeight, height - margin - y - 58);
+            [
+                ['level', tr('level')], ['speed', tr('speed')], ['strength', tr('strength')], ['strength-mod', `${tr('strength')} ${tr('mod')}`],
+                ['agility', tr('agility')], ['agility-mod', `${tr('agility')} ${tr('mod')}`], ['intellect', tr('intellect')], ['intellect-mod', `${tr('intellect')} ${tr('mod')}`],
+                ['will', tr('will')], ['will-mod', `${tr('will')} ${tr('mod')}`], ['perception', tr('perception')], ['defense', tr('defense')],
+                ['health', tr('health')], ['health-max', tr('max')], ['healing-rate', tr('healingRate')], ['power', tr('power')],
+                ['insanity', tr('insanity')], ['corruption', tr('corruption')], ['fortune', tr('fortune')], ['max-spell-rank', tr('maxSpellRank')]
+            ].forEach(([fieldId, label]) => {
+                const value = getFieldValue(fieldId);
+                if (!value) return;
+                if (!Number.isFinite(Number(value.replace(',', '.')))) addError(fieldId, tr('mustBeNumber', { label }));
+            });
 
-            ctx.fillStyle = '#fffdf7';
-            ctx.strokeStyle = '#b9a88f';
-            ctx.lineWidth = 2;
-            drawRoundedRect(ctx, boxX, boxY, boxW, boxH, 14);
-            ctx.fill();
-            ctx.stroke();
+            const level = getFieldValue('level');
+            if (level && Number.isFinite(Number(level)) && (Number(level) < 0 || Number(level) > 10)) {
+                addError('level', tr('levelRange'));
+            }
 
-            y += 28;
-            setFont(31, '700');
-            ctx.fillStyle = '#7a2e25';
-            ctx.fillText(sectionData.title, boxX + 26, y + 28);
-            y += titleHeight + 14;
-            ctx.strokeStyle = '#d3c3aa';
-            ctx.lineWidth = 2;
+            if (errors.length) {
+                const firstField = document.getElementById(errors[0].fieldId);
+                firstField?.focus({ preventScroll: true });
+                firstField?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+
+            return errors;
+        }
+
+        function sanitizeFileName(value) {
+            return text(value, 'character-sheet')
+                .toLowerCase()
+                .replace(/[^a-zа-яё0-9_-]+/gi, '-')
+                .replace(/^-+|-+$/g, '') || 'character-sheet';
+        }
+
+        function getPdfSections() {
+            return [
+                { title: tr('mainInfo'), rows: [[tr('name'), getFieldValue('character-name')], [tr('ancestry'), getFieldValue('ancestry')], [tr('raceBackground'), getFieldValue('race-background')], [tr('level'), getFieldValue('level')], [tr('size'), getFieldValue('size')], [tr('speed'), getFieldValue('speed')]] },
+                { title: tr('attributes'), rows: [[tr('strength'), `${getFieldValue('strength') || '—'} / ${tr('mod')} ${getFieldValue('strength-mod') || '—'}`], [tr('agility'), `${getFieldValue('agility') || '—'} / ${tr('mod')} ${getFieldValue('agility-mod') || '—'}`], [tr('intellect'), `${getFieldValue('intellect') || '—'} / ${tr('mod')} ${getFieldValue('intellect-mod') || '—'}`], [tr('will'), `${getFieldValue('will') || '—'} / ${tr('mod')} ${getFieldValue('will-mod') || '—'}`], [tr('perception'), getFieldValue('perception')], [tr('defense'), getFieldValue('defense')]] },
+                { title: tr('healthResources'), rows: [[tr('health'), `${getFieldValue('health') || '—'} / ${getFieldValue('health-max') || '—'}`], [tr('healingRate'), getFieldValue('healing-rate')], [tr('power'), getFieldValue('power')], [tr('insanity'), getFieldValue('insanity')], [tr('corruption'), getFieldValue('corruption')], [tr('fortune'), getFieldValue('fortune')]] },
+                { title: tr('pathsTalents'), rows: [[tr('novicePath').replace(/^\S+\s*/, ''), getFieldValue('novice-path')], [tr('noviceTalents'), getFieldValue('novice-talents')], [tr('expertPath').replace(/^\S+\s*/, ''), getFieldValue('expert-path')], [tr('expertTalents'), getFieldValue('expert-talents')], [tr('masterPath').replace(/^\S+\s*/, ''), getFieldValue('master-path')], [tr('masterTalents'), getFieldValue('master-talents')]] },
+                { title: tr('combatEquipment'), rows: [[tr('selectedAttack'), selectedAttackType === 'ranged' ? tr('rangedAttack') : tr('meleeAttack')], [tr('weaponsDamage'), getFieldValue('weapons')], [tr('armor'), getFieldValue('armor')], [tr('inventory'), getFieldValue('gear')], [tr('wealth'), getFieldValue('wealth')]] },
+                { title: tr('magic'), rows: [[tr('knownTraditions'), getFieldValue('traditions')], [tr('maxSpellRank'), getFieldValue('max-spell-rank')], [tr('castings'), getFieldValue('castings')], [tr('spells'), getFieldValue('spells-list')], [tr('focusPowerSymbol'), getFieldValue('spell-focus')]] },
+                { title: tr('languagesProfessions'), rows: [[tr('professions'), getFieldValue('professions')], [tr('languages'), getFieldValue('languages')]] },
+                { title: tr('notesTitle'), rows: [[tr('notes'), getFieldValue('notes')]] }
+            ];
+        }
+
+        function drawRoundedRect(ctx, x, y, width, height, radius) {
+            const r = Math.min(radius, width / 2, height / 2);
             ctx.beginPath();
-            ctx.moveTo(boxX + 24, y - 4);
-            ctx.lineTo(boxX + boxW - 24, y - 4);
-            ctx.stroke();
+            ctx.moveTo(x + r, y);
+            ctx.arcTo(x + width, y, x + width, y + height, r);
+            ctx.arcTo(x + width, y + height, x, y + height, r);
+            ctx.arcTo(x, y + height, x, y, r);
+            ctx.arcTo(x, y, x + width, y, r);
+            ctx.closePath();
+        }
 
-            rowMetrics.forEach(row => {
-                if (y + row.rowHeight > height - margin - 62) {
-                    newPage();
-                    y += 10;
+        function wrapCanvasText(ctx, value, maxWidth) {
+            const textValue = text(String(value || '')).replace(/\\r/g, '');
+            const result = [];
+            textValue.split('\\n').forEach(line => {
+                const words = line.split(/\\s+/).filter(Boolean);
+                if (!words.length) { result.push(''); return; }
+                let current = '';
+                words.forEach(word => {
+                    const testLine = current ? `${current} ${word}` : word;
+                    if (ctx.measureText(testLine).width <= maxWidth) { current = testLine; return; }
+                    if (current) result.push(current);
+                    current = word;
+                });
+                if (current) result.push(current);
+            });
+            return result.length ? result : ['—'];
+        }
+
+        function renderCharacterSheetToJpegs() {
+            const width = RENDER_WIDTH_PX * RENDER_SCALE;
+            const height = RENDER_PAGE_HEIGHT_PX * RENDER_SCALE;
+            const margin = 70;
+            const contentWidth = width - margin * 2;
+            const pages = [];
+            let canvas, ctx, y, pageNumber = 0;
+
+            const setFont = (size, weight = '400') => { ctx.font = `${weight} ${size}px Arial, Helvetica, sans-serif`; };
+            const drawFooter = () => {
+                setFont(20, '400');
+                ctx.fillStyle = '#8a7868';
+                ctx.textAlign = 'right';
+                ctx.fillText(`Page ${pageNumber}`, width - margin, height - margin + 6);
+                ctx.textAlign = 'left';
+            };
+            const newPage = () => {
+                if (canvas) {
+                    drawFooter();
+                    pages.push({ dataUrl: canvas.toDataURL('image/jpeg', 0.92), width: canvas.width, height: canvas.height });
                 }
-                const rowTop = y;
-                setFont(21, '700');
-                ctx.fillStyle = '#4d3a32';
-                ctx.fillText(String(row.label), boxX + 26, y + 31);
+                pageNumber += 1;
+                canvas = document.createElement('canvas');
+                canvas.width = width;
+                canvas.height = height;
+                ctx = canvas.getContext('2d');
+                ctx.fillStyle = '#f4efe5';
+                ctx.fillRect(0, 0, width, height);
+                ctx.fillStyle = '#fffaf0';
+                ctx.strokeStyle = '#3b241f';
+                ctx.lineWidth = 5;
+                drawRoundedRect(ctx, margin / 2, margin / 2, width - margin, height - margin, 18);
+                ctx.fill();
+                ctx.stroke();
+                y = margin + 28;
+            };
+            const ensureSpace = needed => { if (y + needed > height - margin - 50) newPage(); };
 
+            const drawSection = sectionData => {
                 setFont(21, '400');
-                ctx.fillStyle = '#1f1714';
-                row.lines.forEach((line, i) => {
-                    ctx.fillText(line, boxX + 330, y + 31 + i * 30);
+                let sectionHeight = 100;
+                const rowMetrics = sectionData.rows.map(([label, value]) => {
+                    const lines = wrapCanvasText(ctx, value, contentWidth - 380);
+                    const rowHeight = Math.max(48, lines.length * 30 + 18);
+                    sectionHeight += rowHeight;
+                    return { label, lines, rowHeight };
+                });
+                sectionHeight += 22;
+                ensureSpace(Math.min(sectionHeight + 18, height - margin * 2));
+
+                const startY = y;
+                const boxX = margin, boxY = y, boxW = contentWidth;
+                ctx.fillStyle = '#fffdf7';
+                ctx.strokeStyle = '#b9a88f';
+                ctx.lineWidth = 2;
+                drawRoundedRect(ctx, boxX, boxY, boxW, Math.min(sectionHeight, height - margin - y - 58), 14);
+                ctx.fill();
+                ctx.stroke();
+
+                y += 28;
+                setFont(31, '700');
+                ctx.fillStyle = '#7a2e25';
+                ctx.fillText(sectionData.title, boxX + 26, y + 28);
+                y += 58;
+
+                rowMetrics.forEach(row => {
+                    if (y + row.rowHeight > height - margin - 62) newPage();
+                    const rowTop = y;
+                    setFont(21, '700');
+                    ctx.fillStyle = '#4d3a32';
+                    ctx.fillText(String(row.label), boxX + 26, y + 31);
+                    setFont(21, '400');
+                    ctx.fillStyle = '#1f1714';
+                    row.lines.forEach((line, i) => ctx.fillText(line, boxX + 330, y + 31 + i * 30));
+                    y = rowTop + row.rowHeight;
+                    ctx.strokeStyle = '#e0d4c0';
+                    ctx.setLineDash([8, 8]);
+                    ctx.beginPath();
+                    ctx.moveTo(boxX + 24, y);
+                    ctx.lineTo(boxX + boxW - 24, y);
+                    ctx.stroke();
+                    ctx.setLineDash([]);
+                });
+                y = Math.max(y + 24, startY + sectionHeight + 28);
+            };
+
+            newPage();
+            setFont(46, '700');
+            ctx.fillStyle = '#3b1818';
+            ctx.fillText(text(getFieldValue('character-name'), tr('unnamedCharacter')), margin, y);
+            y += 40;
+            setFont(20, '400');
+            ctx.fillStyle = '#6e5a4c';
+            ctx.fillText(`Shadow of the Demon Lord · ${tr('generated')} ${new Date().toLocaleString()}`, margin, y);
+            y += 42;
+
+            getPdfSections().forEach(drawSection);
+            drawFooter();
+            pages.push({ dataUrl: canvas.toDataURL('image/jpeg', 0.92), width: canvas.width, height: canvas.height });
+            return pages;
+        }
+
+        function pdfString(value) {
+            return String(value)
+                .split('\\').join('\\\\')
+                .split('(').join('\\(')
+                .split(')').join('\\)');
+        }
+
+        function makePdfFromJpegs(images) {
+            const objects = [];
+            const addObject = content => { objects.push(content); return objects.length; };
+            const catalogId = addObject('');
+            const pagesId = addObject('');
+            const pageIds = [];
+
+            images.forEach((image, index) => {
+                const imageBytes = atob(image.dataUrl.split(',')[1]);
+                const imageObjId = addObject(`<< /Type /XObject /Subtype /Image /Width ${image.width} /Height ${image.height} /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length ${imageBytes.length} >>\nstream\n${imageBytes}\nendstream`);
+                const content = `q\n${PDF_PAGE_WIDTH_PT} 0 0 ${PDF_PAGE_HEIGHT_PT} 0 0 cm\n/Im${index + 1} Do\nQ`;
+                const contentObjId = addObject(`<< /Length ${content.length} >>\nstream\n${content}\nendstream`);
+                const pageId = addObject(`<< /Type /Page /Parent ${pagesId} 0 R /MediaBox [0 0 ${PDF_PAGE_WIDTH_PT} ${PDF_PAGE_HEIGHT_PT}] /Resources << /XObject << /Im${index + 1} ${imageObjId} 0 R >> >> /Contents ${contentObjId} 0 R >>`);
+                pageIds.push(pageId);
+            });
+
+            objects[catalogId - 1] = `<< /Type /Catalog /Pages ${pagesId} 0 R >>`;
+            objects[pagesId - 1] = `<< /Type /Pages /Kids [${pageIds.map(id => `${id} 0 R`).join(' ')}] /Count ${pageIds.length} >>`;
+
+            let pdf = '%PDF-1.4\n%\xE2\xE3\xCF\xD3\n';
+            const offsets = [0];
+            objects.forEach((object, index) => {
+                offsets.push(pdf.length);
+                pdf += `${index + 1} 0 obj\n${object}\nendobj\n`;
+            });
+
+            const xrefOffset = pdf.length;
+            pdf += `xref\n0 ${objects.length + 1}\n0000000000 65535 f \n`;
+            offsets.slice(1).forEach(offset => { pdf += `${String(offset).padStart(10, '0')} 00000 n \n`; });
+            pdf += `trailer\n<< /Size ${objects.length + 1} /Root ${catalogId} 0 R /Title (${pdfString(getFieldValue('character-name') || 'Character Sheet')}) >>\nstartxref\n${xrefOffset}\n%%EOF`;
+
+            const bytes = new Uint8Array(pdf.length);
+            for (let i = 0; i < pdf.length; i += 1) bytes[i] = pdf.charCodeAt(i) & 0xff;
+            return new Blob([bytes], { type: 'application/pdf' });
+        }
+
+        function downloadBlob(blob, fileName) {
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = fileName;
+            document.body.appendChild(link);
+            link.click();
+            link.remove();
+            URL.revokeObjectURL(url);
+        }
+
+
+        const SHARE_HASH_PREFIX = 'c=';
+        const SHARE_FIELDS = [
+            'character-name', 'ancestry', 'race-background', 'level', 'size', 'speed',
+            'strength', 'strength-mod', 'agility', 'agility-mod', 'intellect', 'intellect-mod', 'will', 'will-mod', 'perception', 'defense',
+            'health', 'health-max', 'healing-rate', 'power', 'insanity', 'corruption', 'fortune',
+            'novice-path', 'novice-talents', 'expert-path', 'expert-talents', 'master-path', 'master-talents',
+            'weapons', 'armor', 'gear', 'wealth',
+            'traditions', 'max-spell-rank', 'castings', 'spells-list', 'spell-focus',
+            'professions', 'languages', 'notes'
+        ];
+
+        const SHARE_FIELD_KEYS = {
+            'character-name': 'n',
+            'ancestry': 'a',
+            'race-background': 'rb',
+            'level': 'lv',
+            'size': 'sz',
+            'speed': 'sp',
+            'strength': 'st',
+            'strength-mod': 'stm',
+            'agility': 'ag',
+            'agility-mod': 'agm',
+            'intellect': 'it',
+            'intellect-mod': 'itm',
+            'will': 'wi',
+            'will-mod': 'wim',
+            'perception': 'pe',
+            'defense': 'df',
+            'health': 'hp',
+            'health-max': 'hpm',
+            'healing-rate': 'hr',
+            'power': 'pw',
+            'insanity': 'is',
+            'corruption': 'co',
+            'fortune': 'fo',
+            'novice-path': 'np',
+            'novice-talents': 'nt',
+            'expert-path': 'ep',
+            'expert-talents': 'et',
+            'master-path': 'mp',
+            'master-talents': 'mt',
+            'weapons': 'we',
+            'armor': 'ar',
+            'gear': 'ge',
+            'wealth': 'wl',
+            'traditions': 'tr',
+            'max-spell-rank': 'msr',
+            'castings': 'ca',
+            'spells-list': 'sl',
+            'spell-focus': 'sf',
+            'professions': 'pr',
+            'languages': 'la',
+            'notes': 'no'
+        };
+
+        const SHARE_KEY_FIELDS = Object.fromEntries(
+            Object.entries(SHARE_FIELD_KEYS).map(([fieldId, compactKey]) => [compactKey, fieldId])
+        );
+
+        let selectedAttackType = localStorage.getItem('sotdl-selected-attack-type') || 'melee';
+        let isRestoringFromShareLink = false;
+        let isUpdatingShareHash = false;
+        let lastShareHash = '';
+
+        function applySelectedAttackType(type) {
+            const nextAttackType = type === 'ranged' ? 'ranged' : 'melee';
+            const hasChanged = selectedAttackType !== nextAttackType;
+
+            selectedAttackType = nextAttackType;
+            localStorage.setItem('sotdl-selected-attack-type', selectedAttackType);
+
+            document.querySelectorAll('.attack-option').forEach(button => {
+                const isSelected = button.dataset.attackType === selectedAttackType;
+                button.classList.toggle('is-selected', isSelected);
+                button.setAttribute('aria-pressed', String(isSelected));
+            });
+
+            if (hasChanged && !isRestoringFromShareLink) {
+                updateShareHash({ silent: true });
+            }
+        }
+
+        function collectShareData() {
+            const data = {
+                v: 1,
+                l: currentLanguage,
+                at: selectedAttackType
+            };
+
+            SHARE_FIELDS.forEach(fieldId => {
+                const value = getFieldValue(fieldId);
+                if (value) data[SHARE_FIELD_KEYS[fieldId]] = value;
+            });
+
+            return data;
+        }
+
+        function applyShareData(data) {
+            if (!data || typeof data !== 'object') return;
+
+            isRestoringFromShareLink = true;
+
+            try {
+                Object.entries(data).forEach(([key, value]) => {
+                    const fieldId = SHARE_KEY_FIELDS[key];
+                    if (!fieldId) return;
+
+                    const field = document.getElementById(fieldId);
+                    if (field) field.value = String(value ?? '');
                 });
 
-                y = rowTop + row.rowHeight;
-                ctx.strokeStyle = '#e0d4c0';
-                ctx.setLineDash([8, 8]);
-                ctx.beginPath();
-                ctx.moveTo(boxX + 24, y);
-                ctx.lineTo(boxX + boxW - 24, y);
-                ctx.stroke();
-                ctx.setLineDash([]);
-            });
-
-            y = Math.max(y + 24, startY + boxH + 28);
-        };
-
-        newPage();
-        const characterName = text(getFieldValue('character-name'), tr('unnamedCharacter'));
-        setFont(46, '700');
-        ctx.fillStyle = '#3b1818';
-        ctx.fillText(characterName, margin, y);
-        y += 40;
-        setFont(20, '400');
-        ctx.fillStyle = '#6e5a4c';
-        ctx.fillText(`Shadow of the Demon Lord · ${tr('generated')} ${new Date().toLocaleString()}`, margin, y);
-        y += 42;
-
-        getPdfSections().forEach(drawSection);
-        drawFooter();
-        pages.push({ dataUrl: canvas.toDataURL('image/jpeg', 0.92), width: canvas.width, height: canvas.height });
-        return pages;
-    }
-
-
-
-
-
-    const SHARE_HASH_PREFIX = 'c=';
-    let isRestoringFromShareLink = false;
-    let isUpdatingShareHash = false;
-    let lastShareHash = '';
-
-    const SHARE_FIELDS = [
-        'character-name', 'ancestry', 'race-background', 'level', 'size', 'speed',
-        'strength', 'strength-mod', 'agility', 'agility-mod', 'intellect', 'intellect-mod', 'will', 'will-mod', 'perception', 'defense',
-        'health', 'health-max', 'healing-rate', 'power', 'insanity', 'corruption', 'fortune',
-        'novice-path', 'novice-talents', 'expert-path', 'expert-talents', 'master-path', 'master-talents',
-        'weapons', 'armor', 'gear', 'wealth',
-        'traditions', 'max-spell-rank', 'castings', 'spells-list', 'spell-focus',
-        'professions', 'languages', 'notes'
-    ];
-
-    const SHARE_FIELD_KEYS = {
-        'character-name': 'n',
-        'ancestry': 'a',
-        'race-background': 'rb',
-        'level': 'lv',
-        'size': 'sz',
-        'speed': 'sp',
-        'strength': 'st',
-        'strength-mod': 'stm',
-        'agility': 'ag',
-        'agility-mod': 'agm',
-        'intellect': 'it',
-        'intellect-mod': 'itm',
-        'will': 'wi',
-        'will-mod': 'wim',
-        'perception': 'pe',
-        'defense': 'df',
-        'health': 'hp',
-        'health-max': 'hpm',
-        'healing-rate': 'hr',
-        'power': 'pw',
-        'insanity': 'is',
-        'corruption': 'co',
-        'fortune': 'fo',
-        'novice-path': 'np',
-        'novice-talents': 'nt',
-        'expert-path': 'ep',
-        'expert-talents': 'et',
-        'master-path': 'mp',
-        'master-talents': 'mt',
-        'weapons': 'we',
-        'armor': 'ar',
-        'gear': 'ge',
-        'wealth': 'wl',
-        'traditions': 'tr',
-        'max-spell-rank': 'msr',
-        'castings': 'ca',
-        'spells-list': 'sl',
-        'spell-focus': 'sf',
-        'professions': 'pr',
-        'languages': 'la',
-        'notes': 'no'
-    };
-
-    const SHARE_KEY_FIELDS = Object.fromEntries(
-        Object.entries(SHARE_FIELD_KEYS).map(([fieldId, compactKey]) => [compactKey, fieldId])
-    );
-
-    function collectShareData() {
-        const data = {
-            v: 1,
-            l: currentLanguage,
-            at: selectedAttackType
-        };
-
-        SHARE_FIELDS.forEach(fieldId => {
-            const value = getFieldValue(fieldId);
-            if (value) data[SHARE_FIELD_KEYS[fieldId]] = value;
-        });
-
-        return data;
-    }
-
-    function applyShareData(data) {
-        if (!data || typeof data !== 'object') return;
-
-        isRestoringFromShareLink = true;
-
-        try {
-            Object.entries(data).forEach(([key, value]) => {
-                const fieldId = SHARE_KEY_FIELDS[key];
-                if (!fieldId) return;
-
-                const field = document.getElementById(fieldId);
-                if (field) field.value = String(value ?? '');
-            });
-
-            if (data.l && I18N[data.l]) applyLanguage(data.l);
-            if (data.at) applySelectedAttackType(data.at);
-        } finally {
-            isRestoringFromShareLink = false;
-        }
-    }
-
-    function bytesToBase64Url(bytes) {
-        let binary = '';
-        const chunkSize = 0x8000;
-
-        for (let i = 0; i < bytes.length; i += chunkSize) {
-            binary += String.fromCharCode(...bytes.subarray(i, i + chunkSize));
+                if (data.l && I18N[data.l]) applyLanguage(data.l);
+                if (data.at) applySelectedAttackType(data.at);
+            } finally {
+                isRestoringFromShareLink = false;
+            }
         }
 
-        return btoa(binary).replaceAll('+', '-').replaceAll('/', '_').replaceAll('=', '');
-    }
+        function bytesToBase64Url(bytes) {
+            let binary = '';
+            const chunkSize = 0x8000;
 
-    function base64UrlToBytes(value) {
-        const base64 = value.replaceAll('-', '+').replaceAll('_', '/');
-        const padded = base64.padEnd(Math.ceil(base64.length / 4) * 4, '=');
-        const binary = atob(padded);
-        const bytes = new Uint8Array(binary.length);
+            for (let i = 0; i < bytes.length; i += chunkSize) {
+                binary += String.fromCharCode(...bytes.subarray(i, i + chunkSize));
+            }
 
-        for (let i = 0; i < binary.length; i += 1) bytes[i] = binary.charCodeAt(i);
-
-        return bytes;
-    }
-
-
-    let selectedAttackType = localStorage.getItem('sotdl-selected-attack-type') || 'melee';
-
-    function applySelectedAttackType(type) {
-        const nextAttackType = type === 'ranged' ? 'ranged' : 'melee';
-        const hasChanged = selectedAttackType !== nextAttackType;
-
-        selectedAttackType = nextAttackType;
-        localStorage.setItem('sotdl-selected-attack-type', selectedAttackType);
-
-        document.querySelectorAll('.attack-option').forEach(button => {
-            const isSelected = button.dataset.attackType === selectedAttackType;
-            button.classList.toggle('is-selected', isSelected);
-            button.setAttribute('aria-pressed', String(isSelected));
-        });
-
-        if (hasChanged && !isRestoringFromShareLink) {
-            updateShareHash({ silent: true });
-        }
-    }
-
-    async function compressShareString(value) {
-        const bytes = new TextEncoder().encode(value);
-
-        if (!('CompressionStream' in window)) {
-            return `b.${bytesToBase64Url(bytes)}`;
+            return btoa(binary).replaceAll('+', '-').replaceAll('/', '_').replaceAll('=', '');
         }
 
-        const stream = new Blob([bytes]).stream().pipeThrough(new CompressionStream('gzip'));
-        const compressed = new Uint8Array(await new Response(stream).arrayBuffer());
+        function base64UrlToBytes(value) {
+            const base64 = value.replaceAll('-', '+').replaceAll('_', '/');
+            const padded = base64.padEnd(Math.ceil(base64.length / 4) * 4, '=');
+            const binary = atob(padded);
+            const bytes = new Uint8Array(binary.length);
 
-        return `g.${bytesToBase64Url(compressed)}`;
-    }
+            for (let i = 0; i < binary.length; i += 1) bytes[i] = binary.charCodeAt(i);
 
-    async function decompressShareString(value) {
-        const dotIndex = String(value).indexOf('.');
-        if (dotIndex < 1) throw new Error('Invalid shared payload');
-
-        const mode = String(value).slice(0, dotIndex);
-        const payload = String(value).slice(dotIndex + 1);
-        const bytes = base64UrlToBytes(payload);
-
-        if (mode === 'b') return new TextDecoder().decode(bytes);
-        if (mode !== 'g') throw new Error('Unknown shared payload mode');
-        if (!('DecompressionStream' in window)) throw new Error('This browser cannot open compressed character links');
-
-        const stream = new Blob([bytes]).stream().pipeThrough(new DecompressionStream('gzip'));
-
-        return new TextDecoder().decode(await new Response(stream).arrayBuffer());
-    }
-
-    function getCleanPageUrl() {
-        return `${window.location.origin}${window.location.pathname}`;
-    }
-
-    async function createSharePayload() {
-        return compressShareString(JSON.stringify(collectShareData()));
-    }
-
-    async function createShareLink() {
-        const payload = await createSharePayload();
-
-        return `${getCleanPageUrl()}#${SHARE_HASH_PREFIX}${payload}`;
-    }
-
-    function copyTextToClipboard(value) {
-        if (navigator.clipboard && window.isSecureContext) {
-            return navigator.clipboard.writeText(value);
+            return bytes;
         }
 
-        const textarea = document.createElement('textarea');
-        textarea.value = value;
-        textarea.setAttribute('readonly', '');
-        textarea.style.position = 'fixed';
-        textarea.style.top = '0';
-        textarea.style.left = '0';
-        textarea.style.width = '1px';
-        textarea.style.height = '1px';
-        textarea.style.padding = '0';
-        textarea.style.border = '0';
-        textarea.style.opacity = '0';
-        document.body.appendChild(textarea);
-        textarea.focus();
-        textarea.select();
+        async function compressShareString(value) {
+            const bytes = new TextEncoder().encode(value);
 
-        const copied = document.execCommand('copy');
-        textarea.remove();
+            if (!('CompressionStream' in window)) {
+                return `b.${bytesToBase64Url(bytes)}`;
+            }
 
-        if (!copied) return Promise.reject(new Error('Clipboard copy was blocked by the browser'));
-        return Promise.resolve();
-    }
+            const stream = new Blob([bytes]).stream().pipeThrough(new CompressionStream('gzip'));
+            const compressed = new Uint8Array(await new Response(stream).arrayBuffer());
 
-    async function updateShareHash({ silent = true } = {}) {
-        if (isRestoringFromShareLink || isUpdatingShareHash) return;
+            return `g.${bytesToBase64Url(compressed)}`;
+        }
 
-        try {
-            isUpdatingShareHash = true;
+        async function decompressShareString(value) {
+            const dotIndex = String(value).indexOf('.');
+            if (dotIndex < 1) throw new Error('Invalid shared payload');
 
+            const mode = String(value).slice(0, dotIndex);
+            const payload = String(value).slice(dotIndex + 1);
+            const bytes = base64UrlToBytes(payload);
+
+            if (mode === 'b') return new TextDecoder().decode(bytes);
+            if (mode !== 'g') throw new Error('Unknown shared payload mode');
+            if (!('DecompressionStream' in window)) throw new Error('This browser cannot open compressed character links');
+
+            const stream = new Blob([bytes]).stream().pipeThrough(new DecompressionStream('gzip'));
+            return new TextDecoder().decode(await new Response(stream).arrayBuffer());
+        }
+
+        function getCleanPageUrl() {
+            return `${window.location.origin}${window.location.pathname}`;
+        }
+
+        async function createSharePayload() {
+            return compressShareString(JSON.stringify(collectShareData()));
+        }
+
+        async function createShareLink() {
             const payload = await createSharePayload();
-            const nextHash = `${SHARE_HASH_PREFIX}${payload}`;
-            const currentHash = window.location.hash.replace(/^#/, '');
-
-            if (currentHash === nextHash || lastShareHash === nextHash) {
-                lastShareHash = nextHash;
-                return;
-            }
-
-            window.history.replaceState(null, '', `#${nextHash}`);
-            lastShareHash = nextHash;
-
-            if (!silent) showSnackbar('success', tr('linkUpdated'), tr('linkUpdatedMessage'));
-        } catch (error) {
-            if (!silent) showSnackbar('error', tr('linkCopyError'), error instanceof Error ? error.message : String(error));
-        } finally {
-            isUpdatingShareHash = false;
+            return `${getCleanPageUrl()}#${SHARE_HASH_PREFIX}${payload}`;
         }
-    }
 
-    async function copyShareLink() {
-        const button = document.getElementById('copy-link');
-        const oldText = button?.textContent || '';
-
-        try {
-            if (button) {
-                button.disabled = true;
-                button.textContent = tr('copyLinkCreating');
+        function copyTextToClipboard(value) {
+            if (navigator.clipboard && window.isSecureContext) {
+                return navigator.clipboard.writeText(value);
             }
 
-            const link = await createShareLink();
-            await copyTextToClipboard(link);
+            const textarea = document.createElement('textarea');
+            textarea.value = value;
+            textarea.setAttribute('readonly', '');
+            textarea.style.position = 'fixed';
+            textarea.style.top = '0';
+            textarea.style.left = '0';
+            textarea.style.width = '1px';
+            textarea.style.height = '1px';
+            textarea.style.padding = '0';
+            textarea.style.border = '0';
+            textarea.style.opacity = '0';
+            document.body.appendChild(textarea);
+            textarea.focus();
+            textarea.select();
 
-            const payload = link.split(`#${SHARE_HASH_PREFIX}`)[1];
-            if (payload) {
+            const copied = document.execCommand('copy');
+            textarea.remove();
+
+            if (!copied) return Promise.reject(new Error('Clipboard copy was blocked by the browser'));
+            return Promise.resolve();
+        }
+
+        async function updateShareHash({ silent = true } = {}) {
+            if (isRestoringFromShareLink || isUpdatingShareHash) return;
+
+            try {
+                isUpdatingShareHash = true;
+
+                const payload = await createSharePayload();
                 const nextHash = `${SHARE_HASH_PREFIX}${payload}`;
+                const currentHash = window.location.hash.replace(/^#/, '');
+
+                if (currentHash === nextHash || lastShareHash === nextHash) {
+                    lastShareHash = nextHash;
+                    return;
+                }
+
                 window.history.replaceState(null, '', `#${nextHash}`);
                 lastShareHash = nextHash;
-            }
 
-            showSnackbar(
-                'success',
-                tr('linkCopied'),
-                link.length > 1800 ? `${tr('linkCopiedMessage')} ${tr('linkTooLong')}` : tr('linkCopiedMessage')
-            );
-        } catch (error) {
-            showSnackbar('error', tr('linkCopyError'), error instanceof Error ? error.message : String(error));
-        } finally {
-            if (button) {
+                if (!silent) showSnackbar('success', tr('linkUpdated'), tr('linkUpdatedMessage'));
+            } catch (error) {
+                if (!silent) showSnackbar('error', tr('linkCopyError'), error instanceof Error ? error.message : String(error));
+            } finally {
+                isUpdatingShareHash = false;
+            }
+        }
+
+        async function copyShareLink() {
+            const button = document.getElementById('copy-link');
+            const oldText = button?.textContent || '';
+
+            try {
+                if (button) {
+                    button.disabled = true;
+                    button.textContent = tr('copyLinkCreating');
+                }
+
+                const link = await createShareLink();
+                await copyTextToClipboard(link);
+
+                const payload = link.split(`#${SHARE_HASH_PREFIX}`)[1];
+                if (payload) {
+                    const nextHash = `${SHARE_HASH_PREFIX}${payload}`;
+                    window.history.replaceState(null, '', `#${nextHash}`);
+                    lastShareHash = nextHash;
+                }
+
+                showSnackbar(
+                    'success',
+                    tr('linkCopied'),
+                    link.length > 1800 ? `${tr('linkCopiedMessage')} ${tr('linkTooLong')}` : tr('linkCopiedMessage')
+                );
+            } catch (error) {
+                showSnackbar('error', tr('linkCopyError'), error instanceof Error ? error.message : String(error));
+            } finally {
+                if (button) {
+                    button.disabled = false;
+                    button.textContent = oldText;
+                    applyLanguage(currentLanguage);
+                }
+            }
+        }
+
+        async function loadCharacterFromHash({ notify = true } = {}) {
+            if (isUpdatingShareHash) return;
+
+            const hash = window.location.hash.replace(/^#/, '');
+            if (!hash.startsWith(SHARE_HASH_PREFIX)) return;
+
+            const encoded = hash.slice(SHARE_HASH_PREFIX.length);
+            if (`${SHARE_HASH_PREFIX}${encoded}` === lastShareHash) return;
+
+            try {
+                const json = await decompressShareString(encoded);
+                applyShareData(JSON.parse(json));
+                lastShareHash = `${SHARE_HASH_PREFIX}${encoded}`;
+
+                if (notify) showSnackbar('success', tr('linkLoaded'), tr('linkLoadedMessage'));
+            } catch (error) {
+                showSnackbar('error', tr('shareLinkInvalid'), error instanceof Error ? error.message : String(error));
+            }
+        }
+
+        function bindAutoShareUpdates() {
+            SHARE_FIELDS.forEach(fieldId => {
+                const field = document.getElementById(fieldId);
+                if (!field) return;
+
+                field.addEventListener('blur', () => updateShareHash({ silent: true }));
+                field.addEventListener('change', () => updateShareHash({ silent: true }));
+
+                field.addEventListener('keydown', event => {
+                    if (event.key !== 'Enter') return;
+                    if (field.tagName === 'TEXTAREA' && !event.ctrlKey && !event.metaKey) return;
+                    window.setTimeout(() => updateShareHash({ silent: true }), 0);
+                });
+            });
+        }
+
+
+        async function downloadCharacterPdf() {
+            const button = document.getElementById('download-pdf');
+            const oldText = button.textContent;
+            try {
+                const validationErrors = validateCharacterSheet();
+                if (validationErrors.length) {
+                    showSnackbar('error', tr('pdfNotCreated'), `${tr('validationSummary')} ${validationErrors.map(error => error.message).join(' ')}`);
+                    return;
+                }
+
+                button.disabled = true;
+                button.textContent = tr('generatingPdf');
+                const pdfBlob = makePdfFromJpegs(renderCharacterSheetToJpegs());
+                const fileName = `${sanitizeFileName(getFieldValue('character-name'))}.pdf`;
+                downloadBlob(pdfBlob, fileName);
+                showSnackbar('success', tr('pdfReady'), tr('pdfReadyMessage', { fileName }));
+            } catch (error) {
+                showSnackbar('error', tr('pdfErrorTitle'), error instanceof Error ? error.message : tr('pdfErrorMessage'));
+            } finally {
                 button.disabled = false;
                 button.textContent = oldText;
                 applyLanguage(currentLanguage);
             }
         }
-    }
 
-    async function loadCharacterFromHash({ notify = true } = {}) {
-        if (isUpdatingShareHash) return;
-
-        const hash = window.location.hash.replace(/^#/, '');
-        if (!hash.startsWith(SHARE_HASH_PREFIX)) return;
-
-        const encoded = hash.slice(SHARE_HASH_PREFIX.length);
-        if (`${SHARE_HASH_PREFIX}${encoded}` === lastShareHash) return;
-
-        try {
-            const json = await decompressShareString(encoded);
-            applyShareData(JSON.parse(json));
-            lastShareHash = `${SHARE_HASH_PREFIX}${encoded}`;
-
-            if (notify) showSnackbar('success', tr('linkLoaded'), tr('linkLoadedMessage'));
-        } catch (error) {
-            showSnackbar('error', tr('shareLinkInvalid'), error instanceof Error ? error.message : String(error));
+        function clearSheet() {
+            document.querySelectorAll('input, textarea, select').forEach(field => {
+                if (field.id === 'level') field.value = '1';
+                else if (field.id === 'size') field.value = '1';
+                else if (field.id === 'speed') field.value = '10';
+                else if (field.id === 'max-spell-rank') field.value = '0';
+                else field.value = '';
+            });
+            clearValidationErrors();
         }
-    }
 
-    function bindAutoShareUpdates() {
-        SHARE_FIELDS.forEach(fieldId => {
-            const field = document.getElementById(fieldId);
-            if (!field) return;
-
-            field.addEventListener('blur', () => updateShareHash({ silent: true }));
-            field.addEventListener('change', () => updateShareHash({ silent: true }));
-
-            field.addEventListener('keydown', event => {
-                if (event.key !== 'Enter') return;
-                if (field.tagName === 'TEXTAREA' && !event.ctrlKey && !event.metaKey) return;
-                window.setTimeout(() => updateShareHash({ silent: true }), 0);
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('.lang-button').forEach(button => {
+                button.addEventListener('click', () => {
+                    applyLanguage(button.dataset.lang);
+                    updateShareHash({ silent: true });
+                });
             });
-        });
-    }
 
-    async function downloadCharacterPdf() {
-        const button = document.getElementById('download-pdf');
-        const oldText = button.textContent;
-        try {
-            const validationErrors = validateCharacterSheet();
-            if (validationErrors.length) {
-                showSnackbar(
-                    'error',
-                    tr('pdfNotCreated'),
-                    `${tr('validationSummary')} ${validationErrors.map(error => error.message).join(' ')}`
-                );
-                return;
-            }
+            applyLanguage(currentLanguage);
+            applySelectedAttackType(selectedAttackType);
 
-            button.disabled = true;
-            button.textContent = tr('generatingPdf');
-            const pdfBlob = makePdfFromJpegs(renderCharacterSheetToJpegs());
-            const fileName = `${sanitizeFileName(getFieldValue('character-name'))}.pdf`;
-            downloadBlob(pdfBlob, fileName);
-            showSnackbar('success', tr('pdfReady'), tr('pdfReadyMessage', { fileName }));
-        } catch (error) {
-            const message = error instanceof Error ? error.message : String(error);
-            showSnackbar('error', tr('pdfErrorTitle'), message || tr('pdfErrorMessage'));
-        } finally {
-            button.disabled = false;
-            button.textContent = oldText;
-        }
-    }
-
-    document.addEventListener('DOMContentLoaded', () => {
-        document.querySelectorAll('.lang-button').forEach(button => {
-            button.addEventListener('click', () => {
-                applyLanguage(button.dataset.lang);
-                updateShareHash({ silent: true });
+            document.querySelectorAll('.attack-option').forEach(button => {
+                button.addEventListener('click', () => applySelectedAttackType(button.dataset.attackType));
             });
-        });
 
-        applyLanguage(currentLanguage);
-        applySelectedAttackType(selectedAttackType);
-
-        document.querySelectorAll('.attack-option').forEach(button => {
-            button.addEventListener('click', () => applySelectedAttackType(button.dataset.attackType));
-        });
-
-        document.getElementById('download-pdf')?.addEventListener('click', downloadCharacterPdf);
-        document.getElementById('copy-link')?.addEventListener('click', copyShareLink);
-        document.getElementById('clear-storage')?.addEventListener('click', () => {
-            if (confirm(tr('resetConfirm'))) {
-                clearSheet();
-                updateShareHash({ silent: true });
-            }
-        });
-
-        document.querySelectorAll('input, textarea, select').forEach(field => {
-            field.addEventListener('input', () => {
-                field.classList.remove('field-invalid');
-                const row = field.closest('.content-row');
-                row?.querySelectorAll('.field-error').forEach(error => error.remove());
+            document.getElementById('download-pdf')?.addEventListener('click', downloadCharacterPdf);
+            document.getElementById('copy-link')?.addEventListener('click', copyShareLink);
+            document.getElementById('clear-storage')?.addEventListener('click', () => {
+                if (confirm(tr('resetConfirm'))) {
+                    clearSheet();
+                    updateShareHash({ silent: true });
+                }
             });
+
+            document.querySelectorAll('input, textarea, select').forEach(field => {
+                field.addEventListener('input', () => {
+                    field.classList.remove('field-invalid');
+                    const container = field.closest('label, .stat-row, .field-row, .field-column');
+                    container?.querySelectorAll('.field-error').forEach(error => error.remove());
+                });
+            });
+
+            bindAutoShareUpdates();
+            loadCharacterFromHash({ notify: true });
+            window.addEventListener('hashchange', () => loadCharacterFromHash({ notify: true }));
         });
-
-        bindAutoShareUpdates();
-        loadCharacterFromHash({ notify: true });
-        window.addEventListener('hashchange', () => loadCharacterFromHash({ notify: true }));
-    });
-})();
-
-</script>
-
+    })();
+    </script>
 </body>
 </html>
