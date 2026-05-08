@@ -1,4 +1,4 @@
-# Sotdl Character Generator
+# Shadow of the Demon Lord (SotDL) Character Generator
 
 Simple offline-friendly character sheet generator for tabletop RPGs.
 
@@ -10,6 +10,7 @@ Simple offline-friendly character sheet generator for tabletop RPGs.
 
 - Character sheet UI
 - PDF export (works offline)
+- OnChange Character saving and restore to/from link
 - Language switch (RU / EN)
 - Snackbar notifications
 - Validation with inline errors
