@@ -294,6 +294,17 @@
     </script>
 
     <script>
+
+        window.addEventListener('error', function (event) {
+            const root = document.getElementById('snackbar-root');
+            if (!root) return;
+            const item = document.createElement('div');
+            item.className = 'snackbar pointer-events-auto rounded-2xl border border-red-400/70 bg-demon-panel/95 p-4 shadow-demon backdrop-blur';
+            item.setAttribute('role', 'alert');
+            item.innerHTML = '<div class="mb-1 font-black text-demon-gold">JavaScript error</div><p class="text-sm leading-relaxed text-demon-muted">' + String(event.message || 'Unknown error') + '</p>';
+            root.appendChild(item);
+        });
+
     (function () {
         const PDF_PAGE_WIDTH_PT = 595.28;
         const PDF_PAGE_HEIGHT_PT = 841.89;
@@ -476,7 +487,7 @@
                 { title: tr('mainInfo'), rows: [[tr('name'), getFieldValue('character-name')], [tr('ancestry'), getFieldValue('ancestry')], [tr('raceBackground'), getFieldValue('race-background')], [tr('level'), getFieldValue('level')], [tr('size'), getFieldValue('size')], [tr('speed'), getFieldValue('speed')]] },
                 { title: tr('attributes'), rows: [[tr('strength'), `${getFieldValue('strength') || '—'} / ${tr('mod')} ${getFieldValue('strength-mod') || '—'}`], [tr('agility'), `${getFieldValue('agility') || '—'} / ${tr('mod')} ${getFieldValue('agility-mod') || '—'}`], [tr('intellect'), `${getFieldValue('intellect') || '—'} / ${tr('mod')} ${getFieldValue('intellect-mod') || '—'}`], [tr('will'), `${getFieldValue('will') || '—'} / ${tr('mod')} ${getFieldValue('will-mod') || '—'}`], [tr('perception'), getFieldValue('perception')], [tr('defense'), getFieldValue('defense')]] },
                 { title: tr('healthResources'), rows: [[tr('health'), `${getFieldValue('health') || '—'} / ${getFieldValue('health-max') || '—'}`], [tr('healingRate'), getFieldValue('healing-rate')], [tr('power'), getFieldValue('power')], [tr('insanity'), getFieldValue('insanity')], [tr('corruption'), getFieldValue('corruption')], [tr('fortune'), getFieldValue('fortune')]] },
-                { title: tr('pathsTalents'), rows: [[tr('novicePath').replace(/^\\S+\\s*/, ''), getFieldValue('novice-path')], [tr('noviceTalents'), getFieldValue('novice-talents')], [tr('expertPath').replace(/^\\S+\\s*/, ''), getFieldValue('expert-path')], [tr('expertTalents'), getFieldValue('expert-talents')], [tr('masterPath').replace(/^\\S+\\s*/, ''), getFieldValue('master-path')], [tr('masterTalents'), getFieldValue('master-talents')]] },
+                { title: tr('pathsTalents'), rows: [[tr('novicePath').replace(/^\S+\s*/, ''), getFieldValue('novice-path')], [tr('noviceTalents'), getFieldValue('novice-talents')], [tr('expertPath').replace(/^\S+\s*/, ''), getFieldValue('expert-path')], [tr('expertTalents'), getFieldValue('expert-talents')], [tr('masterPath').replace(/^\S+\s*/, ''), getFieldValue('master-path')], [tr('masterTalents'), getFieldValue('master-talents')]] },
                 { title: tr('combatEquipment'), rows: [[tr('weaponsDamage'), getFieldValue('weapons')], [tr('armor'), getFieldValue('armor')], [tr('inventory'), getFieldValue('gear')], [tr('wealth'), getFieldValue('wealth')]] },
                 { title: tr('magic'), rows: [[tr('knownTraditions'), getFieldValue('traditions')], [tr('maxSpellRank'), getFieldValue('max-spell-rank')], [tr('castings'), getFieldValue('castings')], [tr('spells'), getFieldValue('spells-list')], [tr('focusPowerSymbol'), getFieldValue('spell-focus')]] },
                 { title: tr('languagesProfessions'), rows: [[tr('professions'), getFieldValue('professions')], [tr('languages'), getFieldValue('languages')]] },
@@ -616,7 +627,7 @@
         }
 
         function pdfString(value) {
-            return String(value).replace(/\\/g, '\\\\').replace(/\\(/g, '\\(').replace(/\\)/g, '\\)');
+            return String(value).replace(/\\/g, '\\\\').replace(/\(/g, '\\(').replace(/\)/g, '\\)');
         }
 
         function makePdfFromJpegs(images) {
